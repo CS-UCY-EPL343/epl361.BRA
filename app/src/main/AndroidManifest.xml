@@ -19,7 +19,8 @@
         <activity
             android:name=".Manager_edit"
             android:label="@string/title_activity_manager_edit"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Order"></activity>
     </application>
 
 </manifest>
