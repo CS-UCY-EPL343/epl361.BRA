@@ -1,14 +1,14 @@
 package com.team3.bra;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Manager_edit extends AppCompatActivity {
+public class Manager_edit extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
