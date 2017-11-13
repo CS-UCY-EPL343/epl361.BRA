@@ -1,3 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Bra</string>
+    <string name="app_name">BRA</string>
+    <string-array name="orders_array">
+        <item>--New Order--</item>
+        <item>Table 1\t\t\t\t15:00</item>
+        <item>Table 3\t\t\t\t20:00</item>
+        <item>Table 4\t\t\t\t15:00</item>
+        <item>Table 8\t\t\t\t21:00</item>
+        <item>Table 10\t\t\t\t16:00</item>
+        <item>Table 13\t\t\t\t20:30</item>
+        <item>Table 17\t\t\t\t15:17</item>
+        <item>Table 19\t\t\t\t15:16</item>
+        <item>Table 20\t\t\t\t09:00</item>
+        <item>Table 21\t\t\t\t15:30</item>
+        <item>Table 23\t\t\t\t20:20</item>
+        <item>Table 27\t\t\t\t15:10</item>
+        <item>Table 30\t\t\t\t20:10</item>
+    </string-array>
+    <string-array name="users_array">
+        <item>--New User--</item>
+        <item>user1\t\t\t\t\t\tManager</item>
+        <item>tratrafe2\t\t\t\t\t\tWaiter</item>
+        <item>condiom\t\t\t\t\t\tWaiter</item>
+        <item>elena\t\t\t\t\t\tWaiter</item>
+        <item>mefty\t\t\t\t\t\tCook</item>
+        <item>magirou\t\t\t\t\t\tCook</item>
+    </string-array>
 </resources>
