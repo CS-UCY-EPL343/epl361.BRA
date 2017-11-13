@@ -46,14 +46,15 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/w"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1.1"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="2">
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="FROM"
@@ -64,7 +65,6 @@
 
         <TextView
             android:id="@+id/textView4"
-            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="TO"
