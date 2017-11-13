@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BRA</string>
+    <string name="title_activity_manager_edit">Manager Edit</string>
+    <string name="broadway_restaurant_application">Broadway Restaurant Application</string>
     <string-array name="orders_array">
         <item>--New Order--</item>
         <item>Table 1\t\t\t\t15:00</item>
