@@ -248,7 +248,7 @@
 
                 <TextView
                     android:id="@+id/textView6"
-                    android:layout_width="0 dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.40"
                     android:text="Suvlakia"
@@ -256,7 +256,7 @@
 
                 <TextView
                     android:id="@+id/textView5"
-                    android:layout_width="0 dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.20"
                     android:text=" Qty:3"
@@ -264,7 +264,7 @@
 
                 <TextView
                     android:id="@+id/textView4"
-                    android:layout_width="0 dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.40"
                     android:text="Xoris maintano"
@@ -278,7 +278,7 @@
 
                 <TextView
                     android:id="@+id/textView6"
-                    android:layout_width="0 dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.40"
                     android:text="Fakes"
@@ -286,7 +286,7 @@
 
                 <TextView
                     android:id="@+id/textView5"
-                    android:layout_width="0 dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.20"
                     android:text=" Qty:1"
@@ -294,7 +294,7 @@
 
                 <TextView
                     android:id="@+id/textView4"
-                    android:layout_width="0 dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.40"
                     android:text="N/A"
@@ -308,7 +308,7 @@
 
                 <TextView
                     android:id="@+id/textView6"
-                    android:layout_width="0 dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.40"
                     android:text="Keo Beer"
@@ -316,7 +316,7 @@
 
                 <TextView
                     android:id="@+id/textView5"
-                    android:layout_width="0 dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.20"
                     android:text=" Qty: 15"
@@ -324,7 +324,7 @@
 
                 <TextView
                     android:id="@+id/textView4"
-                    android:layout_width="0 dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.40"
                     android:text="Pagomenes"
@@ -338,7 +338,7 @@
 
                 <TextView
                     android:id="@+id/textView6"
-                    android:layout_width="0 dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.40"
                     android:text="Makaronia tu furnu"
@@ -346,7 +346,7 @@
 
                 <TextView
                     android:id="@+id/textView5"
-                    android:layout_width="0 dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.20"
                     android:text=" Qty:1"
@@ -354,7 +354,7 @@
 
                 <TextView
                     android:id="@+id/textView4"
-                    android:layout_width="0 dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.40"
                     android:text="N/A"
