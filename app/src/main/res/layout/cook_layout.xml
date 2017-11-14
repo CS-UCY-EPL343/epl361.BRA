@@ -1,27 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
+    android:layout_height="wrap_content">
 
 
     <LinearLayout
-        android:layout_width="368dp"
-        android:layout_height="495dp"
+        android:id="@+id/first"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp"
-        tools:ignore="MissingConstraints">
+        tools:layout_editor_absoluteY="8dp">
 
         <LinearLayout
             android:id="@+id/backlogo"
-            android:layout_marginBottom="2dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
             android:orientation="horizontal">
 
             <ImageButton
@@ -75,7 +72,7 @@
                             android:fontFamily="casual"
                             android:maxLines="5"
                             android:padding="2dp"
-                            android:text="Table 1&#10;\u0009Souvlaki xoirino-xwris krampi x1&#10;\u0009Mprizola me patates x2&#10;\u0009Souvlaki kotopoullo x2&#10;\u0009Salata xwriatiki x1&#10;\u0009Merida makaronia tou fpournou x1&#10;\u0009Coca cola 375ml x3"
+                            android:text="Table 1&#10;\u0009Souvlaki xoirino -krampi x1&#10;\u0009Mprizola me patates x2&#10;\u0009Souvlaki kotopoullo x2&#10;\u0009Salata xwriatiki x1&#10;\u0009Merida makaronia tou fpournou x1&#10;\u0009Coca cola 375ml x3"
                             android:textAppearance="@style/TextAppearance.AppCompat"
                             android:textSize="15sp"
                             tools:background="@android:color/holo_green_light" />
@@ -177,7 +174,7 @@
                             android:fontFamily="casual"
                             android:maxLines="5"
                             android:padding="2dp"
-                            android:text="Table 5&#10;\u0009Souvlaki kotopoullo-xwris maintano x1&#10;\u0009Mprizola me patates x3&#10;\u0009Souvlaki xoirino x2&#10;\u0009Salata xwriatiki x3&#10;\u0009Merida makaronia tou fournou x2&#10;\u0009Coca cola 375ml x5&#10;\u0009Mpires Carslsberg 1L x3"
+                            android:text="Table 5&#10;\u0009Souvlaki kotopoullo -maintano x1&#10;\u0009Mprizola me patates x3&#10;\u0009Souvlaki xoirino -kremidi, -krampi, +talatouri x2&#10;\u0009Salata xwriatiki x3&#10;\u0009Merida makaronia tou fournou x2&#10;\u0009Coca cola 375ml x5&#10;\u0009Mpires Carslsberg 1L x3"
                             android:textAppearance="@style/TextAppearance.AppCompat"
                             android:textSize="15sp"
                             tools:background="@android:color/holo_orange_dark" />
