@@ -7,4 +7,4 @@
     android:textSize="15sp"
     android:paddingLeft="2dip"
     android:paddingRight="2dip"
-    android:gravity="center" />
+    android:gravity="center"/>
