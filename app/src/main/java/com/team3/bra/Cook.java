@@ -7,7 +7,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-public class cooker extends AppCompatActivity {
+public class Cook extends AppCompatActivity {
 
     TextView descText;
     ImageButton plus, minus;
