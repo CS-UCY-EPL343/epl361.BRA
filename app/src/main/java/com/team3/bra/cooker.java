@@ -15,7 +15,7 @@ public class cooker extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.cook);
         descText = (TextView) findViewById(R.id.description_text);
         plus = (ImageButton) findViewById(R.id.plus);
         minus = (ImageButton) findViewById(R.id.minus);
