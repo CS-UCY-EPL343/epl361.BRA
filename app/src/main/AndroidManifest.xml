@@ -17,18 +17,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Manager_edit"
-            android:label="@string/title_activity_manager_edit"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".ManagerEditUser"/>
         <activity
-            android:name=".Manager"
-            android:label="@string/title_activity_manager_edit"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Order" />
+            android:name=".Report" />
         <activity
-            android:name=".ManagerMenu"
-            android:label="@string/title_activity_manager_menu"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:name=".Waiter" />
+        <activity
+            android:name=".Manager" />
+        <activity
+            android:name=".Order"  />
+        <activity
+            android:name=".ManagerMenu"/>
+        <activity
+            android:name=".Cook"/>
+        <activity
+            android:name=".ManagerShowUsers"/>
     </application>
 
 </manifest>
