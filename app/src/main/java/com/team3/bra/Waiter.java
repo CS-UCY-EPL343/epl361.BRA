@@ -21,10 +21,11 @@ public class Waiter extends Activity {
 
             listOrders.add("<New Order>");
             for(int i=0;i<19;i++){
+                if(Math.random()>0.5)
                 listOrders.add("Table "+i+"\t"+i+":00");
             }
             adapter=new ArrayAdapter<String>(this,
-                    android.R.layout.simple_list_item_1,
+                    R.layout.custom_listview_layout,
                     listOrders);
 
             ListView lv=(ListView) findViewById(R.id.listOrders);

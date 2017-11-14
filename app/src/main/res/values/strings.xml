@@ -5,12 +5,12 @@
     <string name="broadway_restaurant_application">Broadway Restaurant Application</string>
     <string-array name="users_array">
         <item>--New User--</item>
-        <item>user1\t\t\t\t\t\tManager</item>
-        <item>tratrafe2\t\t\t\t\t\tWaiter</item>
-        <item>condiom\t\t\t\t\t\tWaiter</item>
-        <item>elena\t\t\t\t\t\tWaiter</item>
-        <item>mefty\t\t\t\t\t\tCook</item>
-        <item>magirou\t\t\t\t\t\tCook</item>
+        <item>user1 Manager</item>
+        <item>tratrafe2 Waiter</item>
+        <item>condiom Waiter</item>
+        <item>elena Waiter</item>
+        <item>mefty Cook</item>
+        <item>magirou Cook</item>
     </string-array>
     <string name="title_activity_manager_menu">ManagerMenu</string>
 </resources>
