@@ -12,10 +12,15 @@ public class cooker extends AppCompatActivity {
     TextView descText;
     ImageButton plus, minus;
 
+    public void backClicked(View v){
+        finish();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.cook);
+        setContentView(R.layout.cook_layout);
+
         descText = (TextView) findViewById(R.id.description_text);
         plus = (ImageButton) findViewById(R.id.plus);
         minus = (ImageButton) findViewById(R.id.minus);

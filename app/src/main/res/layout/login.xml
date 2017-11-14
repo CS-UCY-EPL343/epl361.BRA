@@ -54,7 +54,7 @@
             android:text="Broadway Restaurant Application"
             android:textAlignment="center"
             android:textColor="@android:color/holo_red_dark"
-            android:textSize="18sp" />
+            android:textSize="25sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -64,7 +64,7 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/txtUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -80,7 +80,7 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/editText5"
+            android:id="@+id/txtPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -100,6 +100,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:backgroundTint="@android:color/holo_green_light"
+            android:onClick="onLoginClick"
             android:text="LOGIN"
             android:textColor="@android:color/white"
             android:textSize="24sp"
@@ -112,6 +113,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:backgroundTint="@android:color/holo_red_dark"
+            android:onClick="exitClicked"
             android:text="EXIT"
             android:textColor="@android:color/white"
             android:textSize="24sp"

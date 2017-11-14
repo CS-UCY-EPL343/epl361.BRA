@@ -1,30 +1,38 @@
 package com.team3.bra;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Spinner;
-
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Created by mefty on 13/11/2017.
- */
 
 public class Manager extends Activity {
-
-    Button logout;
-
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.manager);
     }
+
     public void logoutClicked(View v){
-            setContentView(R.layout.login);
+            finish();
     }
 
+    public void waiterOptionsClicked(View v){
+        Intent intent = new Intent(this, Waiter.class);
+        startActivity(intent);
+    }
+
+    public void reportsClicked(View v){
+        Intent intent = new Intent(this, Report.class);
+        startActivity(intent);
+    }
+
+    public void editUsersClicked(View v){
+        Intent intent = new Intent(this, ManagerShowUsers.class);
+        startActivity(intent);
+    }
+
+    public void editMenuClicked(View v){
+        Intent intent = new Intent(this, ManagerMenu.class);
+        startActivity(intent);
+    }
 }

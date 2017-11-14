@@ -9,6 +9,9 @@ public class Order extends Activity {
     ScrollView side;
     ScrollView categ;
 
+    public void backClicked(View v){
+        finish();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

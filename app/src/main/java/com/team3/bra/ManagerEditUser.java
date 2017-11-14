@@ -2,18 +2,19 @@ package com.team3.bra;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Manager_edit extends Activity {
+public class ManagerEditUser extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.manager_edit);
+        setContentView(R.layout.manager_edit_user_layout);
 
 
         // Spinner element
@@ -37,4 +38,15 @@ public class Manager_edit extends Activity {
 
     }
 
+    public void backClicked(View v){
+        finish();
+    }
+    public void deleteClicked(View v){
+        //todo
+        finish();
+    }
+    public void saveClicked(View v){
+        //todo
+        finish();
+    }
 }
