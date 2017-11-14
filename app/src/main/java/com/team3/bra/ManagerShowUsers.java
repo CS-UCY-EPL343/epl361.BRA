@@ -22,7 +22,7 @@ public class ManagerShowUsers extends Activity {
 
         String arr[] = getResources().getStringArray(R.array.users_array);
         for(int i=0;i<arr.length;i++)
-            listUsers.add(arr[i]);
+            listUsers.add(arr[i].split(" ")[0]+" "+arr[i].split(" ")[1]);
 
         adapter=new ArrayAdapter<String>(this,
                 R.layout.custom_listview_layout,
@@ -36,7 +36,12 @@ public class ManagerShowUsers extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
+                String arr[] = getResources().getStringArray(R.array.users_array);
                 Intent intent = new Intent(ManagerShowUsers.this, ManagerEditUser.class);
+                Bundle b = new Bundle();
+                b.putInt("key", (int)id);
+                b.putString("info", arr[(int)id]);
+                intent.putExtras(b);
                 startActivity(intent);
             }
         });

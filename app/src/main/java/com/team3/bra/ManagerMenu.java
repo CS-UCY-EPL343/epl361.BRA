@@ -1,6 +1,7 @@
 package com.team3.bra;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,8 +9,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ManagerMenu extends Activity {
+    String toastStr;
     ScrollView side;
     ScrollView categ;
     ScrollView addCateg;
@@ -25,7 +28,7 @@ public class ManagerMenu extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        toastStr="Category";
         setContentView(R.layout.activity_manager_menu);
         side = (ScrollView) findViewById(R.id.scrollSide);
         categ = (ScrollView) findViewById(R.id.scrollCat);
@@ -43,6 +46,7 @@ public class ManagerMenu extends Activity {
         finish();
     }
     public void sideClickManager(View v){
+        toastStr="Category";
         side.setVisibility(View.VISIBLE);
         categ.setVisibility(View.GONE);
         addCateg.setVisibility(View.VISIBLE);
@@ -61,6 +65,7 @@ public class ManagerMenu extends Activity {
         etDesciption.setText("");
     }
     public void addCategory(View v){
+        toastStr="Category";
         title.setText("New Category");
         etVat.setText("");
         etPrice.setText("");
@@ -84,6 +89,7 @@ public class ManagerMenu extends Activity {
     }
 
     public void editItem(View v){
+        toastStr="Item";
         title.setText("Edit Item FETTA CHEESE");
         addCateg.setVisibility(View.VISIBLE);
         price.setVisibility(View.VISIBLE);
@@ -97,7 +103,23 @@ public class ManagerMenu extends Activity {
 
     }
 
-    public void saveCancelDelete(View v){
+    public void saveClicked(View v){
+        toastStr+=" saved";
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, toastStr, duration);
+        toast.show();
+        addCateg.setVisibility(View.GONE);
+    }
+    public void cancelClicked(View v){
+        addCateg.setVisibility(View.GONE);
+    }
+    public void deleteClicked(View v){
+        toastStr+=" deleted";
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, toastStr, duration);
+        toast.show();
         addCateg.setVisibility(View.GONE);
     }
 

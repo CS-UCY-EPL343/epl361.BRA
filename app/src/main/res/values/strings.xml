@@ -5,12 +5,11 @@
     <string name="broadway_restaurant_application">Broadway Restaurant Application</string>
     <string-array name="users_array">
         <item>--New User--</item>
-        <item>user1 Manager</item>
-        <item>tratrafe2 Waiter</item>
-        <item>condiom Waiter</item>
-        <item>elena Waiter</item>
-        <item>mefty Cook</item>
-        <item>magirou Cook</item>
+        <item>tratrafe2 Waiter Christos Makrides itsasecret</item>
+        <item>condiom Waiter Constantinos Diomedous donttell</item>
+        <item>elena Waiter Elena Kissopoda shhhhhhhh</item>
+        <item>mefty Chef Marios Eftychiou youknowwho</item>
+        <item>magirou Chef Andreas Magirou whoyoumean?</item>
     </string-array>
     <string name="title_activity_manager_menu">ManagerMenu</string>
 </resources>
