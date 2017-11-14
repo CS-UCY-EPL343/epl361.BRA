@@ -8,21 +8,40 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class Waiter extends Activity {
+import java.util.ArrayList;
 
+public class Waiter extends Activity {
+    ArrayAdapter<String> adapter;
+    ArrayList<String> listOrders =new ArrayList<String>();
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.waiter_layout);
 
+            listOrders.add("<New Order>");
+            for(int i=0;i<19;i++){
+                if(Math.random()>0.5)
+                listOrders.add("Table "+i);
+            }
+            adapter=new ArrayAdapter<String>(this,
+                    R.layout.custom_listview_layout,
+                    listOrders);
+
             ListView lv=(ListView) findViewById(R.id.listOrders);
+            lv.setAdapter(adapter);
+
+
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position,
                                         long id) {
-                    Intent intent = new Intent(Waiter.this, Order.class);
-                    startActivity(intent);
+                    if(position==0){
+                        addItems();
+                    }else {
+                        Intent intent = new Intent(Waiter.this, Order.class);
+                        startActivity(intent);
+                    }
                 }
             });
     }
@@ -30,5 +49,8 @@ public class Waiter extends Activity {
         finish();
     }
 
-
+    public void addItems() {
+        adapter.add("new order");
+        adapter.notifyDataSetChanged();
+    }
 }

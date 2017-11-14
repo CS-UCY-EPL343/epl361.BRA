@@ -469,7 +469,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:onClick="saveCancelDelete"
+                    android:onClick="saveClicked"
                     android:text="Save" />
 
                 <Button
@@ -477,7 +477,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:onClick="saveCancelDelete"
+                    android:onClick="deleteClicked"
                     android:text="Delete"
                     android:visibility="visible" />
 
@@ -486,7 +486,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:onClick="saveCancelDelete"
+                    android:onClick="cancelClicked"
                     android:text="Cancel" />
             </LinearLayout>
 
