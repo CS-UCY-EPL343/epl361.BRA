@@ -20,7 +20,15 @@
             android:name=".Manager_edit"
             android:label="@string/title_activity_manager_edit"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Order"></activity>
+        <activity
+            android:name=".Manager"
+            android:label="@string/title_activity_manager_edit"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Order" />
+        <activity
+            android:name=".ManagerMenu"
+            android:label="@string/title_activity_manager_menu"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -30,7 +30,7 @@
                     android:layout_height="80dp"
                     android:layout_gravity="top|bottom"
                     android:layout_weight="1"
-                    android:onClick="orderBack"
+                    android:onClick="orderBackManager"
                     android:text="BACK" />
 
                 <Button
@@ -38,15 +38,16 @@
                     android:layout_height="80dp"
                     android:layout_gravity="top|bottom"
                     android:layout_weight="1"
-                    android:onClick="sideClick"
-                    android:text="SIde" />
+                    android:onClick="addCategory"
+                    android:text="ADD CATEGORY" />
 
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_gravity="top|bottom"
                     android:layout_weight="1"
-                    android:text="Soft Drinks" />
+                    android:onClick="sideClickManager"
+                    android:text="SIde" />
 
             </LinearLayout>
 
@@ -223,7 +224,7 @@
                     android:layout_height="80dp"
                     android:layout_gravity="top|bottom"
                     android:layout_weight="1"
-                    android:onClick="orderBackToCateg"
+                    android:onClick="orderBackToCategManager"
                     android:text="BACK" />
 
                 <Button
@@ -231,13 +232,15 @@
                     android:layout_height="80dp"
                     android:layout_gravity="top|bottom"
                     android:layout_weight="1"
-                    android:text="HALLOUMI CHEESE" />
+                    android:onClick="addItem"
+                    android:text="ADD ITEM" />
 
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_gravity="top|bottom"
                     android:layout_weight="1"
+                    android:onClick="editItem"
                     android:text="FETTA CHEESE" />
 
             </LinearLayout>
@@ -333,14 +336,15 @@
     </ScrollView>
 
     <ScrollView
+        android:id="@+id/scrollAdd"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -349,16 +353,67 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/txtManagerMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Order: Table 1"
+                    android:text="New Category"
                     android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large" />
 
             </LinearLayout>
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.50"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.50"
+                    android:text="Name"
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
+
+                <EditText
+                    android:id="@+id/etName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.50"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llPrice"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.50"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.50"
+                    android:text="Price(Euro)"
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
+
+                <EditText
+                    android:id="@+id/etPrice"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.50"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llVat"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
@@ -367,23 +422,18 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.40"
-                    android:text="Suvlakia"
+                    android:layout_weight="0.50"
+                    android:text="Vat(%)"
                     android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
 
-                <TextView
+                <EditText
+                    android:id="@+id/etVat"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.20"
-                    android:text=" Qty:3"
-                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
+                    android:layout_weight="0.50"
+                    android:ems="10"
+                    android:inputType="number" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.40"
-                    android:text="Xoris maintano"
-                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
             </LinearLayout>
 
             <LinearLayout
@@ -394,23 +444,19 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.40"
-                    android:text="Fakes"
+                    android:layout_weight="0.50"
+                    android:text="Description"
                     android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
 
-                <TextView
+                <EditText
+                    android:id="@+id/etDesc"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.20"
-                    android:text=" Qty:1"
+                    android:layout_weight="0.50"
+                    android:ems="10"
+                    android:inputType="textPersonName"
                     android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.40"
-                    android:text="N/A"
-                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
             </LinearLayout>
 
             <LinearLayout
@@ -418,55 +464,31 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="0dp"
+                <Button
+                    android:id="@+id/button11"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.40"
-                    android:text="Keo Beer"
-                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
+                    android:layout_weight="1"
+                    android:onClick="saveCancelDelete"
+                    android:text="Save" />
 
-                <TextView
-                    android:layout_width="0dp"
+                <Button
+                    android:id="@+id/btnDelete"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.20"
-                    android:text=" Qty: 15"
-                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
+                    android:layout_weight="1"
+                    android:onClick="saveCancelDelete"
+                    android:text="Delete"
+                    android:visibility="visible" />
 
-                <TextView
-                    android:layout_width="0dp"
+                <Button
+                    android:id="@+id/button13"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.40"
-                    android:text="Pagomenes"
-                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
+                    android:layout_weight="1"
+                    android:onClick="saveCancelDelete"
+                    android:text="Cancel" />
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.40"
-                    android:text="Makaronia tu furnu"
-                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.20"
-                    android:text=" Qty:1"
-                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.40"
-                    android:text="N/A"
-                    android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
-            </LinearLayout>
-
 
 
         </LinearLayout>

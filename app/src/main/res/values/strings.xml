@@ -28,4 +28,5 @@
         <item>mefty\t\t\t\t\t\tCook</item>
         <item>magirou\t\t\t\t\t\tCook</item>
     </string-array>
+    <string name="title_activity_manager_menu">ManagerMenu</string>
 </resources>

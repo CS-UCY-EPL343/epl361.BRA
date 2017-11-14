@@ -15,6 +15,8 @@
         <Button
             android:id="@+id/button6"
             android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+
             android:layout_weight="0.5"
             android:text="Log Out" />
 
