@@ -22,7 +22,6 @@ public class Manager extends Activity {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.manager);
-     logout=(Button)findViewById(R.id.btnlogout);
     }
     public void logoutClicked(View v){
             setContentView(R.layout.login);
