@@ -7,14 +7,19 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-public class cooker extends AppCompatActivity {
+public class Cook extends AppCompatActivity {
 
     TextView descText;
     ImageButton plus, minus;
 
+    public void backClicked(View v){
+        finish();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.cook_layout);
 
         descText = (TextView) findViewById(R.id.description_text);
         plus = (ImageButton) findViewById(R.id.plus);

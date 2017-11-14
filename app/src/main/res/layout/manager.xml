@@ -14,10 +14,11 @@
 
         <Button
             android:id="@+id/button6"
-            android:layout_height="match_parent"
             android:layout_width="wrap_content"
+            android:layout_height="match_parent"
 
             android:layout_weight="0.5"
+            android:onClick="logoutClicked"
             android:text="Log Out" />
 
         <Space
@@ -55,6 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:onClick="waiterOptionsClicked"
             android:text="Waiter Options"
             android:textSize="18sp" />
     </LinearLayout>
@@ -77,6 +79,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1.03"
             android:lineSpacingExtra="14sp"
+            android:onClick="reportsClicked"
             android:text="Reports"
             android:textSize="18sp" />
     </LinearLayout>
@@ -98,6 +101,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:onClick="editUsersClicked"
             android:text="Edit Users"
             android:textSize="18sp" />
     </LinearLayout>
@@ -119,6 +123,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:onClick="editMenuClicked"
             android:text="Edit Menu"
             android:textSize="18sp" />
     </LinearLayout>
