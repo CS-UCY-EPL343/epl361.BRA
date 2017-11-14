@@ -22,7 +22,7 @@ public class Waiter extends Activity {
             listOrders.add("<New Order>");
             for(int i=0;i<19;i++){
                 if(Math.random()>0.5)
-                listOrders.add("Table "+i+"\t"+i+":00");
+                listOrders.add("Table "+i);
             }
             adapter=new ArrayAdapter<String>(this,
                     R.layout.custom_listview_layout,
