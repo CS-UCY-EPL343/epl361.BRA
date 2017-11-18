@@ -15,10 +15,10 @@ public class ManagerMenu extends Activity {
     String toastStr;
     ScrollView side;
     ScrollView categ;
-    ScrollView addCateg;
+    LinearLayout addCateg;
     LinearLayout price;
     LinearLayout vat;
-    TextView title;
+    TextView title,catTitle;
     Button delete;
     EditText etName;
     EditText etPrice;
@@ -32,10 +32,11 @@ public class ManagerMenu extends Activity {
         setContentView(R.layout.activity_manager_menu);
         side = (ScrollView) findViewById(R.id.scrollSide);
         categ = (ScrollView) findViewById(R.id.scrollCat);
-        addCateg = (ScrollView) findViewById(R.id.scrollAdd);
+        addCateg = (LinearLayout) findViewById(R.id.addCat);
         price = (LinearLayout) findViewById(R.id.llPrice);
         vat = (LinearLayout) findViewById(R.id.llVat);
         title = (TextView) findViewById(R.id.txtManagerMenu);
+        catTitle = (TextView) findViewById(R.id.txtCatName);
         delete = (Button) findViewById(R.id.btnDelete);
         etDesciption = (EditText) findViewById(R.id.etDesc);
         etName = (EditText) findViewById(R.id.etName);
@@ -52,7 +53,10 @@ public class ManagerMenu extends Activity {
         addCateg.setVisibility(View.VISIBLE);
         delete.setVisibility(View.VISIBLE);
         title.setText("Edit Category SIDE");
+        price.setVisibility(View.GONE);
+        vat.setVisibility(View.GONE);
         etName.setText("SIDE");
+        catTitle.setText("SIDE");
         etDesciption.setText("side dishes");
     }
     public void orderBackToCategManager(View v){
@@ -75,6 +79,8 @@ public class ManagerMenu extends Activity {
         price.setVisibility(View.GONE);
         vat.setVisibility(View.GONE);
         delete.setVisibility(View.GONE);
+        categ.setVisibility(View.GONE);
+        categ.setVisibility(View.VISIBLE);
     }
     public void addItem(View v){
         title.setText("New Item");

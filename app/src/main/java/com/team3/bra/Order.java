@@ -20,13 +20,20 @@ public class Order extends Activity {
         side = (ScrollView) findViewById(R.id.scrollSide);
         categ = (ScrollView) findViewById(R.id.scrollCat);
     }
-    public void orderBack(View v){
+    public void orderCancel(View v){
+        finish();
+    }
+    public void orderSave(View v){
+        //TODO
+        finish();
+    }
+    public void orderDelete(View v){
+        //TODO
         finish();
     }
     public void sideClick(View v){
         side.setVisibility(View.VISIBLE);
         categ.setVisibility(View.GONE);
-
     }
     public void orderBackToCateg(View v){
         side.setVisibility(View.GONE);
