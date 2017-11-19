@@ -40,12 +40,17 @@ public class Waiter extends Activity {
                 public void onItemClick(AdapterView<?> parent, View view, int position,
                                         long id) {
                     if(checkNotification!=true) {
+                        Bundle b = new Bundle();
                         if (position == 0) {
-                            addItems();
+                            b.putInt("new", 1);
+                            b.putString("Table","Table X");
+                            //addItems();
                         } else {
-                            Intent intent = new Intent(Waiter.this, Order.class);
-                            startActivity(intent);
+                            b.putInt("new", 0);
                         }
+                        Intent intent = new Intent(Waiter.this, Order.class);
+                        intent.putExtras(b);
+                        startActivity(intent);
                     }else{
                         //TODO ACCEPT ORDER
                     }
