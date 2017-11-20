@@ -21,38 +21,38 @@ public class Waiter extends Activity {
     boolean checkNotification;
     Dialogues dialogue;
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.waiter_layout);
-            btnNot=findViewById(R.id.btnNot);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.waiter_layout);
+        btnNot=findViewById(R.id.btnNot);
 
-            checkNotification=false;
+        checkNotification=false;
 
-            adapter=new ArrayAdapter<String>(this,
-                    R.layout.custom_listview_layout,
-                    listOrders);
+        adapter=new ArrayAdapter<String>(this,
+                R.layout.custom_listview_layout,
+                listOrders);
 
-            getOrders();
+        getOrders();
 
 
-            ListView lv=(ListView) findViewById(R.id.listOrders);
-            lv.setAdapter(adapter);
-            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position,
-                                        long id) {
-                    if(checkNotification!=true) {
-                        if (position == 0) {
-                            showNewTableDialogue();
-                        } else {
-                            showOrderDialogue();
-                        }
-                    }else{
-                        showNotificationDialogue();
+        ListView lv=(ListView) findViewById(R.id.listOrders);
+        lv.setAdapter(adapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                if(checkNotification!=true) {
+                    if (position == 0) {
+                        showNewTableDialogue();
+                    } else {
+                        showOrderDialogue();
                     }
+                }else{
+                    showNotificationDialogue();
                 }
-            });
+            }
+        });
     }
     public void backClicked(View v){
         finish();
