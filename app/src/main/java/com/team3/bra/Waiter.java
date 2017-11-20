@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -34,7 +35,6 @@ public class Waiter extends Activity {
                 listOrders);
 
         getOrders();
-
 
         ListView lv=(ListView) findViewById(R.id.listOrders);
         lv.setAdapter(adapter);
@@ -72,7 +72,11 @@ public class Waiter extends Activity {
         Spinner s=((Spinner)  dialogue.getView().findViewById(R.id.quantity));
         int table= (int) Integer.parseInt((String) s.getSelectedItem());
         dialogue.dismiss();
+        Bundle b=new Bundle();
+        b.putInt("new",1);
+        b.putString("Table","Table "+table);
         Intent intent = new Intent(Waiter.this, Order.class);
+        intent.putExtras(b);
         startActivity(intent);
         adapter.add("Table "+table);
         adapter.notifyDataSetChanged();

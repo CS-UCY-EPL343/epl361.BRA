@@ -3,16 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/colorButtonNormal"
     android:orientation="vertical">
 
 
     <TextView
-        android:id="@+id/itemTitle"
+        android:id="@+id/txtItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="ADD HALLOUMI CHEESE" />
+        android:text="ADD HALLOUMI CHEESE"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtDescr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:text="Laxtaristi egoprovia feta ipirou"
+        android:textAlignment="center"
+        android:textSize="18sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,10 +34,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Qty:" />
+            android:text="Quantity" />
 
         <EditText
-            android:id="@+id/txtItemQty"
+            android:id="@+id/txtQuantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -44,10 +55,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Notes:" />
+            android:text="Comments:" />
 
         <EditText
-            android:id="@+id/txtItemNotes"
+            android:id="@+id/txtComments"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -61,27 +72,30 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnItemAdd"
+            android:id="@+id/button14"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="newItemAdd"
+            android:onClick="editItem"
             android:text="EDIT" />
 
         <Button
             android:id="@+id/btnaddItemDelete"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="newItemDelete"
+            android:onClick="deleteItem"
             android:text="DELETE" />
 
         <Button
             android:id="@+id/button16"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="newItemCancel"
+            android:onClick="cancelItem"
             android:text="Cancel" />
     </LinearLayout>
 

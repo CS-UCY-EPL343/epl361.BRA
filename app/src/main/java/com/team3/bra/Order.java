@@ -1,14 +1,10 @@
 package com.team3.bra;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.EditText;
@@ -29,17 +25,16 @@ public class Order extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order);
+        setContentView(R.layout.order_layout);
         side = (ScrollView) findViewById(R.id.scrollSide);
         categ = (ScrollView) findViewById(R.id.scrollCat);
         Bundle b = getIntent().getExtras();
         if(b != null && b.getInt("new")==1){
-            ((Button)findViewById(R.id.btnOrderDelete)).setVisibility(View.GONE);
-            ((LinearLayout)findViewById(R.id.ll1)).setVisibility(View.GONE);
-            ((LinearLayout)findViewById(R.id.ll2)).setVisibility(View.GONE);
-            ((LinearLayout)findViewById(R.id.ll3)).setVisibility(View.GONE);
-            ((LinearLayout)findViewById(R.id.ll4)).setVisibility(View.GONE);
-            ((TextView)findViewById(R.id.txtOrderNum)).setText("Order : "+b.getString("Table"));
+            String s=b.getString("Table");
+            TextView txtOrderNum=(TextView) findViewById(R.id.txtOrderNum);
+            txtOrderNum.setText(s);
+            LinearLayout llContents=(LinearLayout)findViewById(R.id.llContents);
+            llContents.setVisibility(View.INVISIBLE);
         }
         con=getApplicationContext();
 
@@ -64,9 +59,9 @@ public class Order extends Activity {
         categ.setVisibility(View.VISIBLE);
     }
     public void showItemDialogue(View view) {
-        dialogue=Dialogues.dialogueFactory(this,Order.this,R.layout.order_item_dialogue);
+        dialogue=Dialogues.dialogueFactory(this,Order.this,R.layout.order_item_add_dialogue);
         TextView t= (TextView) dialogue.getView().findViewById(R.id.txtItem);
-        t.setText("FETTA CHEESE");
+        t.setText(((Button) view).getText());
     }
     public void addItem(View v){
         View dialogueView=dialogue.getView();
@@ -79,31 +74,33 @@ public class Order extends Activity {
         toast.show();
         dialogue.dismiss();
     }
-    public void cancelItem(View v){dialogue.dismiss();}
-import android.widget.TextView;
-        Bundle b = getIntent().getExtras();
-        if(b != null && b.getInt("new")==1){
-            ((Button)findViewById(R.id.btnOrderDelete)).setVisibility(View.GONE);
-            ((LinearLayout)findViewById(R.id.ll1)).setVisibility(View.GONE);
-            ((LinearLayout)findViewById(R.id.ll2)).setVisibility(View.GONE);
-            ((LinearLayout)findViewById(R.id.ll3)).setVisibility(View.GONE);
-            ((LinearLayout)findViewById(R.id.ll4)).setVisibility(View.GONE);
-            ((TextView)findViewById(R.id.txtOrderNum)).setText("Order : "+b.getString("Table"));
-        }
-        con=getApplicationContext();
 
-    public void HalloumiClicked(View v){
-        Bundle b = new Bundle();
-        b.putInt("add",1);
-        Intent intent = new Intent(Order.this, NewItem.class);
-        intent.putExtras(b);
-        startActivity(intent);
+    public void editItem(View v){
+        View myView=dialogue.getView();
+        EditText e= (EditText)myView.findViewById(R.id.txtComments);
+        TextView t= (TextView) myView.findViewById(R.id.txtItem);
+        TextView tquantity= (TextView) myView.findViewById(R.id.txtQuantity);
+        int quantity= (int) Integer.parseInt(tquantity.getText().toString());
+        String comments= e.getText().toString();
+        Toast toast= Toast.makeText(getApplicationContext(),quantity+" "+t.getText().toString()+" "+comments,Toast.LENGTH_SHORT);
+        toast.show();
+        dialogue.dismiss();
     }
-    public void keoItemClicked(View v){
-        Bundle b = new Bundle();
-        b.putInt("add",0);
-        Intent intent = new Intent(Order.this, NewItem.class);
-        intent.putExtras(b);
-        startActivity(intent);
+
+    public void cancelItem(View v){dialogue.dismiss();}
+
+
+    public void itemClicked(View v){
+        dialogue=Dialogues.dialogueFactory(this,Order.this,R.layout.order_item_edit_dialogue);
+        View myView=dialogue.getView();
+        ((TextView)myView.findViewById(R.id.txtItem)).setText("Keo Beer");
+        ((TextView)myView.findViewById(R.id.txtDescr)).setText("Second Best Beer");
     }
+
+    public void deleteItem(View v){
+        Toast toast= Toast.makeText(getApplicationContext(),"Item deleted.",Toast.LENGTH_SHORT);
+        toast.show();
+        dialogue.dismiss();
+    }
+
 }
