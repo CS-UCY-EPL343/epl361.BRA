@@ -11,7 +11,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.login_layout);
     }
     public void onLoginClick(View v){
         EditText txtUser = (EditText) findViewById(R.id.txtUser);

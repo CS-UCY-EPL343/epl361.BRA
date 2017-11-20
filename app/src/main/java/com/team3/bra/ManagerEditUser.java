@@ -12,14 +12,13 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class ManagerEditUser extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.manager_edit_user_layout);
+        setContentView(R.layout.manager_users_edit_layout);
         Bundle b = getIntent().getExtras();
         if(b != null && b.getInt("key")==0){
             ((Button)findViewById(R.id.btn_Delete)).setVisibility(View.GONE);

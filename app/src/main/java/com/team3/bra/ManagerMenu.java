@@ -29,7 +29,7 @@ public class ManagerMenu extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         toastStr="Category";
-        setContentView(R.layout.activity_manager_menu);
+        setContentView(R.layout.manager_menu_layout);
         side = (ScrollView) findViewById(R.id.scrollSide);
         categ = (ScrollView) findViewById(R.id.scrollCat);
         addCateg = (LinearLayout) findViewById(R.id.addCat);

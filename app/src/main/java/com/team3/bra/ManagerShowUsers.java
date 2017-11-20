@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.ScrollView;
 
 import java.util.ArrayList;
 
@@ -18,7 +17,7 @@ public class ManagerShowUsers extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.manager_show_users_layout);
+        setContentView(R.layout.manager_users_show_layout);
 
         String arr[] = getResources().getStringArray(R.array.users_array);
         for(int i=0;i<arr.length;i++)

@@ -9,7 +9,7 @@ public class Manager extends Activity {
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.manager);
+            setContentView(R.layout.manager_layout);
     }
 
     public void logoutClicked(View v){

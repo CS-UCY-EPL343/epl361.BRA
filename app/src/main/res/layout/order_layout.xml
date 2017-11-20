@@ -452,6 +452,7 @@
                     android:layout_height="80dp"
                     android:layout_gravity="top|bottom"
                     android:layout_weight="1"
+                    android:onClick="showItemDialogue"
                     android:text="FETTA CHEESE" />
 
             </LinearLayout>

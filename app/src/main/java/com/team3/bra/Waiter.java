@@ -9,6 +9,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -17,6 +19,7 @@ public class Waiter extends Activity {
     ArrayList<String> listOrders =new ArrayList<String>();
     Button btnNot;
     boolean checkNotification;
+    Dialogues dialogue;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -41,13 +44,12 @@ public class Waiter extends Activity {
                                         long id) {
                     if(checkNotification!=true) {
                         if (position == 0) {
-                            addItems();
+                            showNewTableDialogue();
                         } else {
-                            Intent intent = new Intent(Waiter.this, Order.class);
-                            startActivity(intent);
+                            showOrderDialogue();
                         }
                     }else{
-                        //TODO ACCEPT ORDER
+                        showNotificationDialogue();
                     }
                 }
             });
@@ -55,6 +57,27 @@ public class Waiter extends Activity {
     public void backClicked(View v){
         finish();
     }
+
+
+    public void showNewTableDialogue() {
+        dialogue=Dialogues.dialogueFactory(this,Waiter.this,R.layout.waiter_table_dialogue);
+    }
+    public void showOrderDialogue() {
+        dialogue=Dialogues.dialogueFactory(this,Waiter.this,R.layout.waiter_order_dialogue);
+    }
+    public void showNotificationDialogue() {
+        dialogue=Dialogues.dialogueFactory(this,Waiter.this,R.layout.waiter_accept_dialogue);
+    }
+    public void addTable(View v){
+        Spinner s=((Spinner)  dialogue.getView().findViewById(R.id.quantity));
+        int table= (int) Integer.parseInt((String) s.getSelectedItem());
+        dialogue.dismiss();
+        Intent intent = new Intent(Waiter.this, Order.class);
+        startActivity(intent);
+        adapter.add("Table "+table);
+        adapter.notifyDataSetChanged();
+    }
+    public void cancelItem(View v){dialogue.dismiss();}
 
     private void getOrders(){
         listOrders.clear();
@@ -86,8 +109,25 @@ public class Waiter extends Activity {
         else
             getOrders();
     }
-    public void addItems() {
-        adapter.add("new order");
-        adapter.notifyDataSetChanged();
+    public void cancelOrderClick(View v){
+        dialogue.dismiss();
+    }
+    public void calcResta(View v){
+        dialogue.dismiss();
+    }
+    public void editOrder(View v){
+        Intent intent = new Intent(Waiter.this, Order.class);
+        startActivity(intent);
+        dialogue.dismiss();
+    }
+    public void printReceipt(View v){
+        Toast toast= Toast.makeText(getApplicationContext(),"Printing Receipt",Toast.LENGTH_SHORT);
+        toast.show();
+        dialogue.dismiss();
+    }
+    public void acceptNot(View v){
+        Toast toast= Toast.makeText(getApplicationContext(),"Order Accepted",Toast.LENGTH_SHORT);
+        toast.show();
+        dialogue.dismiss();
     }
 }
