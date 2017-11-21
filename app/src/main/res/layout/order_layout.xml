@@ -438,7 +438,6 @@
                         android:id="@+id/ll4"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:onClick="itemClicked"
                         android:orientation="horizontal">
 
                         <TextView
@@ -453,6 +452,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.40"
+                            android:onClick="itemClicked"
                             android:text="Keo Beer"
                             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
 

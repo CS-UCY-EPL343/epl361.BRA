@@ -66,9 +66,9 @@ public class Order extends Activity {
     public void addItem(View v){
         View dialogueView=dialogue.getView();
         EditText e= (EditText)dialogueView.findViewById(R.id.txtComments);
-        Spinner s=((Spinner)  dialogueView.findViewById(R.id.quantity));
+        EditText qt=((EditText)  dialogueView.findViewById(R.id.txtQuantity));
         TextView t= (TextView) dialogue.getView().findViewById(R.id.txtItem);
-        int quantity= (int) Integer.parseInt((String) s.getSelectedItem());
+        int quantity= (int) Integer.parseInt((String) (qt.getText().toString()));
         String comments= e.getText().toString();
         Toast toast= Toast.makeText(getApplicationContext(),quantity+" "+t.getText().toString()+" "+comments,Toast.LENGTH_SHORT);
         toast.show();
@@ -93,8 +93,8 @@ public class Order extends Activity {
     public void itemClicked(View v){
         dialogue=Dialogues.dialogueFactory(this,Order.this,R.layout.order_item_edit_dialogue);
         View myView=dialogue.getView();
-        ((TextView)myView.findViewById(R.id.txtItem)).setText("Keo Beer");
-        ((TextView)myView.findViewById(R.id.txtDescr)).setText("Second Best Beer");
+        ((TextView)myView.findViewById(R.id.txtItem)).setText(((TextView) v).getText());
+        ((TextView)myView.findViewById(R.id.txtDescr)).setText("When Carlsberg is out");
     }
 
     public void deleteItem(View v){
