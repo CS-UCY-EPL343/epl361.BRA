@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Bra.iml" filepath="$PROJECT_DIR$/Bra.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:/Users/Admin/AndroidStudioProjects/Bra/app/app.iml" filepath="C:/Users/Admin/AndroidStudioProjects/Bra/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/epl361.winter17.team3.iml" filepath="$PROJECT_DIR$/epl361.winter17.team3.iml" />
+      <module fileurl="file://C:/Users/Admin/AndroidStudioProjects/Bra/.idea/epl361.winter17.team3.iml" filepath="C:/Users/Admin/AndroidStudioProjects/Bra/.idea/epl361.winter17.team3.iml" />
     </modules>
   </component>
 </project>

@@ -16,6 +16,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ManagerEditUser" />
+        <activity android:name=".Report" />
+        <activity android:name=".Waiter" />
+        <activity android:name=".Manager" />
+        <activity android:name=".Order" />
+        <activity android:name=".ManagerMenu" />
+        <activity android:name=".Cook" />
+        <activity android:name=".ManagerShowUsers" />
+        <activity android:name=".NewItem" android:theme="@style/AppTheme.Transparent">
+        </activity>
     </application>
 
 </manifest>
