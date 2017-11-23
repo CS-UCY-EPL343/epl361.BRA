@@ -9,23 +9,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ManagerEditUser" />
-        <activity android:name=".Report" />
-        <activity android:name=".Waiter" />
-        <activity android:name=".Manager" />
-        <activity android:name=".Order" />
-        <activity android:name=".ManagerMenu" />
-        <activity android:name=".Cook" />
-        <activity android:name=".ManagerShowUsers" />
-        <activity android:name=".NewItem" android:theme="@style/AppTheme.Transparent">
-        </activity>
+        <activity android:name=".ManagerEditUser"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity android:name=".Report"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity android:name=".Waiter"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity android:name=".Manager"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity android:name=".Order"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity android:name=".ManagerMenu"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity android:name=".Cook"
+
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity android:name=".ManagerShowUsers"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+
     </application>
 
 </manifest>
