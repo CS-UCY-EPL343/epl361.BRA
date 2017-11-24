@@ -85,6 +85,7 @@ public class ManagerMenu extends Activity {
         categ.setVisibility(View.VISIBLE);
     }
     public void addItem(View v){
+        toastStr="Item";
         title.setText("New Item");
         addCateg.setVisibility(View.VISIBLE);
         price.setVisibility(View.VISIBLE);

@@ -17,15 +17,15 @@ public class MainActivity extends Activity {
         EditText txtUser = (EditText) findViewById(R.id.txtUser);
         String username = txtUser.getText().toString();
 
-        if (username.equals("1")) {
+        if (username.equals("3")) {
             Intent intent = new Intent(this, Manager.class);
             startActivity(intent);
         }
-        if (username.equals("2")) {
+        if (username.equals("1")) {
             Intent intent = new Intent(this, Waiter.class);
             startActivity(intent);
         }
-        if (username.equals("3")) {
+        if (username.equals("2")) {
             Intent intent = new Intent(this, Cook.class);
             startActivity(intent);
         }

@@ -7,8 +7,10 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Toast;
 
 public class Cook extends AppCompatActivity {
+    Dialogues dialogue;
 
     TextView descText;
     ImageButton plus, minus;
@@ -116,5 +118,27 @@ public class Cook extends AppCompatActivity {
 
 
     }
+    public void markOrderDialogue(View v) {
+        dialogue=Dialogues.dialogueFactory(this,Cook.this,R.layout.cook_mark_order_dialogue);
+    }
+    public void sendOrderDialogue(View v) {
+        dialogue=Dialogues.dialogueFactory(this,Cook.this,R.layout.cook_send_order_dialogue);
+    }
+
+
+    public void markOrder(View v){
+        Toast toast= Toast.makeText(getApplicationContext(),"Order marked.",Toast.LENGTH_SHORT);
+        toast.show();
+        dialogue.dismiss();
+    }
+    public void sendOrder(View v){
+        Toast toast= Toast.makeText(getApplicationContext(),"Order sent.",Toast.LENGTH_SHORT);
+        toast.show();
+        dialogue.dismiss();
+    }
+    public void cancelCook(View v){
+        dialogue.dismiss();
+    }
+
 }
 
