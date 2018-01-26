@@ -5,7 +5,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -14,6 +18,9 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.LinearLayout.LayoutParams;
+
+import java.util.ArrayList;
 
 public class Order extends Activity {
     ScrollView side;
@@ -39,6 +46,7 @@ public class Order extends Activity {
             llContents.setVisibility(View.INVISIBLE);
         }
         con=getApplicationContext();
+        insertItems();
 
     }
     public void orderCancel(View v){
@@ -139,4 +147,58 @@ public class Order extends Activity {
                 .setNegativeButton("No", dialogClickListener).show();
     }
 
+    public void insertItems(){
+
+        ArrayList<String> categories = new ArrayList<>();
+        categories.add("1");
+        categories.add("2");
+        categories.add("3");
+        categories.add("4");
+        categories.add("5");
+        categories.add("6");
+        categories.add("7");
+
+        final float scale = getResources().getDisplayMetrics().density;
+        LinearLayout ll = (LinearLayout) findViewById(R.id.categoryLayout);
+        LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT,(int)(80*scale),1.0f);
+
+        int i=0;
+        int count=0;
+
+        LinearLayout newLayout = new LinearLayout(this);
+        newLayout.setOrientation(LinearLayout.HORIZONTAL);
+        ll.addView(newLayout);
+
+        while(categories.size()>i){
+            Button b = new Button(this);
+            b.getBackground().setColorFilter(ContextCompat.getColor(this,R.color.transparent), PorterDuff.Mode.MULTIPLY);
+            b.setText(categories.get(i));
+            b.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    sideClick(v);
+                }
+            });
+
+            if(count < 3){
+                newLayout.addView(b,lp);
+            }
+            else{
+                newLayout = new LinearLayout(this);
+                newLayout.setOrientation(LinearLayout.HORIZONTAL);
+                ll.addView(newLayout);
+                count=0;
+                newLayout.addView(b,lp);
+            }
+            i++;
+            count++;
+
+        }
+
+        while(count == 1 || count ==2) {
+            newLayout.addView(new TextView(this), lp);
+            count++;
+        }
+
+    }
 }
