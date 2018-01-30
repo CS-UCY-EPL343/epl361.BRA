@@ -1,25 +1,24 @@
-import java.sql.*;
+import java.util.Vector;
 
 public class DB361 {
-	public static java.sql.Statement getStatement(String url, String username, String password) {
-		System.out.println("Connecting database...");
-		try {
-			Connection connection = DriverManager.getConnection(url, username, password);
-			System.out.println("Database connected!");
-			return connection.createStatement();
-		} catch (SQLException e) {
-			throw new IllegalStateException("Cannot connect to the database!", e);
-		}
-	}
 
 	public static void main(String[] args) {
 		String url = "jdbc:mysql://phpmyadmin.in.cs.ucy.ac.cy";
 		String username = "broadway";
+		String database = "`broadway`";
 		String password = "929K6sb7mAbDrahH";
-		Statement statement = getStatement(url, username, password);
-		Users.addUser(statement, "kotopoullo007", "Kotopoullo", "007", "1234", 2);
-		Users.removeUser(statement, "kotopoullo007");
+		JDBC.establishConnection(url, username, password);
 
+		String a[] = { "ITEM_CATEGORY" };
+		String procedure = "check_for_updates_table";
+		printVector(JDBC.callProcedure(database + "." + procedure, a));
 	}
 
+	public static void printVector(Vector<Vector<Object>> result) {
+		for (int i = 0; i < result.size(); i++) {
+			for (int j = 0; j < result.get(0).size(); j++)
+				System.out.print(result.get(i).get(j) + " ");
+			System.out.println();
+		}
+	}
 }
