@@ -10,6 +10,7 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatButton;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -46,7 +47,7 @@ public class Order extends Activity {
             llContents.setVisibility(View.INVISIBLE);
         }
         con=getApplicationContext();
-        insertItems();
+        insertCategories();
 
     }
     public void orderCancel(View v){
@@ -82,11 +83,90 @@ public class Order extends Activity {
         side.setVisibility(View.VISIBLE);
         categ.setVisibility(View.GONE);
     }
+
+    public void fromCategoriesToItems(int id){
+        System.out.println(id);
+
+        ArrayList<String> items = new ArrayList<>();
+        items.add("items1");
+        items.add("items2");
+        items.add("items3");
+        items.add("items4");
+        items.add("items5");
+        items.add("items6");
+        items.add("items7");
+
+        final float scale = getResources().getDisplayMetrics().density;
+        LinearLayout ll = (LinearLayout) findViewById(R.id.itemLayout);
+        ll.removeAllViews();
+        LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT,(int)(80*scale),1.0f);
+        lp.gravity= Gravity.TOP | Gravity.BOTTOM;
+        int i=-1;
+        int count=0;
+
+        LinearLayout newLayout = new LinearLayout(this);
+        newLayout.setOrientation(LinearLayout.HORIZONTAL);
+        ll.addView(newLayout);
+
+        while(items.size()>i){
+
+            Button b = new Button(this);
+            b.getBackground().setColorFilter(ContextCompat.getColor(this,R.color.transparent), PorterDuff.Mode.MULTIPLY);
+            if (i==-1) {
+                b.setText("BACK");
+                b.setTextColor(Color.RED);
+                newLayout.addView(b,lp);
+                i++;
+                count++;
+                b.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v){
+                        orderBackToCateg(v);
+                    }
+                });
+                continue;
+            }
+
+            b.setText(items.get(i));
+            final int t=i;
+            b.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    showItemDialogue(v,t);
+                }
+            });
+
+            if(count < 3){
+                newLayout.addView(b,lp);
+            }
+            else{
+                newLayout = new LinearLayout(this);
+                newLayout.setOrientation(LinearLayout.HORIZONTAL);
+                ll.addView(newLayout);
+                count=0;
+                newLayout.addView(b,lp);
+            }
+            i++;
+            count++;
+
+        }
+
+        while(count == 1 || count ==2) {
+            newLayout.addView(new TextView(this), lp);
+            count++;
+        }
+
+
+
+
+        side.setVisibility(View.VISIBLE);
+        categ.setVisibility(View.GONE);
+    }
     public void orderBackToCateg(View v){
         side.setVisibility(View.GONE);
         categ.setVisibility(View.VISIBLE);
     }
-    public void showItemDialogue(View view) {
+    public void showItemDialogue(View view, int id) {
         dialogue=Dialogues.dialogueFactory(this,Order.this,R.layout.order_item_add_dialogue);
         TextView t= (TextView) dialogue.getView().findViewById(R.id.txtItem);
         t.setText(((Button) view).getText());
@@ -147,8 +227,9 @@ public class Order extends Activity {
                 .setNegativeButton("No", dialogClickListener).show();
     }
 
-    public void insertItems(){
-
+    public void insertCategories(){
+        side.setVisibility(View.GONE);
+        categ.setVisibility(View.VISIBLE);
         ArrayList<String> categories = new ArrayList<>();
         categories.add("1");
         categories.add("2");
@@ -161,7 +242,7 @@ public class Order extends Activity {
         final float scale = getResources().getDisplayMetrics().density;
         LinearLayout ll = (LinearLayout) findViewById(R.id.categoryLayout);
         LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT,(int)(80*scale),1.0f);
-
+        lp.gravity= Gravity.TOP | Gravity.BOTTOM;
         int i=0;
         int count=0;
 
@@ -173,10 +254,11 @@ public class Order extends Activity {
             Button b = new Button(this);
             b.getBackground().setColorFilter(ContextCompat.getColor(this,R.color.transparent), PorterDuff.Mode.MULTIPLY);
             b.setText(categories.get(i));
+            final int t=i;
             b.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
-                    sideClick(v);
+                    fromCategoriesToItems(t);
                 }
             });
 

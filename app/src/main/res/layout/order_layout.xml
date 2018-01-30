@@ -18,7 +18,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:isScrollContainer="true"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <LinearLayout
                 android:id="@+id/categoryLayout"
@@ -26,39 +26,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:weightSum="3">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <Button
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:layout_gravity="top|bottom"
-                        android:layout_weight="1"
-                        android:text="WINES" />
-
-                    <Button
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:layout_gravity="top|bottom"
-                        android:layout_weight="1"
-                        android:onClick="sideClick"
-                        android:text="SIde" />
-
-                    <Button
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:layout_gravity="top|bottom"
-                        android:layout_weight="1"
-                        android:text="Soft Drinks" />
-
-                </LinearLayout>
 
             </LinearLayout>
 
@@ -70,144 +37,15 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:isScrollContainer="true"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <LinearLayout
+                android:id="@+id/itemLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:weightSum="3">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:orientation="horizontal">
-
-                    <Button
-                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:layout_gravity="top|bottom"
-                        android:layout_weight="1"
-                        android:onClick="orderBackToCateg"
-                        android:text="BACK" />
-
-                    <Button
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:layout_gravity="top|bottom"
-                        android:layout_weight="1"
-                        android:text="HALLOUMI CHEESE"
-                        android:onClick="showItemDialogue"/>
-
-                    <Button
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:layout_gravity="top|bottom"
-                        android:layout_weight="1"
-                        android:onClick="showItemDialogue"
-                        android:text="FETTA CHEESE" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="3">
-
-                    <Button
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:layout_gravity="top|bottom"
-                        android:layout_weight="1"
-                        android:text="POTATO CHIPS" />
-
-                    <Button
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:layout_gravity="top|bottom"
-                        android:layout_weight="1"
-                        android:text="FRESH VEGETABLES" />
-
-                    <Button
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:layout_gravity="top|bottom"
-                        android:layout_weight="1"
-                        android:text="GREEN SALAD" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="3">
-
-                    <Button
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:layout_gravity="top|bottom"
-                        android:layout_weight="1"
-                        android:text="GREEK SALAD" />
-
-                    <Button
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:layout_gravity="top|bottom"
-                        android:layout_weight="1"
-                        android:text="LOUNTZA" />
-
-                    <Button
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:layout_gravity="top|bottom"
-                        android:layout_weight="1"
-                        android:text="MUSHROOMS" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="3">
-
-                    <Button
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:layout_gravity="top|bottom"
-                        android:layout_weight="1"
-                        android:text="JACKET POTATO" />
-
-                    <Button
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:layout_gravity="top|bottom"
-                        android:layout_weight="1"
-                        android:text="JACKET POTATO WITH CHEESE" />
-
-                    <Button
-                        style="@style/Widget.AppCompat.Button.Borderless"
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:layout_gravity="top|bottom"
-                        android:layout_weight="1"
-                        android:text="JACKET POTATO WITH TUNA SALAD" />
-
-                </LinearLayout>
             </LinearLayout>
 
         </ScrollView>
