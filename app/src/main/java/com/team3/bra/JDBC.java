@@ -1,7 +1,18 @@
+package com.team3.bra;
+
 import java.sql.*;
 import java.util.Vector;
 
 public class JDBC {
+
+        static	String url = "jdbc:mysql://phpmyadmin.in.cs.ucy.ac.cy";
+        static	String username = "broadway";
+        static   String database = "`broadway`";
+        static	String password = "929K6sb7mAbDrahH";
+    static{
+        establishConnection(url, username, password);
+	}
+
 	private static Connection conn = null;
 
 	private static ResultSet getResultSetFromProcedure(String procedure, String[] arguments) {
@@ -69,7 +80,7 @@ public class JDBC {
 	}
 	
 	public static Vector<Vector<Object>> callProcedure(String procedure, String[] arguments){
-		return resultSetToVector(getResultSetFromProcedure(procedure,arguments));
+		return resultSetToVector(getResultSetFromProcedure(database+"."+procedure,arguments));
 	}
 	
 	public static void establishConnection(String url, String username, String password) {

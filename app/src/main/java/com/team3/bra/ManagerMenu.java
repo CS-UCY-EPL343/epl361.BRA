@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class ManagerMenu extends Activity {
     String toastStr;
@@ -160,14 +161,16 @@ public class ManagerMenu extends Activity {
     public void insertCategories(){
         side.setVisibility(View.GONE);
         categ.setVisibility(View.VISIBLE);
-        final ArrayList<String> categories = new ArrayList<>();
-        categories.add("1");
-        categories.add("2");
-        categories.add("3");
-        categories.add("4");
-        categories.add("5");
-        categories.add("6");
-        categories.add("7");
+
+        String a[] = { "0" };
+        String procedure = "SHOWCATEGORYDETAILS";
+        JDBC.callProcedure( procedure, a);
+        final ArrayList<Category> categories=new ArrayList<Category>();
+        Vector<Vector<Object>> vec=JDBC.callProcedure( procedure, a);
+        for(int i=0;i<vec.size();i++){
+            categories.add(new Category(vec.get(i)));
+        }
+
 
         final float scale = getResources().getDisplayMetrics().density;
         LinearLayout ll = (LinearLayout) findViewById(R.id.categoryLayout);
@@ -212,13 +215,13 @@ public class ManagerMenu extends Activity {
                 continue;
             }
 
-            b.setText(categories.get(i));
+            b.setText(categories.get(i).getName());
 
             final int t=i;
             b.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
-                    fromCategoriesToItems(t,categories.get(t));
+                   // fromCategoriesToItems(t,categories.get(t));
                 }
             });
 
