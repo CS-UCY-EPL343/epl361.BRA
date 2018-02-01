@@ -6,17 +6,19 @@ import java.util.Vector;
  * Created by GamerMakrides on 01/02/2018.
  */
 
-public class Category {
+public class BrItem {
     private int id;
     private String name;
-    private float vat;
+    private float price;
     private String descreption;
+    private int catID;
 
-    public Category(Vector<Object> vec) {
+    public BrItem(Vector<Object> vec) {
         this.id = (int) vec.get(0);
         this.name = (String) vec.get(1);
-        this.vat = Float.parseFloat(vec.get(2).toString());
-        this.descreption = (String) vec.get(3);
+        this.price = Float.parseFloat(vec.get(2).toString());
+        this.descreption = (String)vec.get(3);
+        this.catID=(int) vec.get(4);
     }
 
     public int getId() {
@@ -28,10 +30,13 @@ public class Category {
     }
 
     public float getVat() {
-        return vat;
+        return price;
     }
 
     public String getDescreption() {
+        return descreption;
+    }
+    public String getCatID() {
         return descreption;
     }
 }

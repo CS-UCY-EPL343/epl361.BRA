@@ -18,14 +18,17 @@ public class MainActivity extends Activity {
         String username = txtUser.getText().toString();
 
         if (username.equals("3")) {
+           JDBC.establishConnection();
             Intent intent = new Intent(this, Manager.class);
             startActivity(intent);
         }
         if (username.equals("1")) {
+            JDBC.establishConnection();
             Intent intent = new Intent(this, Waiter.class);
             startActivity(intent);
         }
         if (username.equals("2")) {
+            JDBC.establishConnection();
             Intent intent = new Intent(this, Cook.class);
             startActivity(intent);
         }

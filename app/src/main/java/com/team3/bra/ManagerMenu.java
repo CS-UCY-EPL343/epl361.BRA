@@ -51,6 +51,7 @@ public class ManagerMenu extends Activity {
         etPrice = (EditText) findViewById(R.id.etPrice);
         etVat = (EditText) findViewById(R.id.etVat);
         insertCategories();
+
     }
     public void orderBackManager(View v){
         finish();
@@ -164,7 +165,6 @@ public class ManagerMenu extends Activity {
 
         String a[] = { "0" };
         String procedure = "SHOWCATEGORYDETAILS";
-        JDBC.callProcedure( procedure, a);
         final ArrayList<Category> categories=new ArrayList<Category>();
         Vector<Vector<Object>> vec=JDBC.callProcedure( procedure, a);
         for(int i=0;i<vec.size();i++){
@@ -213,18 +213,18 @@ public class ManagerMenu extends Activity {
                     }
                 });
                 continue;
+            }else {
+
+                b.setText(categories.get(i).getName());
+
+                final int t = i;
+                b.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        fromCategoriesToItems(categories.get(t));
+                    }
+                });
             }
-
-            b.setText(categories.get(i).getName());
-
-            final int t=i;
-            b.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v){
-                   // fromCategoriesToItems(t,categories.get(t));
-                }
-            });
-
             if(count < 3){
                 newLayout.addView(b,lp);
             }
@@ -247,24 +247,23 @@ public class ManagerMenu extends Activity {
 
     }
 
-    public void fromCategoriesToItems(int id, String catName){
-        System.out.println(id);
+    public void fromCategoriesToItems(Category cat){
+        System.out.println(cat.getId());
 
-        ArrayList<String> items = new ArrayList<>();
-        items.add("items1");
-        items.add("items2");
-        items.add("items3");
-        items.add("items4");
-        items.add("items5");
-        items.add("items6");
-        items.add("items7");
+        ArrayList<BrItem> items = new ArrayList<BrItem>();
+        String a[] = { "-1",cat.getId()+"" };
+        String procedure = "SHOWITEMDETAILS";
+        Vector<Vector<Object>> vec=JDBC.callProcedure( procedure, a);
+        for(int i=0;i<vec.size();i++){
+            items.add(new BrItem(vec.get(i)));
+        }
 
         final float scale = getResources().getDisplayMetrics().density;
         LinearLayout ll = (LinearLayout) findViewById(R.id.itemLayout);
         ll.removeAllViews();
 
         TextView categoryName = new TextView(this);
-        categoryName.setText(catName);
+        categoryName.setText(cat.getName());
         LinearLayout.LayoutParams lparam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT,1.0f);
         categoryName.setGravity(Gravity.CENTER);
         categoryName.setTextSize(18);
@@ -304,7 +303,7 @@ public class ManagerMenu extends Activity {
                 continue;
             }
 
-            b.setText(items.get(i));
+            b.setText(items.get(i).getName());
             final int t=i;
             b.setOnClickListener(new View.OnClickListener(){
                 @Override

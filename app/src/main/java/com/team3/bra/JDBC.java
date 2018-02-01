@@ -1,5 +1,7 @@
 package com.team3.bra;
 
+import android.os.StrictMode;
+
 import java.sql.*;
 import java.util.Vector;
 
@@ -9,9 +11,7 @@ public class JDBC {
         static	String username = "broadway";
         static   String database = "`broadway`";
         static	String password = "929K6sb7mAbDrahH";
-    static{
-        establishConnection(url, username, password);
-	}
+
 
 	private static Connection conn = null;
 
@@ -47,8 +47,8 @@ public class JDBC {
 			}
 
 			return rs;
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+		} catch (Exception e) {
+			System.out.println("Get rs: "+e.getMessage());e.printStackTrace();
 			return null;
 		}
 	}
@@ -74,7 +74,7 @@ public class JDBC {
 			}
 			return rows;
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("RStoV: "+e.getMessage());
 			return null;
 		}
 	}
@@ -83,13 +83,20 @@ public class JDBC {
 		return resultSetToVector(getResultSetFromProcedure(database+"."+procedure,arguments));
 	}
 	
-	public static void establishConnection(String url, String username, String password) {
+	public static void establishConnection() {
 		System.out.println("Connecting database...");
+		try {
+			StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
+			StrictMode.setThreadPolicy(policy);
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (Exception e) {
+			System.out.println("Class forname error: " +e.getMessage());
+		}
 		try {
 			conn = DriverManager.getConnection(url, username, password);
 			System.out.println("Database connected!");
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			System.out.println(e.getMessage()+" "+e.getSQLState()+" "+e.getErrorCode());
 		}
 	}
 
