@@ -1,234 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
 
     <LinearLayout
-        android:id="@+id/first"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/backlogo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:orientation="horizontal">
-
-
-            <Button
-                android:id="@+id/imageButton"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="backClicked"
-                android:text="Back" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Cook"
-                android:textAlignment="center"
-                android:textSize="30sp" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
+            android:id="@+id/first"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp">
 
-            <ScrollView
+            <LinearLayout
+                android:id="@+id/backlogo"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.8">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:orientation="horizontal">
 
-                <LinearLayout
 
-                    android:id="@+id/orderslayout"
+                <Button
+                    android:id="@+id/imageButton"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_weight="1"
+                    android:onClick="backClicked"
+                    android:text="Back" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Cook"
+                    android:textAlignment="center"
+                    android:textSize="30sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.8">
 
                     <LinearLayout
-                        android:id="@+id/linearLayout1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
-                        android:gravity="top"
-                        android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/description_text6"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@android:color/holo_green_light"
-                            android:backgroundTint="@android:color/holo_green_light"
-                            android:fontFamily="casual"
-                            android:maxLines="5"
-                            android:onClick="markOrderDialogue"
-                            android:padding="2dp"
-                            android:text="Table 1&#10;\u0009Souvlaki xoirino -krampi x1&#10;\u0009Mprizola me patates x2&#10;\u0009Souvlaki kotopoullo x2&#10;\u0009Salata xwriatiki x1&#10;\u0009Merida makaronia tou fpournou x1&#10;\u0009Coca cola 375ml x3"
-                            android:textAppearance="@style/TextAppearance.AppCompat"
-                            android:textSize="15sp"
-                            tools:background="@android:color/holo_green_light" />
+                        android:id="@+id/orderslayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
 
                         <LinearLayout
+                            android:id="@+id/column1"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@android:color/holo_green_light"
-                            android:backgroundTint="@android:color/holo_green_light"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:gravity="right"
                             android:orientation="vertical"
                             tools:background="@android:color/holo_green_light">
 
-                            <ImageButton
-                                android:id="@+id/plus"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_below="@+id/description_text6"
-                                android:background="@drawable/plus"
-                                android:clickable="true"
-                                tools:ignore="DuplicateIds" />
+                            <TextView
+                                android:id="@+id/textView8"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Table 1" />
 
+                            <TextView
+                                android:id="@+id/description_text"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/holo_green_light"
+                                android:backgroundTint="@android:color/holo_green_light"
+                                android:fontFamily="casual"
+                                android:maxLines="5"
+                                android:onClick="markOrderDialogue"
+                                android:padding="2dp"
+                                android:text="Table 1&#10;\u0009Souvlaki xoirino -krampi x1&#10;\u0009Mprizola me patates x2&#10;\u0009Souvlaki kotopoullo x2&#10;\u0009Salata xwriatiki x1&#10;\u0009Merida makaronia tou fpournou x1&#10;\u0009Coca cola 375ml x3"
+                                android:textAppearance="@style/TextAppearance.AppCompat"
+                                android:textSize="15sp"
+                                tools:background="@android:color/holo_green_light" />
 
-                            <ImageButton
-                                android:id="@+id/minus"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_below="@+id/description_text6"
-                                android:background="@drawable/minus"
-                                android:clickable="true"
-                                android:visibility="gone"
-                                tools:ignore="DuplicateIds" />
 
                         </LinearLayout>
-
-                        <TextView
-                            android:id="@+id/description_text"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@android:color/holo_orange_dark"
-                            android:backgroundTint="@android:color/holo_orange_dark"
-                            android:fontFamily="casual"
-                            android:maxLines="5"
-                            android:onClick="sendOrderDialogue"
-                            android:padding="2dp"
-                            android:text="Table 8&#10;\u0009Souvlaki mix x3&#10;\u0009Mprizola me patates x3&#10;\u0009Souvlaki kotopoullo x3&#10;\u0009Manitarakia x1&#10;\u0009Souvla arni x2&#10;\u0009Mpires Carlsberg 1L x5"
-                            android:textAppearance="@style/TextAppearance.AppCompat"
-                            android:textSize="15sp"
-                            tools:background="@android:color/holo_orange_dark" />
 
                         <LinearLayout
+                            android:id="@+id/column2"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@android:color/holo_orange_dark"
-                            android:backgroundTint="@android:color/holo_orange_dark"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:gravity="right"
-                            android:orientation="vertical"
-                            tools:background="@android:color/holo_orange_dark">
+                            android:orientation="vertical">
 
-                            <ImageButton
-                                android:id="@+id/plus2"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_below="@+id/description_text"
-                                android:background="@drawable/plus"
-                                android:clickable="true"
-                                tools:ignore="DuplicateIds" />
+                            <TextView
+                                android:id="@+id/description_text9"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/holo_green_light"
+                                android:backgroundTint="@android:color/holo_green_light"
+                                android:fontFamily="casual"
+                                android:maxLines="5"
+                                android:onClick="markOrderDialogue"
+                                android:padding="2dp"
+                                android:text="Table 1&#10;\u0009Souvlaki xoirino -krampi x1&#10;\u0009Mprizola me patates x2&#10;\u0009Souvlaki kotopoullo x2&#10;\u0009Salata xwriatiki x1&#10;\u0009Merida makaronia tou fpournou x1&#10;\u0009Coca cola 375ml x3"
+                                android:textAppearance="@style/TextAppearance.AppCompat"
+                                android:textSize="15sp"
+                                tools:background="@android:color/holo_green_light" />
 
-
-                            <ImageButton
-                                android:id="@+id/minus2"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_below="@+id/description_text"
-                                android:background="@drawable/minus"
-                                android:clickable="true"
-                                android:visibility="gone"
-                                tools:ignore="DuplicateIds" />
 
                         </LinearLayout>
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/order5"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.5"
-                        android:gravity="top"
-                        android:orientation="vertical">
-
-
-                        <TextView
-                            android:id="@+id/description_text4"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@android:color/holo_orange_dark"
-                            android:backgroundTint="@android:color/holo_orange_dark"
-                            android:fontFamily="casual"
-                            android:maxLines="5"
-                            android:onClick="sendOrderDialogue"
-                            android:padding="2dp"
-                            android:text="Table 5&#10;\u0009Souvlaki kotopoullo -maintano x1&#10;\u0009Mprizola me patates x3&#10;\u0009Souvlaki xoirino -kremidi, -krampi, +talatouri x2&#10;\u0009Salata xwriatiki x3&#10;\u0009Merida makaronia tou fournou x2&#10;\u0009Coca cola 375ml x5&#10;\u0009Mpires Carslsberg 1L x3"
-                            android:textAppearance="@style/TextAppearance.AppCompat"
-                            android:textSize="15sp"
-                            tools:background="@android:color/holo_orange_dark" />
-
 
                         <LinearLayout
+                            android:id="@+id/column3"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@android:color/holo_orange_dark"
-                            android:backgroundTint="@android:color/holo_orange_dark"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:gravity="right"
-                            android:orientation="vertical"
-                            tools:background="@android:color/holo_orange_dark">
+                            android:orientation="vertical">
 
-                            <ImageButton
-                                android:id="@+id/plus3"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_below="@+id/description_text4"
-                                android:background="@drawable/plus"
-                                android:clickable="true"
-                                tools:ignore="DuplicateIds" />
+                            <TextView
+                                android:id="@+id/description_text12"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@android:color/holo_green_light"
+                                android:backgroundTint="@android:color/holo_green_light"
+                                android:fontFamily="casual"
+                                android:maxLines="5"
+                                android:onClick="markOrderDialogue"
+                                android:padding="2dp"
+                                android:text="Table 1&#10;\u0009Souvlaki xoirino -krampi x1&#10;\u0009Mprizola me patates x2&#10;\u0009Souvlaki kotopoullo x2&#10;\u0009Salata xwriatiki x1&#10;\u0009Merida makaronia tou fpournou x1&#10;\u0009Coca cola 375ml x3"
+                                android:textAppearance="@style/TextAppearance.AppCompat"
+                                android:textSize="15sp"
+                                tools:background="@android:color/holo_green_light" />
 
-
-                            <ImageButton
-                                android:id="@+id/minus3"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_below="@+id/description_text4"
-                                android:background="@drawable/minus"
-                                android:clickable="true"
-                                android:visibility="gone"
-                                tools:ignore="DuplicateIds" />
 
                         </LinearLayout>
 
-
                     </LinearLayout>
-                </LinearLayout>
-            </ScrollView>
+                </ScrollView>
+            </LinearLayout>
+
         </LinearLayout>
-
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+
+</LinearLayout>
