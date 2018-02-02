@@ -31,7 +31,7 @@ public class ManagerMenu extends Activity {
     Button delete;
     EditText etName;
     EditText etPrice;
-    EditText etVat;
+    EditText etCat;
     EditText etDesciption;
 
     @Override
@@ -43,13 +43,13 @@ public class ManagerMenu extends Activity {
         categ = (ScrollView) findViewById(R.id.scrollCat);
         addCateg = (LinearLayout) findViewById(R.id.addCat);
         price = (LinearLayout) findViewById(R.id.llPrice);
-        vat = (LinearLayout) findViewById(R.id.llVat);
+        vat = (LinearLayout) findViewById(R.id.llCat);
         title = (TextView) findViewById(R.id.txtManagerMenu);
         delete = (Button) findViewById(R.id.btnDelete);
         etDesciption = (EditText) findViewById(R.id.etDesc);
         etName = (EditText) findViewById(R.id.etName);
         etPrice = (EditText) findViewById(R.id.etPrice);
-        etVat = (EditText) findViewById(R.id.etVat);
+        etCat = (EditText) findViewById(R.id.etCat);
         insertCategories();
 
     }
@@ -72,7 +72,7 @@ public class ManagerMenu extends Activity {
         side.setVisibility(View.GONE);
         categ.setVisibility(View.VISIBLE);
         addCateg.setVisibility(View.GONE);
-        etVat.setText("");
+        etCat.setText("");
         etPrice.setText("");
         etName.setText("");
         etDesciption.setText("");
@@ -80,7 +80,7 @@ public class ManagerMenu extends Activity {
     public void addCategory(View v){
         toastStr="Category";
         title.setText("New Category");
-        etVat.setText("");
+        etCat.setText("");
         etPrice.setText("");
         etName.setText("");
         etDesciption.setText("");
@@ -98,29 +98,31 @@ public class ManagerMenu extends Activity {
         price.setVisibility(View.VISIBLE);
         vat.setVisibility(View.VISIBLE);
         delete.setVisibility(View.GONE);
-        etVat.setText("");
+        etCat.setText("");
         etPrice.setText("");
         etName.setText("");
         etDesciption.setText("");
     }
 
-    public void editItem(View v,int id){
+    public void editItem(View v,BrItem item){
         toastStr="Item";
         title.setText("Edit Item FETTA CHEESE");
         addCateg.setVisibility(View.VISIBLE);
         price.setVisibility(View.VISIBLE);
         vat.setVisibility(View.VISIBLE);
         delete.setVisibility(View.VISIBLE);
-        etVat.setText("19");
-        etPrice.setText("4.50");
-        etName.setText("FETTA CHEESE");
-        etDesciption.setText("greek cheese");
+        etCat.setText(item.getCategoryName());
+        etPrice.setText(item.getPrice()+"");
+        etName.setText(item.getName());
+        etDesciption.setText(item.getDescreption());
 
 
     }
 
     public void saveClicked(View v){
         toastStr+=" saved";
+        String a[] = { etName.getText().toString(),etPrice.getText().toString(),etDesciption.getText().toString(),etCat.getText().toString() };
+      //  String procedure = "EDITITEM";
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(context, toastStr, duration);
@@ -209,7 +211,8 @@ public class ManagerMenu extends Activity {
                 b.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v){
-                      addCategory(v);
+
+                        addCategory(v);
                     }
                 });
                 continue;
@@ -221,6 +224,7 @@ public class ManagerMenu extends Activity {
                 b.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
                         fromCategoriesToItems(categories.get(t));
                     }
                 });
@@ -250,7 +254,7 @@ public class ManagerMenu extends Activity {
     public void fromCategoriesToItems(Category cat){
         System.out.println(cat.getId());
 
-        ArrayList<BrItem> items = new ArrayList<BrItem>();
+       final ArrayList<BrItem> items = new ArrayList<BrItem>();
         String a[] = { "-1",cat.getId()+"" };
         String procedure = "SHOWITEMDETAILS";
         Vector<Vector<Object>> vec=JDBC.callProcedure( procedure, a);
@@ -270,6 +274,7 @@ public class ManagerMenu extends Activity {
         categoryName.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+
                 sideClickManager(v);
             }
         });
@@ -297,6 +302,7 @@ public class ManagerMenu extends Activity {
                 b.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v){
+
                         orderBackToCategManager(v);
                     }
                 });
@@ -308,7 +314,8 @@ public class ManagerMenu extends Activity {
             b.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
-                    editItem(v,t);
+
+                    editItem(v,items.get(t));
                 }
             });
 

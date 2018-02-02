@@ -11,14 +11,14 @@ public class BrItem {
     private String name;
     private float price;
     private String descreption;
-    private int catID;
+    private String category;
 
     public BrItem(Vector<Object> vec) {
         this.id = (int) vec.get(0);
         this.name = (String) vec.get(1);
         this.price = Float.parseFloat(vec.get(2).toString());
         this.descreption = (String)vec.get(3);
-        this.catID=(int) vec.get(4);
+        this.category=(String) vec.get(4).toString();
     }
 
     public int getId() {
@@ -29,14 +29,14 @@ public class BrItem {
         return name;
     }
 
-    public float getVat() {
+    public float getPrice() {
         return price;
     }
 
     public String getDescreption() {
         return descreption;
     }
-    public String getCatID() {
-        return descreption;
+    public String getCategoryName() {
+        return category;
     }
 }
