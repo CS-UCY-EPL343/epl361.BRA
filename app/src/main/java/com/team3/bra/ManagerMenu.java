@@ -104,7 +104,7 @@ public class ManagerMenu extends Activity {
         etDesciption.setText("");
     }
 
-    public void editItem(View v,BrItem item){
+    public void editItem(View v,Item item){
         toastStr="Item";
         title.setText("Edit Item FETTA CHEESE");
         addCateg.setVisibility(View.VISIBLE);
@@ -254,12 +254,12 @@ public class ManagerMenu extends Activity {
     public void fromCategoriesToItems(Category cat){
         System.out.println(cat.getId());
 
-       final ArrayList<BrItem> items = new ArrayList<BrItem>();
+       final ArrayList<Item> items = new ArrayList<Item>();
         String a[] = { "-1",cat.getId()+"" };
         String procedure = "SHOWITEMDETAILS";
         Vector<Vector<Object>> vec=JDBC.callProcedure( procedure, a);
         for(int i=0;i<vec.size();i++){
-            items.add(new BrItem(vec.get(i)));
+            items.add(new Item(vec.get(i)));
         }
 
         final float scale = getResources().getDisplayMetrics().density;

@@ -6,14 +6,14 @@ import java.util.Vector;
  * Created by GamerMakrides on 01/02/2018.
  */
 
-public class BrItem {
+public class Item {
     private int id;
     private String name;
     private float price;
     private String descreption;
     private String category;
 
-    public BrItem(Vector<Object> vec) {
+    public Item(Vector<Object> vec) {
         this.id = (int) vec.get(0);
         this.name = (String) vec.get(1);
         this.price = Float.parseFloat(vec.get(2).toString());
