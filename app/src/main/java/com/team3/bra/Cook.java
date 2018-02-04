@@ -54,7 +54,7 @@ public class Cook extends AppCompatActivity {
 
 
     public void markOrder(View v){
-        Toast toast= Toast.makeText(getApplicationContext(),"Order marked.",Toast.LENGTH_SHORT);
+        Toast toast= Toast.makeText(getApplicationContext(),"OrderView marked.",Toast.LENGTH_SHORT);
         toast.show();
         dialogue.dismiss();
         temp.setBackgroundColor(Color.parseColor("#90dd00"));
@@ -63,7 +63,7 @@ public class Cook extends AppCompatActivity {
 
     }
     public void sendOrder(View v){
-        Toast toast= Toast.makeText(getApplicationContext(),"Order sent.",Toast.LENGTH_SHORT);
+        Toast toast= Toast.makeText(getApplicationContext(),"OrderView sent.",Toast.LENGTH_SHORT);
         toast.show();
         dialogue.dismiss();
         ((LinearLayout)temp.getParent()).removeView(temp);

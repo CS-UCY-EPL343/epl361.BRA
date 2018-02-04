@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -75,7 +74,7 @@ public class Waiter extends Activity {
         Bundle b=new Bundle();
         b.putInt("new",1);
         b.putString("Table","Table "+table);
-        Intent intent = new Intent(Waiter.this, Order.class);
+        Intent intent = new Intent(Waiter.this, OrderView.class);
         intent.putExtras(b);
         startActivity(intent);
         adapter.add("Table "+table);
@@ -87,7 +86,7 @@ public class Waiter extends Activity {
         listOrders.clear();
         btnNot.setTextColor(Color.BLACK);
         btnNot.setBackgroundColor(Color.TRANSPARENT);
-        listOrders.add("<New Order>");
+        listOrders.add("<New OrderView>");
         for(int i=0;i<19;i++){
             if(Math.random()>0.5)
                 listOrders.add("Table "+i);
@@ -101,7 +100,7 @@ public class Waiter extends Activity {
         btnNot.setBackgroundColor(Color.LTGRAY);
         for(int i=0;i<19;i++){
             if(Math.random()>0.8)
-                listOrders.add("Order Ready: Table "+i);
+                listOrders.add("OrderView Ready: Table "+i);
         }
         adapter.notifyDataSetChanged();
     }
@@ -120,7 +119,7 @@ public class Waiter extends Activity {
         dialogue.dismiss();
     }
     public void editOrder(View v){
-        Intent intent = new Intent(Waiter.this, Order.class);
+        Intent intent = new Intent(Waiter.this, OrderView.class);
         startActivity(intent);
         dialogue.dismiss();
     }
@@ -130,7 +129,7 @@ public class Waiter extends Activity {
         dialogue.dismiss();
     }
     public void acceptNot(View v){
-        Toast toast= Toast.makeText(getApplicationContext(),"Order Accepted",Toast.LENGTH_SHORT);
+        Toast toast= Toast.makeText(getApplicationContext(),"OrderView Accepted",Toast.LENGTH_SHORT);
         toast.show();
         dialogue.dismiss();
     }

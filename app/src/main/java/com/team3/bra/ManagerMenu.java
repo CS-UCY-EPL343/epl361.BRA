@@ -111,7 +111,7 @@ public class ManagerMenu extends Activity {
         price.setVisibility(View.VISIBLE);
         vat.setVisibility(View.VISIBLE);
         delete.setVisibility(View.VISIBLE);
-        etCat.setText(item.getCategoryName());
+        etCat.setText(item.getCategoryID()+"");
         etPrice.setText(item.getPrice()+"");
         etName.setText(item.getName());
         etDesciption.setText(item.getDescreption());
@@ -165,14 +165,9 @@ public class ManagerMenu extends Activity {
         side.setVisibility(View.GONE);
         categ.setVisibility(View.VISIBLE);
 
-        String a[] = { "0" };
-        String procedure = "SHOWCATEGORYDETAILS";
-        final ArrayList<Category> categories=new ArrayList<Category>();
-        Vector<Vector<Object>> vec=JDBC.callProcedure( procedure, a);
-        for(int i=0;i<vec.size();i++){
-            categories.add(new Category(vec.get(i)));
-        }
 
+        Category.findCategories();
+        final ArrayList<Category> categories=Category.categories;
 
         final float scale = getResources().getDisplayMetrics().density;
         LinearLayout ll = (LinearLayout) findViewById(R.id.categoryLayout);
@@ -254,13 +249,9 @@ public class ManagerMenu extends Activity {
     public void fromCategoriesToItems(Category cat){
         System.out.println(cat.getId());
 
-       final ArrayList<Item> items = new ArrayList<Item>();
-        String a[] = { "-1",cat.getId()+"" };
-        String procedure = "SHOWITEMDETAILS";
-        Vector<Vector<Object>> vec=JDBC.callProcedure( procedure, a);
-        for(int i=0;i<vec.size();i++){
-            items.add(new Item(vec.get(i)));
-        }
+        cat.fillCategory();
+        final ArrayList<Item> items=cat.getItems();
+
 
         final float scale = getResources().getDisplayMetrics().density;
         LinearLayout ll = (LinearLayout) findViewById(R.id.itemLayout);

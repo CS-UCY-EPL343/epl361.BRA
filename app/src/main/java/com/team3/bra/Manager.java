@@ -22,7 +22,7 @@ public class Manager extends Activity {
     }
 
     public void reportsClicked(View v){
-        Intent intent = new Intent(this, Report.class);
+        Intent intent = new Intent(this, ReportView.class);
         startActivity(intent);
     }
 

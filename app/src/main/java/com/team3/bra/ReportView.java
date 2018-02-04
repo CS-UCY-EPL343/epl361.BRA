@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 
-public class Report extends Activity {
+public class ReportView extends Activity {
 
     public void backClicked(View v){
         finish();

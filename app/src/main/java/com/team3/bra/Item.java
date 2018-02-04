@@ -1,5 +1,6 @@
 package com.team3.bra;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 /**
@@ -11,14 +12,14 @@ public class Item {
     private String name;
     private float price;
     private String descreption;
-    private String category;
+    private int categoryID;
 
     public Item(Vector<Object> vec) {
         this.id = (int) vec.get(0);
         this.name = (String) vec.get(1);
         this.price = Float.parseFloat(vec.get(2).toString());
         this.descreption = (String)vec.get(3);
-        this.category=(String) vec.get(4).toString();
+        this.categoryID=(int) vec.get(4);
     }
 
     public int getId() {
@@ -36,7 +37,9 @@ public class Item {
     public String getDescreption() {
         return descreption;
     }
-    public String getCategoryName() {
-        return category;
+
+    public int getCategoryID() {
+        return categoryID;
     }
+
 }

@@ -21,13 +21,13 @@
         </activity>
         <activity android:name=".ManagerEditUser"
             android:windowSoftInputMode="adjustResize|stateHidden"/>
-        <activity android:name=".Report"
+        <activity android:name=".ReportView"
             android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity android:name=".Waiter"
             android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity android:name=".Manager"
             android:windowSoftInputMode="adjustResize|stateHidden"/>
-        <activity android:name=".Order"
+        <activity android:name=".OrderView"
             android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity android:name=".ManagerMenu"
             android:windowSoftInputMode="adjustResize|stateHidden"/>
