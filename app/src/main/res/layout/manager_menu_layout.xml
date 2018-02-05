@@ -48,7 +48,7 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <View
             android:id="@+id/line"
@@ -111,6 +111,30 @@
                 android:inputType="textPersonName"
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llVat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.00"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.50"
+                android:text="Vat (%)"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
+
+            <EditText
+                android:id="@+id/etVat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.50"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium" />
         </LinearLayout>
 
         <LinearLayout

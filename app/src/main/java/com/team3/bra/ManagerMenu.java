@@ -26,6 +26,7 @@ public class ManagerMenu extends Activity {
     ScrollView categ;
     LinearLayout addCateg;
     LinearLayout price;
+    LinearLayout cat;
     LinearLayout vat;
     TextView title;
     Button delete;
@@ -33,6 +34,7 @@ public class ManagerMenu extends Activity {
     EditText etPrice;
     EditText etCat;
     EditText etDesciption;
+    EditText etVat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +45,15 @@ public class ManagerMenu extends Activity {
         categ = (ScrollView) findViewById(R.id.scrollCat);
         addCateg = (LinearLayout) findViewById(R.id.addCat);
         price = (LinearLayout) findViewById(R.id.llPrice);
-        vat = (LinearLayout) findViewById(R.id.llCat);
+        cat = (LinearLayout) findViewById(R.id.llCat);
+        vat=(LinearLayout) findViewById(R.id.llVat);
         title = (TextView) findViewById(R.id.txtManagerMenu);
         delete = (Button) findViewById(R.id.btnDelete);
         etDesciption = (EditText) findViewById(R.id.etDesc);
         etName = (EditText) findViewById(R.id.etName);
         etPrice = (EditText) findViewById(R.id.etPrice);
         etCat = (EditText) findViewById(R.id.etCat);
+        etVat=(EditText) findViewById(R.id.etVat);
         insertCategories();
 
     }
@@ -62,16 +66,20 @@ public class ManagerMenu extends Activity {
         categ.setVisibility(View.GONE);
         addCateg.setVisibility(View.VISIBLE);
         delete.setVisibility(View.VISIBLE);
-        title.setText("Edit Category SIDE");
+        title.setText("Edit Category");
         price.setVisibility(View.GONE);
-        vat.setVisibility(View.GONE);
+        cat.setVisibility(View.GONE);
+        vat.setVisibility(View.VISIBLE);
         etName.setText("SIDE");
         etDesciption.setText("side dishes");
+        etVat.setText("Vat (%)");
+
     }
     public void orderBackToCategManager(View v){
         side.setVisibility(View.GONE);
         categ.setVisibility(View.VISIBLE);
         addCateg.setVisibility(View.GONE);
+        vat.setVisibility(View.GONE);
         etCat.setText("");
         etPrice.setText("");
         etName.setText("");
@@ -83,20 +91,24 @@ public class ManagerMenu extends Activity {
         etCat.setText("");
         etPrice.setText("");
         etName.setText("");
+        etVat.setText("");
         etDesciption.setText("");
         addCateg.setVisibility(View.VISIBLE);
         price.setVisibility(View.GONE);
-        vat.setVisibility(View.GONE);
+        cat.setVisibility(View.GONE);
         delete.setVisibility(View.GONE);
         categ.setVisibility(View.GONE);
         categ.setVisibility(View.VISIBLE);
+        vat.setVisibility(View.VISIBLE);
+
     }
     public void addItem(View v){
         toastStr="Item";
         title.setText("New Item");
         addCateg.setVisibility(View.VISIBLE);
         price.setVisibility(View.VISIBLE);
-        vat.setVisibility(View.VISIBLE);
+        vat.setVisibility(View.GONE);
+        cat.setVisibility(View.VISIBLE);
         delete.setVisibility(View.GONE);
         etCat.setText("");
         etPrice.setText("");
@@ -106,11 +118,12 @@ public class ManagerMenu extends Activity {
 
     public void editItem(View v,Item item){
         toastStr="Item";
-        title.setText("Edit Item FETTA CHEESE");
+        title.setText("Edit Item");
         addCateg.setVisibility(View.VISIBLE);
         price.setVisibility(View.VISIBLE);
-        vat.setVisibility(View.VISIBLE);
+        cat.setVisibility(View.VISIBLE);
         delete.setVisibility(View.VISIBLE);
+        vat.setVisibility(View.GONE);
         etCat.setText(item.getCategoryID()+"");
         etPrice.setText(item.getPrice()+"");
         etName.setText(item.getName());
@@ -121,7 +134,7 @@ public class ManagerMenu extends Activity {
 
     public void saveClicked(View v){
         toastStr+=" saved";
-        String a[] = { etName.getText().toString(),etPrice.getText().toString(),etDesciption.getText().toString(),etCat.getText().toString() };
+        String a[] = { etName.getText().toString(),etPrice.getText().toString(),etDesciption.getText().toString(),etCat.getText().toString(),etVat.getText().toString() };
       //  String procedure = "EDITITEM";
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_SHORT;
@@ -273,7 +286,7 @@ public class ManagerMenu extends Activity {
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,(int)(80*scale),1.0f);
         lp.gravity= Gravity.TOP | Gravity.BOTTOM;
-        int i=-1;
+        int i=-2;
         int count=0;
 
         LinearLayout newLayout = new LinearLayout(this);
@@ -284,7 +297,8 @@ public class ManagerMenu extends Activity {
 
             Button b = new Button(this);
             b.getBackground().setColorFilter(ContextCompat.getColor(this,R.color.transparent), PorterDuff.Mode.MULTIPLY);
-            if (i==-1) {
+            //insert BACK button
+            if (i==-2) {
                 b.setText("BACK");
                 b.setTextColor(Color.RED);
                 newLayout.addView(b,lp);
@@ -299,7 +313,22 @@ public class ManagerMenu extends Activity {
                 });
                 continue;
             }
+            //insery ADD ITEM button
+            else if (i==-1) {
+                b.setText("ADD ITEM");
+                newLayout.addView(b, lp);
+                i++;
+                count++;
+                b.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v){
 
+                        addItem(v);
+                    }
+                });
+                continue;
+            }
+            //insert food item buttons
             b.setText(items.get(i).getName());
             final int t=i;
             b.setOnClickListener(new View.OnClickListener(){
@@ -324,17 +353,16 @@ public class ManagerMenu extends Activity {
             count++;
 
         }
-
+        //fll the empty spaces
         while(count == 1 || count ==2) {
             newLayout.addView(new TextView(this), lp);
             count++;
         }
 
 
-
-
         side.setVisibility(View.VISIBLE);
         categ.setVisibility(View.GONE);
+        addCateg.setVisibility(View.GONE);
     }
 
 }
