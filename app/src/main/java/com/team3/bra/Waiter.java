@@ -20,7 +20,8 @@ public class Waiter extends Activity {
     Button btnNot;
     boolean checkNotification;
     Dialogues dialogue;
-
+    static String table="";
+    static int tableid=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +43,8 @@ public class Waiter extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
                 if(checkNotification!=true) {
+                    table="Table: Add Correct Num";
+                    tableid=0;
                     if (position == 0) {
                         showNewTableDialogue();
                     } else {
@@ -119,7 +122,14 @@ public class Waiter extends Activity {
         dialogue.dismiss();
     }
     public void editOrder(View v){
+
+
+        Bundle b=new Bundle();
+        b.putInt("edit",1);
+        b.putString("Table",table);
+        b.putInt("tableid",tableid);
         Intent intent = new Intent(Waiter.this, OrderView.class);
+        intent.putExtras(b);
         startActivity(intent);
         dialogue.dismiss();
     }
