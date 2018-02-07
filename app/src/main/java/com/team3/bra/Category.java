@@ -1,14 +1,19 @@
 package com.team3.bra;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Vector;
 
 /**
  * Created by GamerMakrides on 01/02/2018.
  */
 
-public class Category {
-    protected static ArrayList<Category> categories=new ArrayList<Category>();
+public class Category implements Comparable<Category> {
+    protected static ArrayList<Category> categories= new ArrayList<>();
 
     private int id;
     private String name;
@@ -45,13 +50,14 @@ public class Category {
 
     public static void findCategories(){
         if(categories.isEmpty()) {
-            categories = new ArrayList<Category>();
+            categories=new ArrayList<Category>();
             String a[] = {"0"};
             Vector<Vector<Object>> vec = JDBC.callProcedure("FindCategory", a);
             for (int i = 0; i < vec.size(); i++) {
                 Category c = new Category(vec.get(i));
                 categories.add(c);
             }
+            Collections.sort(categories);
         }
     }
 
@@ -62,6 +68,18 @@ public class Category {
             for (int i = 0; i < vec.size(); i++) {
                 this.items.add(new Item(vec.get(i)));
             }
+            Collections.sort(this.items);
         }
+    }
+
+
+    @Override
+    public String toString(){
+        return this.name;
+    }
+
+    @Override
+    public int compareTo(@NonNull Category category) {
+        return this.name.compareTo(category.name);
     }
 }

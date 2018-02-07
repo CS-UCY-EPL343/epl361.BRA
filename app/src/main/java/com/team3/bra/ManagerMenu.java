@@ -10,18 +10,20 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Vector;
+import java.util.PriorityQueue;
 
 public class ManagerMenu extends Activity {
-    String toastStr;
+    boolean itemCategory;
     ScrollView side;
     ScrollView categ;
     LinearLayout addCateg;
@@ -32,36 +34,45 @@ public class ManagerMenu extends Activity {
     Button delete;
     EditText etName;
     EditText etPrice;
-    EditText etCat;
-    EditText etDesciption;
+    Spinner etCat;
+    EditText etDescription;
     EditText etVat;
+    int selectedID=-1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        toastStr="Category";
         setContentView(R.layout.manager_menu_layout);
         side = (ScrollView) findViewById(R.id.scrollSide);
         categ = (ScrollView) findViewById(R.id.scrollCat);
         addCateg = (LinearLayout) findViewById(R.id.addCat);
+        addCateg.setVisibility(View.GONE);
         price = (LinearLayout) findViewById(R.id.llPrice);
         cat = (LinearLayout) findViewById(R.id.llCat);
         vat=(LinearLayout) findViewById(R.id.llVat);
         title = (TextView) findViewById(R.id.txtManagerMenu);
         delete = (Button) findViewById(R.id.btnDelete);
-        etDesciption = (EditText) findViewById(R.id.etDesc);
+        etDescription = (EditText) findViewById(R.id.etDesc);
         etName = (EditText) findViewById(R.id.etName);
         etPrice = (EditText) findViewById(R.id.etPrice);
-        etCat = (EditText) findViewById(R.id.etCat);
+        etCat = (Spinner) findViewById(R.id.etCat);
         etVat=(EditText) findViewById(R.id.etVat);
         insertCategories();
 
     }
+    private void fillSpinner(Spinner sp,int id){
+        ArrayAdapter<Category> dataAdapter = new ArrayAdapter<Category>(this, android.R.layout.simple_spinner_item, Category.categories);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp.setAdapter(dataAdapter);
+        sp.setSelection(id-1);//TODO will not work if the categories are sorted
+    }
+
     public void orderBackManager(View v){
         finish();
     }
-    public void sideClickManager(View v){
-        toastStr="Category";
+    public void editCategory(View v,Category category){
+        selectedID=category.getId();
+        itemCategory=true;
         side.setVisibility(View.VISIBLE);
         categ.setVisibility(View.GONE);
         addCateg.setVisibility(View.VISIBLE);
@@ -70,9 +81,9 @@ public class ManagerMenu extends Activity {
         price.setVisibility(View.GONE);
         cat.setVisibility(View.GONE);
         vat.setVisibility(View.VISIBLE);
-        etName.setText("SIDE");
-        etDesciption.setText("side dishes");
-        etVat.setText("Vat (%)");
+        etName.setText(category.getName());
+        etDescription.setText(category.getDescription());
+        etVat.setText(category.getVat()+"");
 
     }
     public void orderBackToCategManager(View v){
@@ -80,19 +91,18 @@ public class ManagerMenu extends Activity {
         categ.setVisibility(View.VISIBLE);
         addCateg.setVisibility(View.GONE);
         vat.setVisibility(View.GONE);
-        etCat.setText("");
         etPrice.setText("");
         etName.setText("");
-        etDesciption.setText("");
+        etDescription.setText("");
     }
     public void addCategory(View v){
-        toastStr="Category";
+        selectedID=-1;
+        itemCategory=true;
         title.setText("New Category");
-        etCat.setText("");
         etPrice.setText("");
         etName.setText("");
         etVat.setText("");
-        etDesciption.setText("");
+        etDescription.setText("");
         addCateg.setVisibility(View.VISIBLE);
         price.setVisibility(View.GONE);
         cat.setVisibility(View.GONE);
@@ -103,45 +113,59 @@ public class ManagerMenu extends Activity {
 
     }
     public void addItem(View v){
-        toastStr="Item";
+        int categoryID= selectedID;
+        selectedID=-1;
+        itemCategory=false;
         title.setText("New Item");
         addCateg.setVisibility(View.VISIBLE);
         price.setVisibility(View.VISIBLE);
         vat.setVisibility(View.GONE);
         cat.setVisibility(View.VISIBLE);
         delete.setVisibility(View.GONE);
-        etCat.setText("");
+        fillSpinner(etCat,categoryID);
         etPrice.setText("");
         etName.setText("");
-        etDesciption.setText("");
+        etDescription.setText("");
     }
 
     public void editItem(View v,Item item){
-        toastStr="Item";
+        selectedID=item.getId();
+        itemCategory=false;
         title.setText("Edit Item");
         addCateg.setVisibility(View.VISIBLE);
         price.setVisibility(View.VISIBLE);
         cat.setVisibility(View.VISIBLE);
         delete.setVisibility(View.VISIBLE);
         vat.setVisibility(View.GONE);
-        etCat.setText(item.getCategoryID()+"");
+        fillSpinner(etCat,item.getCategoryID());
         etPrice.setText(item.getPrice()+"");
         etName.setText(item.getName());
-        etDesciption.setText(item.getDescreption());
+        etDescription.setText(item.getDescreption());
 
 
     }
 
     public void saveClicked(View v){
+        String toastStr;
+        if(itemCategory==true){//Category mode
+            String a[] = { selectedID+"",etName.getText().toString(),etVat.getText().toString(), etDescription.getText().toString() };
+            toastStr="Category";
+            JDBC.callProcedure("AddCategory", a);
+        }else{ //Item mode
+            String a[] = { selectedID+"",etName.getText().toString(),etPrice.getText().toString(), etDescription.getText().toString(),((Category)etCat.getSelectedItem()).getId()+"" };
+            toastStr="Item";
+            JDBC.callProcedure("AddItem", a);
+        }
         toastStr+=" saved";
-        String a[] = { etName.getText().toString(),etPrice.getText().toString(),etDesciption.getText().toString(),etCat.getText().toString(),etVat.getText().toString() };
-      //  String procedure = "EDITITEM";
+
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(context, toastStr, duration);
         toast.show();
         addCateg.setVisibility(View.GONE);
     }
+
+
     public void cancelClicked(View v){
         addCateg.setVisibility(View.GONE);
     }
@@ -152,6 +176,16 @@ public class ManagerMenu extends Activity {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
+                        String toastStr;
+                        if(itemCategory==true){//Category mode
+                            String a[] = {selectedID+""};
+                            toastStr="Category";
+                            JDBC.callProcedure("RemoveCategory", a);
+                        }else{ //Item mode
+                            String a[] = {selectedID+""};
+                            toastStr="Item";
+                            JDBC.callProcedure("RemoveItem", a);
+                        }
                         toastStr+=" deleted";
                         Context context = getApplicationContext();
                         int duration = Toast.LENGTH_SHORT;
@@ -165,9 +199,8 @@ public class ManagerMenu extends Activity {
                 }
             }
         };
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Are you sure you want to delete "+toastStr+"?").setPositiveButton("Yes", dialogClickListener)
+        builder.setMessage("Are you sure you want to delete "+etName.getText().toString()+"?").setPositiveButton("Yes", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener).show();
 
 
@@ -259,12 +292,11 @@ public class ManagerMenu extends Activity {
 
     }
 
-    public void fromCategoriesToItems(Category cat){
-        System.out.println(cat.getId());
+    public void fromCategoriesToItems(final Category cat){
+        selectedID=cat.getId();
 
         cat.fillCategory();
         final ArrayList<Item> items=cat.getItems();
-
 
         final float scale = getResources().getDisplayMetrics().density;
         LinearLayout ll = (LinearLayout) findViewById(R.id.itemLayout);
@@ -278,8 +310,7 @@ public class ManagerMenu extends Activity {
         categoryName.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-
-                sideClickManager(v);
+                editCategory(v,cat);
             }
         });
         ll.addView(categoryName,lparam);
@@ -294,7 +325,6 @@ public class ManagerMenu extends Activity {
         ll.addView(newLayout);
 
         while(items.size()>i){
-
             Button b = new Button(this);
             b.getBackground().setColorFilter(ContextCompat.getColor(this,R.color.transparent), PorterDuff.Mode.MULTIPLY);
             //insert BACK button
@@ -307,7 +337,6 @@ public class ManagerMenu extends Activity {
                 b.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v){
-
                         orderBackToCategManager(v);
                     }
                 });

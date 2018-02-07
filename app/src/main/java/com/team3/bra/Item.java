@@ -1,5 +1,7 @@
 package com.team3.bra;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -7,7 +9,7 @@ import java.util.Vector;
  * Created by GamerMakrides on 01/02/2018.
  */
 
-public class Item {
+public class Item implements Comparable<Item> {
     private int id;
     private String name;
     private float price;
@@ -42,4 +44,8 @@ public class Item {
         return categoryID;
     }
 
+    @Override
+    public int compareTo(@NonNull Item item) {
+        return this.name.compareTo(item.name);
+    }
 }
