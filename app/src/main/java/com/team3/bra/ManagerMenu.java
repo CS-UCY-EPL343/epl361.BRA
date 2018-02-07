@@ -20,7 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.PriorityQueue;
 
 public class ManagerMenu extends Activity {
     boolean itemCategory;
@@ -57,7 +56,7 @@ public class ManagerMenu extends Activity {
         etPrice = (EditText) findViewById(R.id.etPrice);
         etCat = (Spinner) findViewById(R.id.etCat);
         etVat=(EditText) findViewById(R.id.etVat);
-        insertCategories();
+        showCategories();
 
     }
     private void fillSpinner(Spinner sp,int id){
@@ -151,10 +150,12 @@ public class ManagerMenu extends Activity {
             String a[] = { selectedID+"",etName.getText().toString(),etVat.getText().toString(), etDescription.getText().toString() };
             toastStr="Category";
             JDBC.callProcedure("AddCategory", a);
+            showCategories();
         }else{ //Item mode
             String a[] = { selectedID+"",etName.getText().toString(),etPrice.getText().toString(), etDescription.getText().toString(),((Category)etCat.getSelectedItem()).getId()+"" };
             toastStr="Item";
             JDBC.callProcedure("AddItem", a);
+            //TODO showItems(cat); find a way to get cat here.
         }
         toastStr+=" saved";
 
@@ -181,10 +182,12 @@ public class ManagerMenu extends Activity {
                             String a[] = {selectedID+""};
                             toastStr="Category";
                             JDBC.callProcedure("RemoveCategory", a);
+                            showCategories();
                         }else{ //Item mode
                             String a[] = {selectedID+""};
                             toastStr="Item";
                             JDBC.callProcedure("RemoveItem", a);
+                            //TODO showItems(cat); find a way to get cat here.
                         }
                         toastStr+=" deleted";
                         Context context = getApplicationContext();
@@ -207,7 +210,7 @@ public class ManagerMenu extends Activity {
     }
 
 
-    public void insertCategories(){
+    public void showCategories(){
         side.setVisibility(View.GONE);
         categ.setVisibility(View.VISIBLE);
 
@@ -222,6 +225,7 @@ public class ManagerMenu extends Activity {
         int i=-2;
         int count=0;
 
+        ll.removeAllViews();
         LinearLayout newLayout = new LinearLayout(this);
         newLayout.setOrientation(LinearLayout.HORIZONTAL);
         ll.addView(newLayout);
@@ -266,7 +270,7 @@ public class ManagerMenu extends Activity {
                     @Override
                     public void onClick(View v) {
 
-                        fromCategoriesToItems(categories.get(t));
+                        showItems(categories.get(t));
                     }
                 });
             }
@@ -292,7 +296,7 @@ public class ManagerMenu extends Activity {
 
     }
 
-    public void fromCategoriesToItems(final Category cat){
+    public void showItems(final Category cat){
         selectedID=cat.getId();
 
         cat.fillCategory();

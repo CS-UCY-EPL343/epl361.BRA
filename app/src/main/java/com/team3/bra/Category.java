@@ -49,7 +49,6 @@ public class Category implements Comparable<Category> {
     }
 
     public static void findCategories(){
-        if(categories.isEmpty()) {
             categories=new ArrayList<Category>();
             String a[] = {"0"};
             Vector<Vector<Object>> vec = JDBC.callProcedure("FindCategory", a);
@@ -58,18 +57,16 @@ public class Category implements Comparable<Category> {
                 categories.add(c);
             }
             Collections.sort(categories);
-        }
     }
 
     public void fillCategory(){
-        if(this.items.isEmpty()) {
+            this.items=new ArrayList<Item>();
             String a[] = {"-1", this.getId() + ""};
             Vector<Vector<Object>> vec = JDBC.callProcedure("FindItem", a);
             for (int i = 0; i < vec.size(); i++) {
                 this.items.add(new Item(vec.get(i)));
             }
             Collections.sort(this.items);
-        }
     }
 
 
