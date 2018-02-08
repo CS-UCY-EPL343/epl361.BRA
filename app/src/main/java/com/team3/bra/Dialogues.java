@@ -19,6 +19,7 @@ public class Dialogues extends AlertDialog.Builder{
     public void dismiss(){
         alertDialog.dismiss();
     }
+
     public static Dialogues dialogueFactory(Activity a, Context c, int id){
         Dialogues builder = new Dialogues(c);
         builder.myView = a.getLayoutInflater().inflate(id, null);

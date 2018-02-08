@@ -22,177 +22,207 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class ManagerMenu extends Activity {
-    boolean itemCategory;
-    ScrollView side;
-    ScrollView categ;
-    LinearLayout addCateg;
-    LinearLayout price;
-    LinearLayout cat;
-    LinearLayout vat;
-    TextView title;
-    Button delete;
-    EditText etName;
-    EditText etPrice;
-    Spinner etCat;
-    EditText etDescription;
-    EditText etVat;
-    int selectedID=-1;
+    ScrollView scrollItems, scrollCategories;
+    LinearLayout addCateg,addItem;
+    TextView txtItemTitle,txtCatTitle;
+    Button btnItemDelete,btnCatDelete,btnCatSave,btnItemSave;
+    EditText etItemName,etItemDesc,etItemPrice,etCatName,etCatDesc,etCatVat;
+    Spinner spnItemCat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.manager_menu_layout);
-        side = (ScrollView) findViewById(R.id.scrollSide);
-        categ = (ScrollView) findViewById(R.id.scrollCat);
+
+        scrollCategories = (ScrollView) findViewById(R.id.scrollCat);
+
+        scrollItems = (ScrollView) findViewById(R.id.scrollSide);
+        scrollItems.setVisibility(View.GONE);
         addCateg = (LinearLayout) findViewById(R.id.addCat);
         addCateg.setVisibility(View.GONE);
-        price = (LinearLayout) findViewById(R.id.llPrice);
-        cat = (LinearLayout) findViewById(R.id.llCat);
-        vat=(LinearLayout) findViewById(R.id.llVat);
-        title = (TextView) findViewById(R.id.txtManagerMenu);
-        delete = (Button) findViewById(R.id.btnDelete);
-        etDescription = (EditText) findViewById(R.id.etDesc);
-        etName = (EditText) findViewById(R.id.etName);
-        etPrice = (EditText) findViewById(R.id.etPrice);
-        etCat = (Spinner) findViewById(R.id.etCat);
-        etVat=(EditText) findViewById(R.id.etVat);
+        addItem= (LinearLayout) findViewById(R.id.addItem);
+        addItem.setVisibility(View.GONE);
+
+        txtItemTitle = (TextView) findViewById(R.id.txtItemTitle);
+        txtCatTitle = (TextView) findViewById(R.id.txtCatTitle);
+
+        btnItemDelete = (Button) findViewById(R.id.btnItemDelete);
+        btnCatDelete = (Button) findViewById(R.id.btnCatDelete);
+        btnCatSave = (Button) findViewById(R.id.btnCatSave);
+        btnItemSave = (Button) findViewById(R.id.btnItemSave);
+
+        etItemName= (EditText) findViewById(R.id.etItemName);
+        etItemDesc= (EditText) findViewById(R.id.etItemDesc);
+        etItemPrice= (EditText) findViewById(R.id.etItemPrice);
+        spnItemCat= (Spinner) findViewById(R.id.spnItemCat);
+        etCatName= (EditText) findViewById(R.id.etCatName);
+        etCatDesc= (EditText) findViewById(R.id.etCatDesc);
+        etCatVat= (EditText) findViewById(R.id.etCatVat);
+
         showCategories();
 
     }
-    private void fillSpinner(Spinner sp,int id){
+    private void fillSpinner(Spinner sp,Category cat){
         ArrayAdapter<Category> dataAdapter = new ArrayAdapter<Category>(this, android.R.layout.simple_spinner_item, Category.categories);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp.setAdapter(dataAdapter);
-        sp.setSelection(id-1);//TODO will not work if the categories are sorted
+        sp.setSelection(Category.categories.indexOf(cat));
     }
 
     public void orderBackManager(View v){
         finish();
     }
-    public void editCategory(View v,Category category){
-        selectedID=category.getId();
-        itemCategory=true;
-        side.setVisibility(View.VISIBLE);
-        categ.setVisibility(View.GONE);
+
+    public void editCategory(View v,final Category cat){
+        scrollItems.setVisibility(View.VISIBLE);
+        scrollCategories.setVisibility(View.GONE);
         addCateg.setVisibility(View.VISIBLE);
-        delete.setVisibility(View.VISIBLE);
-        title.setText("Edit Category");
-        price.setVisibility(View.GONE);
-        cat.setVisibility(View.GONE);
-        vat.setVisibility(View.VISIBLE);
-        etName.setText(category.getName());
-        etDescription.setText(category.getDescription());
-        etVat.setText(category.getVat()+"");
+        btnCatDelete.setVisibility(View.VISIBLE);
+
+        txtCatTitle.setText("Edit Category");
+        etCatName.setText(cat.getName());
+        etCatDesc.setText(cat.getDescription());
+        etCatVat.setText(cat.getVat()+"");
+
+        btnCatDelete.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                catDeleteClicked(v,cat.getId());
+            }
+        });
+        btnCatSave.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                catSaveClicked(v,cat.getId());
+            }
+        });
 
     }
     public void orderBackToCategManager(View v){
-        side.setVisibility(View.GONE);
-        categ.setVisibility(View.VISIBLE);
+        scrollItems.setVisibility(View.GONE);
+        scrollCategories.setVisibility(View.VISIBLE);
         addCateg.setVisibility(View.GONE);
-        vat.setVisibility(View.GONE);
-        etPrice.setText("");
-        etName.setText("");
-        etDescription.setText("");
+        addItem.setVisibility(View.GONE);
     }
+
     public void addCategory(View v){
-        selectedID=-1;
-        itemCategory=true;
-        title.setText("New Category");
-        etPrice.setText("");
-        etName.setText("");
-        etVat.setText("");
-        etDescription.setText("");
-        addCateg.setVisibility(View.VISIBLE);
-        price.setVisibility(View.GONE);
-        cat.setVisibility(View.GONE);
-        delete.setVisibility(View.GONE);
-        categ.setVisibility(View.GONE);
-        categ.setVisibility(View.VISIBLE);
-        vat.setVisibility(View.VISIBLE);
+        txtCatTitle.setText("New Category");
+        etCatName.setText("");
+        etCatDesc.setText("");
+        etCatVat.setText("");
 
+        addCateg.setVisibility(View.VISIBLE);
+        btnCatDelete.setVisibility(View.GONE);
+
+        btnCatSave.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                catSaveClicked(v,-1);
+            }
+        });
     }
-    public void addItem(View v){
-        int categoryID= selectedID;
-        selectedID=-1;
-        itemCategory=false;
-        title.setText("New Item");
-        addCateg.setVisibility(View.VISIBLE);
-        price.setVisibility(View.VISIBLE);
-        vat.setVisibility(View.GONE);
-        cat.setVisibility(View.VISIBLE);
-        delete.setVisibility(View.GONE);
-        fillSpinner(etCat,categoryID);
-        etPrice.setText("");
-        etName.setText("");
-        etDescription.setText("");
-    }
+    public void addItem(View v,final Category cat){
+        txtItemTitle.setText("New Item");
+        addItem.setVisibility(View.VISIBLE);
 
-    public void editItem(View v,Item item){
-        selectedID=item.getId();
-        itemCategory=false;
-        title.setText("Edit Item");
-        addCateg.setVisibility(View.VISIBLE);
-        price.setVisibility(View.VISIBLE);
-        cat.setVisibility(View.VISIBLE);
-        delete.setVisibility(View.VISIBLE);
-        vat.setVisibility(View.GONE);
-        fillSpinner(etCat,item.getCategoryID());
-        etPrice.setText(item.getPrice()+"");
-        etName.setText(item.getName());
-        etDescription.setText(item.getDescreption());
+        btnItemDelete.setVisibility(View.GONE);
+        fillSpinner(spnItemCat,cat);
+        etItemPrice.setText("");
+        etItemName.setText("");
+        etItemDesc.setText("");
 
-
+        btnItemSave.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                itemSaveClicked(v,-1,cat);
+            }
+        });
     }
 
-    public void saveClicked(View v){
-        String toastStr;
-        if(itemCategory==true){//Category mode
-            String a[] = { selectedID+"",etName.getText().toString(),etVat.getText().toString(), etDescription.getText().toString() };
-            toastStr="Category";
-            JDBC.callProcedure("AddCategory", a);
-            showCategories();
-        }else{ //Item mode
-            String a[] = { selectedID+"",etName.getText().toString(),etPrice.getText().toString(), etDescription.getText().toString(),((Category)etCat.getSelectedItem()).getId()+"" };
-            toastStr="Item";
-            JDBC.callProcedure("AddItem", a);
-            //TODO showItems(cat); find a way to get cat here.
-        }
-        toastStr+=" saved";
+    public void editItem(View v,final Item item,final Category cat){
+        txtItemTitle.setText("Edit Item");
+        addItem.setVisibility(View.VISIBLE);
+        btnItemDelete.setVisibility(View.VISIBLE);
+        fillSpinner(spnItemCat,cat);
 
-        Context context = getApplicationContext();
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(context, toastStr, duration);
+        etItemPrice.setText(item.getPrice()+"");
+        etItemName.setText(item.getName());
+        etItemDesc.setText(item.getDescreption());
+
+        btnItemDelete.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                itemDeleteClicked(v,item.getId(),cat);
+            }
+        });
+        btnItemSave.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                itemSaveClicked(v,item.getId(),cat);
+            }
+        });
+    }
+
+    public void itemSaveClicked(View v,int itemID,Category cat){
+        String a[] = { itemID+"",etItemName.getText().toString(),etItemPrice.getText().toString(), etItemDesc.getText().toString(),((Category)spnItemCat.getSelectedItem()).getId()+"" };
+        JDBC.callProcedure("AddItem", a);
+        showItems(cat);//Will refresh current viewed category only.
+
+        Toast toast = Toast.makeText(getApplicationContext(), "Item saved", Toast.LENGTH_SHORT);
+        toast.show();
+        addItem.setVisibility(View.GONE);
+    }
+
+    public void catSaveClicked(View v,int selectedID){
+        String a[] = { selectedID+"",etCatName.getText().toString(),etCatVat.getText().toString(), etCatDesc.getText().toString() };
+        JDBC.callProcedure("AddCategory", a);
+        showCategories();
+
+        Toast toast = Toast.makeText(getApplicationContext(), "Category saved", Toast.LENGTH_SHORT);
         toast.show();
         addCateg.setVisibility(View.GONE);
     }
 
-
     public void cancelClicked(View v){
         addCateg.setVisibility(View.GONE);
+        addItem.setVisibility(View.GONE);
     }
-    public void deleteClicked(View v){
 
+    public void itemDeleteClicked(View v,final int itemID,final Category cat){
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
-                        String toastStr;
-                        if(itemCategory==true){//Category mode
-                            String a[] = {selectedID+""};
-                            toastStr="Category";
-                            JDBC.callProcedure("RemoveCategory", a);
-                            showCategories();
-                        }else{ //Item mode
-                            String a[] = {selectedID+""};
-                            toastStr="Item";
-                            JDBC.callProcedure("RemoveItem", a);
-                            //TODO showItems(cat); find a way to get cat here.
-                        }
-                        toastStr+=" deleted";
-                        Context context = getApplicationContext();
-                        int duration = Toast.LENGTH_SHORT;
-                        Toast toast = Toast.makeText(context, toastStr, duration);
+                        String a[] = {itemID+""};
+                        JDBC.callProcedure("RemoveItem", a);
+                        showItems(cat); //Will refresh current viewed category only.
+
+                        Toast toast = Toast.makeText(getApplicationContext(), "Item deleted", Toast.LENGTH_SHORT);
+                        toast.show();
+                        addItem.setVisibility(View.GONE);
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        break;
+                }
+            }
+        };
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to delete "+etItemName.getText().toString()+"?").setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
+    }
+    public void catDeleteClicked(View v,final int selectedID){
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        String a[] = {selectedID+""};
+                        JDBC.callProcedure("RemoveCategory", a);
+                        showCategories();
+
+                        Toast toast = Toast.makeText(getApplicationContext(), "Category deleted", Toast.LENGTH_SHORT);
                         toast.show();
                         addCateg.setVisibility(View.GONE);
                         break;
@@ -203,17 +233,14 @@ public class ManagerMenu extends Activity {
             }
         };
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Are you sure you want to delete "+etName.getText().toString()+"?").setPositiveButton("Yes", dialogClickListener)
+        builder.setMessage("Are you sure you want to delete "+etCatName.getText().toString()+"?").setPositiveButton("Yes", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener).show();
-
-
     }
 
 
     public void showCategories(){
-        side.setVisibility(View.GONE);
-        categ.setVisibility(View.VISIBLE);
-
+        scrollItems.setVisibility(View.GONE);
+        scrollCategories.setVisibility(View.VISIBLE);
 
         Category.findCategories();
         final ArrayList<Category> categories=Category.categories;
@@ -297,8 +324,6 @@ public class ManagerMenu extends Activity {
     }
 
     public void showItems(final Category cat){
-        selectedID=cat.getId();
-
         cat.fillCategory();
         final ArrayList<Item> items=cat.getItems();
 
@@ -356,7 +381,7 @@ public class ManagerMenu extends Activity {
                     @Override
                     public void onClick(View v){
 
-                        addItem(v);
+                        addItem(v,cat);
                     }
                 });
                 continue;
@@ -368,7 +393,7 @@ public class ManagerMenu extends Activity {
                 @Override
                 public void onClick(View v){
 
-                    editItem(v,items.get(t));
+                    editItem(v,items.get(t),cat);
                 }
             });
 
@@ -393,8 +418,8 @@ public class ManagerMenu extends Activity {
         }
 
 
-        side.setVisibility(View.VISIBLE);
-        categ.setVisibility(View.GONE);
+        scrollItems.setVisibility(View.VISIBLE);
+        scrollCategories.setVisibility(View.GONE);
         addCateg.setVisibility(View.GONE);
     }
 
