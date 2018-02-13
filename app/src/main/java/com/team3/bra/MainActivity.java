@@ -16,7 +16,14 @@ public class MainActivity extends Activity {
     public void onLoginClick(View v){
         EditText txtUser = (EditText) findViewById(R.id.txtUser);
         String username = txtUser.getText().toString();
+        EditText txtPass = (EditText) findViewById(R.id.txtPass);
+        String password = txtPass.getText().toString();
+        try {
+            password=EncryptionAlgorithm.SHA1(password);
+        }catch(Exception E){
 
+        }
+        System.out.println(password);
         if (username.equals("3")) {
            JDBC.establishConnection();
             Intent intent = new Intent(this, Manager.class);
