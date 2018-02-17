@@ -18,10 +18,27 @@ public class ManagerShowUsers extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.manager_users_show_layout);
+        User.findUsers();
+        ArrayList<User> users = User.getUsers();
 
-        String arr[] = getResources().getStringArray(R.array.users_array);
-        for(int i=0;i<arr.length;i++)
-            listUsers.add(arr[i].split(" ")[0]+" "+arr[i].split(" ")[1]);
+
+        listUsers.add("--New User--");
+
+        for(int i=0;i<users.size();i++){
+
+            String pos = users.get(i).getPosition();
+            if(pos.compareTo("1")==0){
+                pos="Manager";
+            }
+            if(pos.compareTo("2")==0){
+                pos="Waiter";
+            }
+            if(pos.compareTo("3")==0){
+                pos="Chef";
+            }
+            listUsers.add(users.get(i).getUsername()+" "+pos);
+
+        }
 
         adapter=new ArrayAdapter<String>(this,
                 R.layout.custom_listview_layout,
@@ -39,7 +56,11 @@ public class ManagerShowUsers extends Activity {
                 Intent intent = new Intent(ManagerShowUsers.this, ManagerEditUser.class);
                 Bundle b = new Bundle();
                 b.putInt("key", (int)id);
-                b.putString("info", arr[(int)id]);
+                int i = (int)id;
+                if(i>0){
+                    i--;
+                }
+                b.putString("info", User.getUserById((int)i));
                 intent.putExtras(b);
                 startActivity(intent);
             }

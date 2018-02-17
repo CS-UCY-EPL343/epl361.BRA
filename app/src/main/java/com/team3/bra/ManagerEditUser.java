@@ -12,11 +12,14 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ManagerEditUser extends Activity {
 
+    int idInArray=-1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,23 +48,26 @@ public class ManagerEditUser extends Activity {
         spinner.setAdapter(dataAdapter);
 
         if(b != null && b.getInt("key")!=0){
+            idInArray = b.getInt("key")-1;
             String temp = b.getString("info");
             String username=temp.split(" ")[0];
             String category=temp.split(" ")[1];
             String name=temp.split(" ")[2];
             String surname=temp.split(" ")[3];
             String password=temp.split(" ")[4];
+            password = "";
             ((EditText)findViewById(R.id.txt_editName)).setText(name);
             ((EditText)findViewById(R.id.txt_editSurname)).setText(surname);
             ((EditText)findViewById(R.id.txt_editUsername)).setText(username);
             ((EditText)findViewById(R.id.txt_editPassword)).setText(password);
-            if(category.equals("Waiter")){
+
+            if(category.equals("2")){
                 ((Spinner)findViewById(R.id.spnr_roleList)).setSelection(1);
             }
-            if(category.equals("Chef")){
+            if(category.equals("3")){
                 ((Spinner)findViewById(R.id.spnr_roleList)).setSelection(2);
             }
-            if(category.equals("Manager")){
+            if(category.equals("1")){
                 ((Spinner)findViewById(R.id.spnr_roleList)).setSelection(3);
             }
         }
@@ -78,6 +84,7 @@ public class ManagerEditUser extends Activity {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
+                        User.deleteUser(User.users.get(idInArray).getId());
                         Toast toast= Toast.makeText(getApplicationContext(),"User deleted",Toast.LENGTH_SHORT);
                         toast.show();
                         finish();
@@ -94,6 +101,62 @@ public class ManagerEditUser extends Activity {
                 .setNegativeButton("No", dialogClickListener).show();
     }
     public void saveClicked(View v){
+        int id = idInArray;
+        if(idInArray!=-1){
+            id=User.users.get(idInArray).getId();
+        }
+        System.out.println(idInArray+" "+id);
+        String name = ((EditText)findViewById(R.id.txt_editName)).getText().toString();
+        if(name.equals("")){
+            Toast.makeText(getApplicationContext(), "Please add name", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String lastname = ((EditText)findViewById(R.id.txt_editSurname)).getText().toString();
+        if(lastname.equals("")){
+            Toast.makeText(getApplicationContext(), "Please add surname", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String username =((EditText)findViewById(R.id.txt_editUsername)).getText().toString();
+        if(username.equals("")){
+            Toast.makeText(getApplicationContext(), "Please add username", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String password =((EditText)findViewById(R.id.txt_editPassword)).getText().toString();
+        if(password.equals("") && id==-1){
+            Toast toast = Toast.makeText(getApplicationContext(), "Please add password", Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
+        else if(password.equals("") && idInArray!=-1){
+            password=User.users.get(idInArray).getPassword();
+        }
+        else{
+            try {
+                password = EncryptionAlgorithm.SHA1(password);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        String position="";
+        int temp=((Spinner)findViewById(R.id.spnr_roleList)).getSelectedItemPosition();
+        if(temp==1){
+            position="2";
+        }
+        else if(temp==2){
+            position="3";
+        }
+        else if(temp==3){
+            position="1";
+        }
+        else {
+            Toast toast = Toast.makeText(getApplicationContext(), "Please select role", Toast.LENGTH_SHORT);
+            toast.show();
+            return;
+        }
+
+        User.saveUser(id,lastname,username,password,name,position);
+
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(context, "User saved", duration);
