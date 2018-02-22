@@ -12,16 +12,20 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Vector;
 
 public class Waiter extends Activity {
-    ArrayAdapter<String> adapter;
-    ArrayList<String> listOrders =new ArrayList<String>();
-    Button btnNot;
-    boolean checkNotification;
-    Dialogues dialogue;
-    static String table="";
-    static int tableid=0;
+    private ArrayAdapter<Order> adapter;
+    private ArrayList<Order> listOrders =new ArrayList<Order>();
+    private Button btnNot;
+    private boolean checkNotification;
+    private Dialogues dialogue;
+    private Order selectedOrder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +34,7 @@ public class Waiter extends Activity {
 
         checkNotification=false;
 
-        adapter=new ArrayAdapter<String>(this,
+        adapter=new ArrayAdapter<Order>(this,
                 R.layout.custom_listview_layout,
                 listOrders);
 
@@ -43,14 +47,15 @@ public class Waiter extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
                 if(checkNotification!=true) {
-                    table="Table: Add Correct Num";
-                    tableid=0;
                     if (position == 0) {
                         showNewTableDialogue();
                     } else {
+                        selectedOrder=listOrders.get(position);
+                        selectedOrder.fillOrder();
                         showOrderDialogue();
                     }
                 }else{
+                    selectedOrder=listOrders.get(position);
                     showNotificationDialogue();
                 }
             }
@@ -74,14 +79,15 @@ public class Waiter extends Activity {
         Spinner s=((Spinner)  dialogue.getView().findViewById(R.id.quantity));
         int table= (int) Integer.parseInt((String) s.getSelectedItem());
         dialogue.dismiss();
-        Bundle b=new Bundle();
-        b.putInt("new",1);
-        b.putString("Table","Table "+table);
-        Intent intent = new Intent(Waiter.this, OrderView.class);
-        intent.putExtras(b);
-        startActivity(intent);
-        adapter.add("Table "+table);
-        adapter.notifyDataSetChanged();
+
+
+        Order o=new Order(table);
+        String a[] = {o.getDateTime(),o.getState()+"",o.getTable()+"",o.getUserID()+"" };
+        Vector<Vector<Object>> vec= JDBC.callProcedure("AddOrder", a);
+        o.setId(Integer.parseInt(vec.get(0).get(0).toString()));
+        selectedOrder=o;
+
+        editOrder(v);
     }
     public void cancelItem(View v){dialogue.dismiss();}
 
@@ -89,11 +95,9 @@ public class Waiter extends Activity {
         listOrders.clear();
         btnNot.setTextColor(Color.BLACK);
         btnNot.setBackgroundColor(Color.TRANSPARENT);
-        listOrders.add("<New OrderView>");
-        for(int i=0;i<19;i++){
-            if(Math.random()>0.5)
-                listOrders.add("Table "+i);
-        }
+        Order.findOrders(true);
+        listOrders.add(new Order(-1));
+        listOrders.addAll(Order.orders);
         adapter.notifyDataSetChanged();
     }
 
@@ -101,10 +105,8 @@ public class Waiter extends Activity {
         listOrders.clear();
         btnNot.setTextColor(Color.RED);
         btnNot.setBackgroundColor(Color.LTGRAY);
-        for(int i=0;i<19;i++){
-            if(Math.random()>0.8)
-                listOrders.add("OrderView Ready: Table "+i);
-        }
+        Order.findOrders(false);
+        listOrders.addAll(Order.notificationOrders);
         adapter.notifyDataSetChanged();
     }
 
@@ -115,30 +117,31 @@ public class Waiter extends Activity {
         else
             getOrders();
     }
+
     public void cancelOrderClick(View v){
         dialogue.dismiss();
     }
     public void calcResta(View v){
         dialogue.dismiss();
     }
+
     public void editOrder(View v){
-
-
         Bundle b=new Bundle();
-        b.putInt("edit",1);
-        b.putString("Table",table);
-        b.putInt("tableid",tableid);
+        b.putSerializable("Order",selectedOrder);
         Intent intent = new Intent(Waiter.this, OrderView.class);
         intent.putExtras(b);
         startActivity(intent);
         dialogue.dismiss();
+        getOrders();
     }
+
     public void printReceipt(View v){
         Toast toast= Toast.makeText(getApplicationContext(),"Printing Receipt",Toast.LENGTH_SHORT);
         toast.show();
         dialogue.dismiss();
     }
     public void acceptNot(View v){
+        selectedOrder.setState(2);
         Toast toast= Toast.makeText(getApplicationContext(),"OrderView Accepted",Toast.LENGTH_SHORT);
         toast.show();
         dialogue.dismiss();

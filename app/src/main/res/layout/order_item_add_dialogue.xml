@@ -62,12 +62,11 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button14"
+            android:id="@+id/btnAddItem"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="addItem"
             android:text="Add Item" />
 
         <Button

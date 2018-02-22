@@ -22,54 +22,66 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 public class OrderView extends Activity {
-    ScrollView side;
-    ScrollView categ;
-    Dialogues dialogue;
-    int tableId=0;
-    public void backClicked(View v){
-        finish();
-    }
+    private ScrollView side;
+    private ScrollView categ;
+    private Dialogues dialogue;
+    private Order currentOrder;
+    private ItemOrder itemOrder;
     private static Context con;
+    private ArrayList<ItemOrder> addItemOrders =new ArrayList<ItemOrder>();
+    private ArrayList<ItemOrder> removeItemOrders =new ArrayList<ItemOrder>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_layout);
         side = (ScrollView) findViewById(R.id.scrollSide);
         categ = (ScrollView) findViewById(R.id.scrollCat);
+
         Bundle b = getIntent().getExtras();
-        if(b != null && b.getInt("new")==1){
-            tableId = b.getInt("tableid",0);
-            String s=b.getString("Table");
-            TextView txtOrderNum=(TextView) findViewById(R.id.txtOrderNum);
-            txtOrderNum.setText(s);
-            LinearLayout llContents=(LinearLayout)findViewById(R.id.llContents);
-        }
-        else if(b != null && b.getInt("edit")==1){
-            tableId = b.getInt("tableid",0);
-            String s=b.getString("Table");
-            TextView txtOrderNum=(TextView) findViewById(R.id.txtOrderNum);
-            txtOrderNum.setText(s);
-            LinearLayout llContents=(LinearLayout)findViewById(R.id.llContents);
-        }
+        currentOrder =(Order)b.getSerializable("Order");
+
+        TextView txtOrderNum=(TextView) findViewById(R.id.txtOrderNum);
+        txtOrderNum.setText(currentOrder.toString());
+        LinearLayout llContents=(LinearLayout)findViewById(R.id.llContents);
+
         con=getApplicationContext();
         insertCategories();
         showItems();
 
     }
+
+    public void backClicked(View v){
+        finish();
+    }
     public void orderCancel(View v){
         finish();
     }
+
     public void orderSave(View v){
-        //TODO
+        ItemOrder io;
+        while(addItemOrders.isEmpty()!=true){
+            io=addItemOrders.remove(0);
+            String a[] = {io.getItemOrderID()+"",currentOrder.getId()+"",io.getItemID()+"",io.getQuantity()+"",io.isDone()+"",io.getNotes() };
+            Vector<Vector<Object>> vec= JDBC.callProcedure("AddItem_Order", a);
+        }
+        while(removeItemOrders.isEmpty()!=true){
+            io=removeItemOrders.remove(0);
+            String a[] = {io.getItemOrderID()+""};
+            Vector<Vector<Object>> vec= JDBC.callProcedure("RemoveItem_Order", a);
+        }
         finish();
     }
+
     public void orderDelete(View v){
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
-                        Toast toast= Toast.makeText(getApplicationContext(),"OrderView deleted",Toast.LENGTH_SHORT);
+                        String a[] = {currentOrder.getId()+""};
+                        JDBC.callProcedure("RemoveOrder", a);
+                        Toast toast= Toast.makeText(getApplicationContext(),"Order deleted",Toast.LENGTH_SHORT);
                         toast.show();
                         finish();
                         break;
@@ -131,7 +143,7 @@ public class OrderView extends Activity {
             b.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
-                    showItemDialogue(v,t);
+                    showItemDialogue(v,items.get(t));
                 }
             });
 
@@ -155,9 +167,6 @@ public class OrderView extends Activity {
             count++;
         }
 
-
-
-
         side.setVisibility(View.VISIBLE);
         categ.setVisibility(View.GONE);
     }
@@ -166,30 +175,53 @@ public class OrderView extends Activity {
         side.setVisibility(View.GONE);
         categ.setVisibility(View.VISIBLE);
     }
-    public void showItemDialogue(View view, int id) {
+
+    public void showItemDialogue(View view, final Item item) {
         dialogue=Dialogues.dialogueFactory(this,OrderView.this,R.layout.order_item_add_dialogue);
-        TextView t= (TextView) dialogue.getView().findViewById(R.id.txtItem);
-        t.setText(((Button) view).getText());
+        Button b= (Button) dialogue.getView().findViewById(R.id.btnAddItem);
+        b.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                addItem(v,item);
+            }
+        });
     }
-    public void addItem(View v){
+    public void addItem(View v,Item item){
         View dialogueView=dialogue.getView();
         EditText e= (EditText)dialogueView.findViewById(R.id.txtComments);
         EditText qt=((EditText)  dialogueView.findViewById(R.id.txtQuantity));
-        TextView t= (TextView) dialogue.getView().findViewById(R.id.txtItem);
+        TextView t= (TextView) dialogueView.findViewById(R.id.txtItem);
         int quantity= (int) Integer.parseInt((String) (qt.getText().toString()));
         String comments= e.getText().toString();
+
+        ItemOrder io=new ItemOrder(item,quantity,comments);
+        addItemOrders.add(io);
+        currentOrder.getItems().add(io);
+        showItems();
+
         Toast toast= Toast.makeText(getApplicationContext(),quantity+" "+t.getText().toString()+" "+comments,Toast.LENGTH_SHORT);
         toast.show();
         dialogue.dismiss();
     }
 
-    public void editItem(View v){
+    public void editItem(View v,ItemOrder io){
         View myView=dialogue.getView();
         EditText e= (EditText)myView.findViewById(R.id.txtComments);
+        TextView qt= (TextView) myView.findViewById(R.id.txtQuantity);
         TextView t= (TextView) myView.findViewById(R.id.txtItem);
-        TextView tquantity= (TextView) myView.findViewById(R.id.txtQuantity);
-        int quantity= (int) Integer.parseInt(tquantity.getText().toString());
+        int quantity= (int) Integer.parseInt(qt.getText().toString());
         String comments= e.getText().toString();
+
+        int id=io.getItemID();
+        addItemOrders.remove(io);
+        currentOrder.getItems().remove(io);
+        io.setQuantity(quantity);
+        io.setNotes(comments);
+        addItemOrders.add(io);
+        currentOrder.getItems().add(io);
+
+        showItems();
+
         Toast toast= Toast.makeText(getApplicationContext(),quantity+" "+t.getText().toString()+" "+comments,Toast.LENGTH_SHORT);
         toast.show();
         dialogue.dismiss();
@@ -198,21 +230,40 @@ public class OrderView extends Activity {
     public void cancelItem(View v){dialogue.dismiss();}
 
 
-    public void itemClicked(ItemOrder item){
+    public void itemClicked(final ItemOrder io){
         dialogue=Dialogues.dialogueFactory(this,OrderView.this,R.layout.order_item_edit_dialogue);
         View myView=dialogue.getView();
-        ((TextView)myView.findViewById(R.id.txtItem)).setText(item.getName());
-        ((TextView)myView.findViewById(R.id.txtDescr)).setText(item.getDescription());
-        ((EditText)myView.findViewById(R.id.txtQuantity)).setText(item.getQuantity()+"");
-        ((EditText)myView.findViewById(R.id.txtComments)).setText(item.getNotes());
+        Button b= (Button) dialogue.getView().findViewById(R.id.btnEditItem);
+        b.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                editItem(v,io);
+            }
+        });
+        Button b2= (Button) dialogue.getView().findViewById(R.id.btnDeleteItem);
+        b2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                deleteItem(v,io);
+            }
+        });
+        ((TextView)myView.findViewById(R.id.txtItem)).setText(io.getName());
+        ((TextView)myView.findViewById(R.id.txtDescr)).setText(io.getDescription());
+        ((EditText)myView.findViewById(R.id.txtQuantity)).setText(io.getQuantity()+"");
+        ((EditText)myView.findViewById(R.id.txtComments)).setText(io.getNotes());
     }
 
-    public void deleteItem(View v){
+    public void deleteItem(View v,final ItemOrder io){
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
+                        if(addItemOrders.remove(io)!=true)
+                                    removeItemOrders.add(io);
+                        currentOrder.getItems().remove(io);
+                        showItems();
+
                         Toast toast= Toast.makeText(getApplicationContext(),"Item deleted.",Toast.LENGTH_SHORT);
                         toast.show();
                         dialogue.dismiss();
@@ -281,19 +332,7 @@ public class OrderView extends Activity {
 
     }
     public void showItems(){
-        Vector<Object> v = new Vector<Object>();
-        v.add(1);
-        v.add("Name");
-        v.add("Description");
-        v.add(10);
-        v.add(false);
-        v.add("Notes");
-        ArrayList<ItemOrder> itemOrders = new ArrayList<>();
-        itemOrders.add(new ItemOrder(v));
-        itemOrders.add(new ItemOrder(v));
-        itemOrders.add(new ItemOrder(v));
-        itemOrders.add(new ItemOrder(v));
-        itemOrders.add(new ItemOrder(v));
+        ArrayList<ItemOrder> itemOrders = currentOrder.getItems();
         LinearLayout ll = (LinearLayout)findViewById(R.id.llContents);
         ll.removeAllViews();
 

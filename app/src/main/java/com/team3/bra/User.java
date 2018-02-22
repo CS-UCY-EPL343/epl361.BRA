@@ -12,6 +12,7 @@ import java.util.Vector;
 
 public class User implements Comparable<User> {
     protected static ArrayList<User> users= new ArrayList<>();
+    protected static User currentUser=new User();//TODO take it from main class.
 
     private int id;
     private String username;
@@ -19,6 +20,12 @@ public class User implements Comparable<User> {
     private String surname;
     private String password;
     private String position;
+
+    private User(){//TODO remove this
+    this.id=3;
+    this.username="test";
+    this.position="manager";
+    }
 
     public User(Vector<Object> vec) {
         this.id = (int) vec.get(0);
