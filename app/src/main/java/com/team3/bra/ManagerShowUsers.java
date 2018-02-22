@@ -18,6 +18,11 @@ public class ManagerShowUsers extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.manager_users_show_layout);
+       loadUsers();
+    }
+
+    public void loadUsers(){
+        listUsers.clear();
         User.findUsers();
         ArrayList<User> users = User.getUsers();
 
@@ -65,6 +70,12 @@ public class ManagerShowUsers extends Activity {
                 startActivity(intent);
             }
         });
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        loadUsers();
+
     }
 
     public void backClicked(View v){
