@@ -13,6 +13,7 @@ import java.util.Vector;
 public class Order implements Serializable {
     protected static ArrayList<Order> orders=new ArrayList<Order>();
     protected static ArrayList<Order> notificationOrders=new ArrayList<Order>();
+    protected static ArrayList<Order> cookOrders=new ArrayList<Order>();
 
     private int id;
     private String dateTime;
@@ -65,18 +66,32 @@ public class Order implements Serializable {
         return items;
     }
 
-    public static void findOrders(Boolean pending){
+    public static void findActiveOrders(){
             orders = new ArrayList<Order>();
-            notificationOrders=new ArrayList<Order>();
-            String a[] = {"0"};
-            Vector<Vector<Object>> vec = JDBC.callProcedure("FindOrder", a);
+            String a[] = {};
+            Vector<Vector<Object>> vec = JDBC.callProcedure("activeOrders", a);
             for (int i = 0; i < vec.size(); i++) {
                 Order o = new Order(vec.get(i));
-                if(o.state==1 && pending!=true)
-                    notificationOrders.add(o);
-                else if(o.state!=1 && pending==true)
-                    orders.add(o);
+                orders.add(o);
             }
+    }
+    public static void findNotificationOrders(){
+        notificationOrders=new ArrayList<Order>();
+        String a[] = {};
+        Vector<Vector<Object>> vec = JDBC.callProcedure("notifications", a);
+        for (int i = 0; i < vec.size(); i++) {
+            Order o = new Order(vec.get(i));
+            notificationOrders.add(o);
+        }
+    }
+    public static void findCookOrders(){
+        cookOrders=new ArrayList<Order>();
+        String a[] = {};
+        Vector<Vector<Object>> vec = JDBC.callProcedure("cookView", a);
+        for (int i = 0; i < vec.size(); i++) {
+            Order o = new Order(vec.get(i));
+            cookOrders.add(o);
+        }
     }
 
     public void fillOrder(){

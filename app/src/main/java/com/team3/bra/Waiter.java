@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -12,10 +13,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Vector;
 
 public class Waiter extends Activity {
@@ -61,6 +59,14 @@ public class Waiter extends Activity {
             }
         });
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        getOrders();
+    }
+
+
     public void backClicked(View v){
         finish();
     }
@@ -68,6 +74,18 @@ public class Waiter extends Activity {
 
     public void showNewTableDialogue() {
         dialogue=Dialogues.dialogueFactory(this,Waiter.this,R.layout.waiter_table_dialogue);
+        Spinner sp=((Spinner)  dialogue.getView().findViewById(R.id.quantity));
+        ArrayList<Integer> tables=new ArrayList<Integer>();
+        String a[] = {};
+        Vector<Vector<Object>> occupied=JDBC.callProcedure("ACTIVETABLES", a);
+        for(int i=1;i<=50;i++)
+            tables.add(i);
+        for(Vector<Object> ob : occupied)
+            tables.remove((Integer)ob.get(0));
+
+        ArrayAdapter<Integer> dataAdapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, tables );
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp.setAdapter(dataAdapter);
     }
     public void showOrderDialogue() {
         dialogue=Dialogues.dialogueFactory(this,Waiter.this,R.layout.waiter_order_dialogue);
@@ -77,7 +95,7 @@ public class Waiter extends Activity {
     }
     public void addTable(View v){
         Spinner s=((Spinner)  dialogue.getView().findViewById(R.id.quantity));
-        int table= (int) Integer.parseInt((String) s.getSelectedItem());
+        int table= (int) s.getSelectedItem();
         dialogue.dismiss();
 
 
@@ -95,7 +113,7 @@ public class Waiter extends Activity {
         listOrders.clear();
         btnNot.setTextColor(Color.BLACK);
         btnNot.setBackgroundColor(Color.TRANSPARENT);
-        Order.findOrders(true);
+        Order.findActiveOrders();
         listOrders.add(new Order(-1));
         listOrders.addAll(Order.orders);
         adapter.notifyDataSetChanged();
@@ -105,7 +123,7 @@ public class Waiter extends Activity {
         listOrders.clear();
         btnNot.setTextColor(Color.RED);
         btnNot.setBackgroundColor(Color.LTGRAY);
-        Order.findOrders(false);
+        Order.findNotificationOrders();
         listOrders.addAll(Order.notificationOrders);
         adapter.notifyDataSetChanged();
     }
@@ -141,9 +159,10 @@ public class Waiter extends Activity {
         dialogue.dismiss();
     }
     public void acceptNot(View v){
-        selectedOrder.setState(2);
+        selectedOrder.setState(3);
         Toast toast= Toast.makeText(getApplicationContext(),"OrderView Accepted",Toast.LENGTH_SHORT);
         toast.show();
+        getNotifications();
         dialogue.dismiss();
     }
 }
