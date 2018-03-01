@@ -21,6 +21,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class Cook extends AppCompatActivity {
     Dialogues dialogue;
@@ -41,14 +42,19 @@ public class Cook extends AppCompatActivity {
     }
     View temp;
     View temp2;
-    public void markOrderDialogue(View v,View v2) {
+    Order temp3;
+    public void markOrderDialogue(View v,View v2,Order v3) {
         temp=v;
         temp2=v2;
+        temp3=v3;
         dialogue=Dialogues.dialogueFactory(this,Cook.this,R.layout.cook_mark_order_dialogue);
+
     }
-    public void sendOrderDialogue(View v,View v2) {
+
+    public void sendOrderDialogue(View v,View v2,Order v3) {
         temp=v;
         temp2=v2;
+        temp3=v3;
         dialogue=Dialogues.dialogueFactory(this,Cook.this,R.layout.cook_send_order_dialogue);
     }
 
@@ -60,6 +66,7 @@ public class Cook extends AppCompatActivity {
         temp.setBackgroundColor(Color.parseColor("#90dd00"));
         temp2.setBackgroundColor(Color.parseColor("#90dd00"));
         temp.setTag("clicked");
+        temp3.setState(1);
 
     }
     public void sendOrder(View v){
@@ -68,6 +75,7 @@ public class Cook extends AppCompatActivity {
         dialogue.dismiss();
         ((LinearLayout)temp.getParent()).removeView(temp);
         ((LinearLayout)temp2.getParent()).removeView(temp2);
+        temp3.setState(2);
 
     }
     public void cancelCook(View v){
@@ -75,24 +83,15 @@ public class Cook extends AppCompatActivity {
     }
 
     public void loadOrders(){
+        Order.findCookOrders();
+        final ArrayList<Order> orders = new ArrayList<>();
+        for (int i=0; i<Order.cookOrders.size();i++){
 
-        ArrayList<String> orders = new ArrayList<>();
-        orders.add("orders1\norders1\norders1\norders1\norders1\n");
-        orders.add("orders2");
-        orders.add("orders3");
-        orders.add("orders4");
-        orders.add("orders5");
-        orders.add("orders6");
-        orders.add("orders7");
+            orders.add(Order.cookOrders.get(i));
+            orders.get(i).fillOrder();
+        }
 
-        ArrayList<String> tables = new ArrayList<>();
-        tables.add("tables1");
-        tables.add("tables2");
-        tables.add("tables3");
-        tables.add("tables4");
-        tables.add("tables5");
-        tables.add("tables6");
-        tables.add("tables7");
+
 
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -111,10 +110,26 @@ public class Cook extends AppCompatActivity {
         while(orders.size()>i){
 
             final TextView tv=new TextView(this);
-            tv.setText(tables.get(i));
+            tv.setText("Table "+orders.get(i).getTable());
             final TextView tvorder=new TextView(this);
-            tvorder.setText(orders.get(i));
+            String inport="";
+            for (int m=0; m<orders.get(i).getItems().size();m++) {
+               inport= inport+orders.get(i).getItems().get(m).getQuantity()+ orders.get(i).getItems().get(m).getName()+orders.get(i).getItems().get(m).getNotes()+"\n";
+            }
+            tvorder.setText(inport);
+
+            if (orders.get(i).getState()==1){
+                tvorder.setBackgroundColor(Color.parseColor("#90dd00"));
+                tv.setBackgroundColor(Color.parseColor("#90dd00"));
+                tvorder.setTag("clicked");
+            }
+            else{
+                tv.setBackgroundColor(Color.parseColor("#faff31"));
+                tvorder.setBackgroundColor(Color.parseColor("#faff31"));
+            }
+
             tvorder.setVisibility(View.GONE);
+            final Order orderChangeState = orders.get(i);
             /*
             ShapeDrawable sd = new ShapeDrawable();
 
@@ -134,8 +149,7 @@ public class Cook extends AppCompatActivity {
             tv.setBackground(sd);
             tvorder.setBackground(sd);
             */
-            tv.setBackgroundColor(Color.parseColor("#faff31"));
-            tvorder.setBackgroundColor(Color.parseColor("#faff31"));
+
 
             tv.setOnClickListener(new View.OnClickListener(){
                 @Override
@@ -153,9 +167,9 @@ public class Cook extends AppCompatActivity {
                 @Override
                 public void onClick(View v){
                     if(v.getTag()!="clicked")
-                        markOrderDialogue(v,tv);
+                        markOrderDialogue(v,tv,orderChangeState);
                     else{
-                        sendOrderDialogue(v,tv);
+                        sendOrderDialogue(v,tv,orderChangeState);
                     }
                     flag=true;
                 }
