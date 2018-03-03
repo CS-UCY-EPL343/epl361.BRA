@@ -3,6 +3,7 @@ package com.team3.bra;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Vector;
 
 /**
@@ -15,7 +16,16 @@ public class Item implements Comparable<Item> {
     private float price;
     private String descreption;
     private int categoryID;
+    public static ArrayList<Item> items;
 
+    public static void fillAllItems(){
+        items = new ArrayList<Item>();
+        String a[] = {"0", "0"};
+        Vector<Vector<Object>> vec = JDBC.callProcedure("FindItem", a);
+        for (int i = 0; i < vec.size(); i++) {
+            items.add(new Item(vec.get(i)));
+        }
+    }
     public Item(Vector<Object> vec) {
         this.id = (int) vec.get(0);
         this.name = (String) vec.get(1);

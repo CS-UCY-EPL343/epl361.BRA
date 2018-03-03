@@ -1,6 +1,7 @@
 package com.team3.bra;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -16,6 +17,8 @@ public class ItemOrder implements Serializable{
     private boolean done;
     private String notes;
     private int itemOrderID;
+    private BigDecimal currentPrice;
+    private float vat;
 
     public ItemOrder(Item item,int quantity,String notes) {
         this.itemOrderID=-1;
@@ -34,6 +37,19 @@ public class ItemOrder implements Serializable{
         this.done = (boolean) vec.get(4);
         this.notes = (String) vec.get(5).toString();
         this.itemOrderID=(int) vec.get(6);
+        this.currentPrice = (BigDecimal) vec.get(7);
+    }
+
+    public ItemOrder(Vector<Object> vec,boolean alter) {
+        this.itemID = (int) vec.get(0);
+        this.name=(String) vec.get(1).toString();
+        this.description=(String) vec.get(2).toString();
+        this.quantity = (int) vec.get(3);
+        this.done = (boolean) vec.get(4);
+        this.notes = (String) vec.get(5).toString();
+        this.itemOrderID=(int) vec.get(6);
+        this.currentPrice = (BigDecimal) vec.get(7);
+        this.vat = Float.parseFloat(vec.get(8).toString());
     }
 
 

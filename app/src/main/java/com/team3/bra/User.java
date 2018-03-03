@@ -83,14 +83,12 @@ public class User implements Comparable<User> {
 
     public static void saveUser(int id,String lastname,String username, String password,String name,String position){
         String a[] = {id+"",lastname,username,password,name,position};
-        System.out.println(id+" "+lastname+" "+username+" "+password+" "+name+" "+position+" "+password.length());
         Vector<Vector<Object>> vec = JDBC.callProcedure("ADDUSER", a);
 
     }
 
     public static void deleteUser(int userId){
         String a[] = {userId+""};
-        System.out.println(userId);
         Vector<Vector<Object>> vec = JDBC.callProcedure("REMOVEUSER", a);
     }
     @Override

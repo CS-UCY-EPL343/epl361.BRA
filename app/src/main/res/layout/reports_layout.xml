@@ -86,7 +86,7 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/fromTime"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0.3"
@@ -96,7 +96,7 @@
             android:textAlignment="center" />
 
         <EditText
-            android:id="@+id/editText6"
+            android:id="@+id/toTime"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="0.3"
@@ -119,7 +119,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Show Orders" />
+            android:onClick="ordersReport"
+            android:text="Show Orders Report" />
     </LinearLayout>
 
     <LinearLayout
@@ -134,7 +135,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Show Reports" />
+            android:onClick="taxReport"
+            android:text="Show Tax Reports" />
     </LinearLayout>
 
 </LinearLayout>
