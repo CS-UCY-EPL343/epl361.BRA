@@ -3,6 +3,7 @@ package com.team3.bra;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.os.Build;
@@ -62,9 +63,17 @@ public class Cook extends AppCompatActivity {
     public void markOrder(View v){
         Toast toast= Toast.makeText(getApplicationContext(),"OrderView marked.",Toast.LENGTH_SHORT);
         toast.show();
+
+        GradientDrawable gd = new GradientDrawable();
+        gd.setColor(0xFF90dd00);
+        gd.setCornerRadius(5);
+        gd.setStroke(10, 0xFF000000);
+
         dialogue.dismiss();
         temp.setBackgroundColor(Color.parseColor("#90dd00"));
+        temp.setBackground(gd);
         temp2.setBackgroundColor(Color.parseColor("#90dd00"));
+        temp2.setBackground(gd);
         temp.setTag("clicked");
         temp3.setState(1);
 
@@ -111,6 +120,7 @@ public class Cook extends AppCompatActivity {
 
             final TextView tv=new TextView(this);
             tv.setText("Table "+orders.get(i).getTable());
+            tv.setGravity(Gravity.CENTER);
             final TextView tvorder=new TextView(this);
             String inport="";
             for (int m=0; m<orders.get(i).getItems().size();m++) {
@@ -118,37 +128,41 @@ public class Cook extends AppCompatActivity {
             }
             tvorder.setText(inport);
 
+
+            GradientDrawable gd = new GradientDrawable();
+             // Changes this drawbale to use a single color instead of a gradient
+            gd.setCornerRadius(5);
+            gd.setStroke(10, 0xFF000000);
+
             if (orders.get(i).getState()==1){
+
                 tvorder.setBackgroundColor(Color.parseColor("#90dd00"));
                 tv.setBackgroundColor(Color.parseColor("#90dd00"));
                 tvorder.setTag("clicked");
+                gd.setColor(0xFF90dd00);
+
+                tv.setBackground(gd);
+                tvorder.setBackground(gd);
+
+
             }
             else{
+
                 tv.setBackgroundColor(Color.parseColor("#faff31"));
                 tvorder.setBackgroundColor(Color.parseColor("#faff31"));
+                gd.setColor(0xFFfaff31);
+                tv.setBackground(gd);
+                tvorder.setBackground(gd);
+
+
+
+                // Assign the created border to EditText widget
+
             }
 
             tvorder.setVisibility(View.GONE);
             final Order orderChangeState = orders.get(i);
-            /*
-            ShapeDrawable sd = new ShapeDrawable();
 
-            // Specify the shape of ShapeDrawable
-            sd.setShape(new RectShape());
-
-            // Specify the border color of shape
-            sd.getPaint().setColor(Color.parseColor("#000000"));
-
-            // Set the border width
-            sd.getPaint().setStrokeWidth(5f);
-
-            // Specify the style is a Stroke
-            sd.getPaint().setStyle(Paint.Style.STROKE);
-
-            // Finally, add the drawable background to TextView
-            tv.setBackground(sd);
-            tvorder.setBackground(sd);
-            */
 
 
             tv.setOnClickListener(new View.OnClickListener(){
