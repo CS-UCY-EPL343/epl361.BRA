@@ -14,10 +14,10 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileWriter;
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -37,9 +37,29 @@ public class ReportView extends Activity {
             this.category = category;
         }
 
+
+
         @Override
         public int compareTo(@NonNull reportOrder o) {
             return this.category.compareTo(o.category);
+        }
+    }
+
+    private class reportTax implements Comparable<reportTax>{
+        Double sales;
+        float vat;
+        public reportTax(Double sales,float vat){
+            this.sales=sales;
+            this.vat=vat;
+        }
+
+        public String GetVatString(){
+            return  new DecimalFormat("#.##").format(this.vat);
+        }
+
+        @Override
+        public int compareTo(@NonNull reportTax o) {
+            return this.GetVatString().compareTo(o.GetVatString());
         }
     }
     String fromStr = "";
@@ -99,9 +119,6 @@ public class ReportView extends Activity {
         if (!folder.exists())
             var = folder.mkdir();
 
-        System.out.println("" + var);
-
-
         final String filename = folder.toString() + "/" + "orders-"+fromStr+"-"+toStr+".csv";
 
         // show waiting screen
@@ -121,75 +138,60 @@ public class ReportView extends Activity {
         new Thread() {
             public void run() {
                 try {
-
+                    myCsvCreator csv = new myCsvCreator();
                     FileWriter fw = new FileWriter(filename);
 
-                    fw.append("BROADWAY RESTAURANT,");
-                    fw.append('\n');
+                    csv.addValue("BROADWAY RESTAURANT");
+                    csv.changeLines(1);
 
-                    fw.append("VAT XXXXXX TAX XXXXXX,");
-                    fw.append('\n');
+                    csv.addValue("VAT XXXXXX TAX XXXXXX");
+                    csv.changeLines(1);
 
                     java.util.Date c = Calendar.getInstance().getTime();
 
                     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     String today = df.format(c);
 
-                    fw.append("DATE CREATED: "+today+",");
-                    fw.append('\n');
+                    csv.addValue("DATE CREATED: "+today);
+                    csv.changeLines(1);
 
-                    String period = "PERIOD "+fromStr.split("[:space]")[0] +" - "+toStr.split("[:space]")[0]+",";
-                    period = "PERIOD "+fromStr.substring(0,fromStr.indexOf(' '))+" - "+toStr.substring(0,toStr.indexOf(' '))+",";
-
-                    fw.append(period);
-                    fw.append('\n');
-                    fw.append('\n');
-                    fw.append("REPORT");
-                    fw.append('\n');
-                    fw.append('\n');
-
-
-                    fw.append("CATEGORY");
-                    fw.append(',');
-                    fw.append("ITEM NAME,,");
-                    fw.append(',');
-
-                    fw.append("QTY(SOLD)");
-                    fw.append(',');
-
-                    fw.append("PROFIT");
-                    fw.append(',');
+                    String period = "PERIOD "+fromStr.substring(0,fromStr.indexOf(' '))+" - "+toStr.substring(0,toStr.indexOf(' '));
+                    csv.addValue(period);
+                    csv.changeLines(2);
+                    csv.addValue("REPORT");
+                    csv.changeLines(2);
+                    csv.addValue("CATEGORY");
+                    csv.addValue("ITEM NAME,,");
+                    csv.addValue("QTY(SOLD)");
+                    csv.addValue("PROFIT");
 
 
-                    fw.append('\n');
+                    csv.changeLines(2);
 
-                    fw.append('\n');
 
                     String oldCategory="";
                     for (int i = 0; i < reports.size(); i++) {
                         reportOrder r = reports.get(i);
                         if(oldCategory.compareTo(r.category)!=0){
                             if(oldCategory.compareTo("")!=0)
-                                fw.append("\n");
-                            fw.append(r.category+",\n");
+                                csv.changeLines(1);
+                            csv.addValue(r.category);
+                            csv.changeLines(1);
                             oldCategory=r.category;
 
                         }
-                        fw.append(',');
-                        fw.append(r.name);
-                        fw.append(',');
-                        fw.append(',');
-                        fw.append(',');
+                        csv.addSpace(1);
+                        csv.addValue(r.name);
+                        csv.addSpace(2);
 
-                        fw.append(r.quantity);
-                        fw.append(',');
 
-                        fw.append(r.profit);
-                        fw.append(',');
+                        csv.addValue(r.quantity);
 
-                        fw.append('\n');
+                        csv.addValue(r.profit);
+                        csv.changeLines(1);
 
                     }
+                    fw.append(csv.toString());
                     fw.flush();
                     fw.close();
                 }
@@ -211,9 +213,166 @@ public class ReportView extends Activity {
 
     public void taxReport(View v){
         checkInput();
-        if(getOrdes()){
-
+        if(!getOrdes()) {
+            return;
         }
+
+        Item.fillAllItems();
+        HashMap<Integer, List<ItemOrder>> hashMap = new HashMap<Integer, List<ItemOrder>>();
+        final ArrayList<reportTax> reports = new ArrayList<>();
+
+        for(Vector<Object> vector:result){
+            ItemOrder i = new ItemOrder(vector,true);
+
+            if (!hashMap.containsKey(i.getItemID())) {
+                List<ItemOrder> list = new ArrayList<ItemOrder>();
+                list.add(i);
+
+                hashMap.put(i.getItemID(), list);
+            } else {
+                hashMap.get(i.getItemID()).add(i);
+            }
+        }
+
+        for(Integer i : hashMap.keySet()){
+            int quantity=0;
+            double profit=0;
+            for (ItemOrder o :hashMap.get(i)){
+                quantity+=o.getQuantity();
+                profit+=o.getCurrentPrice();
+            }
+            ItemOrder temp =hashMap.get(i).get(0);
+            reportTax r = new reportTax(profit,temp.getVat());
+            reports.add(r);
+        }
+        Collections.sort(reports);
+
+
+
+        File folder = new File(Environment.getExternalStorageDirectory()
+                + "/reports");
+
+        boolean var = false;
+        if (!folder.exists())
+            var = folder.mkdir();
+
+        final String filename = folder.toString() + "/" + "TAXES-"+fromStr+"-"+toStr+".csv";
+
+        // show waiting screen
+        CharSequence contentTitle = getString(R.string.app_name);
+        final ProgressDialog progDailog = ProgressDialog.show(
+                ReportView.this, contentTitle, "Please wait...",
+                true);//please wait
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+
+                Toast.makeText(getApplicationContext(), "Csv saved", Toast.LENGTH_SHORT).show();
+
+            }
+        };
+
+        new Thread() {
+            public void run() {
+                try {
+                    myCsvCreator csv = new myCsvCreator();
+                    FileWriter fw = new FileWriter(filename);
+
+                    csv.addValue("BROADWAY RESTAURANT");
+                    csv.changeLines(1);
+
+                    csv.addValue("VAT XXXXXX TAX XXXXXX");
+                    csv.changeLines(1);
+
+                    java.util.Date c = Calendar.getInstance().getTime();
+
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String today = df.format(c);
+
+                    csv.addValue("DATE CREATED: "+today);
+                    csv.changeLines(1);
+
+                    String period = "PERIOD "+fromStr.substring(0,fromStr.indexOf(' '))+" - "+toStr.substring(0,toStr.indexOf(' '));
+                    csv.addValue(period);
+                    csv.changeLines(2);
+                    csv.addValue("REPORT");
+                    csv.changeLines(2);
+
+
+                    csv.addValue("SALES & TAXES ANALYSIS BY VAT");
+                    csv.changeLines(2);
+
+                    csv.addValue("VAT(%)");
+                    csv.addValue("GROSS");
+                    csv.addValue("VAT AMOUNT");
+                    csv.addValue("TOTAL");
+                    csv.changeLines(2);
+
+
+                    String oldVat="";
+                    double total=0;
+                    double allTotal=0;
+                    double allTax=0;
+                    double allGross=0;
+
+                    reportTax r=null;
+                    DecimalFormat def = new DecimalFormat("#.##");
+                    for (int i = 0; i < reports.size(); i++) {
+                        r = reports.get(i);
+
+                        if(oldVat.compareTo(r.GetVatString())!=0){
+                            if(oldVat.compareTo("")!=0){
+                                double gross=total/(1.0+(reports.get(i-1).vat/100.0));
+                                double vat=total-gross;
+                                csv.addValue(oldVat);
+                                csv.addValue(def.format(gross));
+                                csv.addValue(def.format(vat));
+                                csv.addValue(def.format(total));
+                                csv.changeLines(1);
+                                allTax+=vat;
+                                allGross+=gross;
+                                allTotal+=total;
+                            }
+                            oldVat=r.GetVatString();
+                            total=0;
+                        }
+                        total+=r.sales;
+                    }
+                    if(oldVat.compareTo("")!=0){
+                        double gross=total/(1.0+(r.vat/100.0));
+                        double vat=total-gross;
+                        csv.addValue(oldVat);
+                        csv.addValue(def.format(gross));
+                        csv.addValue(def.format(vat));
+                        csv.addValue(def.format(total));
+                        csv.changeLines(1);
+                        allTax+=vat;
+                        allGross+=gross;
+                        allTotal+=total;
+                    }
+
+                    csv.changeLines(2);
+                    csv.addValue("TOTAL GROSS");
+                    csv.addValue("TOTAL VAT");
+                    csv.addValue("TOTAL SALES");
+
+                    csv.changeLines(2);
+
+                    csv.addValue(def.format(allGross));
+                    csv.addValue(def.format(allTax));
+                    csv.addValue(def.format(allTotal));
+
+                    fw.append(csv.toString());
+                    fw.flush();
+                    fw.close();
+                }
+                catch (Exception e) {
+                    System.out.println(e.toString());
+                }
+                handler.sendEmptyMessage(0);
+                progDailog.dismiss();
+            }
+        }.start();
     }
 
     public void checkInput(){

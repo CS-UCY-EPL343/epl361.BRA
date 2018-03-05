@@ -120,4 +120,9 @@ public class ItemOrder implements Serializable{
         return category;
     }
 
+    public float getVat() {
+        return vat;
+    }
+
+
 }
