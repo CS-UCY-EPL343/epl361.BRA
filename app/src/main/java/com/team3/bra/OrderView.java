@@ -178,6 +178,8 @@ public class OrderView extends Activity {
 
     public void showItemDialogue(View view, final Item item) {
         dialogue=Dialogues.dialogueFactory(this,OrderView.this,R.layout.order_item_add_dialogue);
+        ((TextView)dialogue.getView().findViewById(R.id.txtItem)).setText(item.getName());
+        ((TextView)dialogue.getView().findViewById(R.id.txtDescr)).setText(item.getDescreption());
         Button b= (Button) dialogue.getView().findViewById(R.id.btnAddItem);
         b.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -247,10 +249,10 @@ public class OrderView extends Activity {
                 deleteItem(v,io);
             }
         });
-        ((TextView)myView.findViewById(R.id.txtItem)).setText(io.getName());
-        ((TextView)myView.findViewById(R.id.txtDescr)).setText(io.getDescription());
-        ((EditText)myView.findViewById(R.id.txtQuantity)).setText(io.getQuantity()+"");
-        ((EditText)myView.findViewById(R.id.txtComments)).setText(io.getNotes());
+        ((TextView)dialogue.getView().findViewById(R.id.txtItem)).setText(io.getName());
+        ((TextView)dialogue.getView().findViewById(R.id.txtDescr)).setText(io.getDescription());
+        ((EditText)dialogue.getView().findViewById(R.id.txtQuantity)).setText(io.getQuantity()+"");
+        ((EditText)dialogue.getView().findViewById(R.id.txtComments)).setText(io.getNotes());
     }
 
     public void deleteItem(View v,final ItemOrder io){

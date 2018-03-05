@@ -32,6 +32,22 @@ public class MainActivity extends Activity {
         String a[] = {username,password};
         Vector<Vector<Object>> vec = JDBC.callProcedure("LOGIN", a);
 
+
+        if (username.equals("1") ||(vec.size()!=0 && vec.get(0).get(2).equals("1"))) {
+            Intent intent = new Intent(this, Manager.class);
+            startActivity(intent);
+            return;
+        }
+        if (username.equals("2") ||(vec.size()!=0 && vec.get(0).get(2).equals("2"))) {
+            Intent intent = new Intent(this, Waiter.class);
+            startActivity(intent);
+            return;
+        }
+        if (username.equals("3") ||(vec.size()!=0 && vec.get(0).get(2).equals("3"))) {
+            Intent intent = new Intent(this, Cook.class);
+            startActivity(intent);
+            return;
+        }
        // User c = new User(vec.get(3));
 
         //System.out.println(password);
@@ -42,21 +58,7 @@ public class MainActivity extends Activity {
             txtPass.setText("");
             return;
         }
-        if (username.equals("1") ||vec.get(0).get(2).equals("1")) {
 
-            Intent intent = new Intent(this, Manager.class);
-            startActivity(intent);
-        }
-        if (username.equals("2") ||vec.get(0).get(2).equals("2")) {
-
-            Intent intent = new Intent(this, Waiter.class);
-            startActivity(intent);
-        }
-        if (username.equals("3") ||vec.get(0).get(2).equals("3")) {
-
-            Intent intent = new Intent(this, Cook.class);
-            startActivity(intent);
-        }
 
     }
     public void exitClicked(View v){
