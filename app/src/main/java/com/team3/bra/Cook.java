@@ -1,28 +1,16 @@
 package com.team3.bra;
 
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RectShape;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class Cook extends AppCompatActivity {
     Dialogues dialogue;
@@ -30,7 +18,18 @@ public class Cook extends AppCompatActivity {
 
 
     public void backClicked(View v){
+
+        dialogue=Dialogues.dialogueFactory(this,Cook.this,R.layout.cook_go_back);
+
+    }
+
+    public void goBack(View v){
+        dialogue.dismiss();
         finish();
+    }
+
+    public void noBack(View v){
+        dialogue.dismiss();
     }
 
     @Override
@@ -100,9 +99,6 @@ public class Cook extends AppCompatActivity {
             orders.get(i).fillOrder();
         }
 
-
-
-
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
         lp.gravity= Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL ;
         int i=0;
@@ -121,18 +117,29 @@ public class Cook extends AppCompatActivity {
             final TextView tv=new TextView(this);
             tv.setText("Table "+orders.get(i).getTable());
             tv.setGravity(Gravity.CENTER);
+            tv.setHeight(50);
+            tv.setTextSize(20);
+
             final TextView tvorder=new TextView(this);
+
             String inport="";
             for (int m=0; m<orders.get(i).getItems().size();m++) {
-               inport= inport+orders.get(i).getItems().get(m).getQuantity()+ orders.get(i).getItems().get(m).getName()+orders.get(i).getItems().get(m).getNotes()+"\n";
-            }
-            tvorder.setText(inport);
+                if (orders.get(i).getItems().get(m).getNotes().isEmpty()) {
+                    inport = inport + '\t' + orders.get(i).getItems().get(m).getQuantity() + " " + orders.get(i).getItems().get(m).getName() + "\n";
+                } else {
+                    inport = inport + '\t' + orders.get(i).getItems().get(m).getQuantity() + " " + orders.get(i).getItems().get(m).getName() + '\n' + '\t' + '\t' + orders.get(i).getItems().get(m).getNotes() + "\n";
 
+                }
+            }
+            tvorder.setText('\n'+inport);
+            tvorder.setTextSize(16);
 
             GradientDrawable gd = new GradientDrawable();
              // Changes this drawbale to use a single color instead of a gradient
-            gd.setCornerRadius(5);
-            gd.setStroke(10, 0xFF000000);
+            gd.setCornerRadius(0);
+            gd.setStroke(5, 0xFFc5c7c4);
+
+
 
             if (orders.get(i).getState()==1){
 
