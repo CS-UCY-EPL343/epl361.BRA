@@ -1,8 +1,6 @@
 package com.team3.bra;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Vector;
 
 /**
@@ -10,6 +8,8 @@ import java.util.Vector;
  */
 
 public class ItemOrder implements Serializable{
+    private static final long serialVersionUID = 2L;
+
     private int itemID;
     private String name;
     private String description;
@@ -41,7 +41,7 @@ public class ItemOrder implements Serializable{
         this.itemOrderID=-1;
         this.itemID = item.getId();
         this.name=item.getName();
-        this.description=item.getDescreption();
+        this.description=item.getDescription();
         this.quantity = quantity;
         this.notes = notes;
     }

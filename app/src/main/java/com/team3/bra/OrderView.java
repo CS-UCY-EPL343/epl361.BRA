@@ -179,7 +179,7 @@ public class OrderView extends Activity {
     public void showItemDialogue(View view, final Item item) {
         dialogue=Dialogues.dialogueFactory(this,OrderView.this,R.layout.order_item_add_dialogue);
         ((TextView)dialogue.getView().findViewById(R.id.txtItem)).setText(item.getName());
-        ((TextView)dialogue.getView().findViewById(R.id.txtDescr)).setText(item.getDescreption());
+        ((TextView)dialogue.getView().findViewById(R.id.txtDescr)).setText(item.getDescription());
         Button b= (Button) dialogue.getView().findViewById(R.id.btnAddItem);
         b.setOnClickListener(new View.OnClickListener(){
             @Override

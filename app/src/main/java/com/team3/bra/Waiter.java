@@ -1,9 +1,13 @@
 package com.team3.bra;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.RingtoneManager;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -13,12 +17,17 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Vector;
 
-public class Waiter extends Activity {
+public class Waiter extends Activity  {
+    private static final long serialVersionUID = 1L;
+
+    public static Waiter myWaiter;
     private ArrayAdapter<Order> adapter;
     private ArrayList<Order> listOrders =new ArrayList<Order>();
+    private ArrayList<Order> notifications =new ArrayList<Order>();
     private Button btnNot;
     private boolean checkNotification;
     private Dialogues dialogue;
@@ -66,11 +75,26 @@ public class Waiter extends Activity {
         getOrders();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Order.clearNotifications();
+        NotificationManager nm=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        nm.cancelAll();
+    }
+
+    public void setSelectedOrder(Order o){
+        this.selectedOrder=o;
+    }
 
     public void backClicked(View v){
         finish();
     }
 
+    public static void cancelNotification(Order o){
+        NotificationManager nm=(NotificationManager)Waiter.myWaiter.getSystemService(NOTIFICATION_SERVICE);
+        nm.cancel(o.getId());
+    }
 
     public void showNewTableDialogue() {
         dialogue=Dialogues.dialogueFactory(this,Waiter.this,R.layout.waiter_table_dialogue);
@@ -115,7 +139,7 @@ public class Waiter extends Activity {
         btnNot.setBackgroundColor(Color.TRANSPARENT);
         Order.findActiveOrders();
         listOrders.add(new Order(-1));
-        listOrders.addAll(Order.orders);
+        listOrders.addAll(Order.getOrders());
         adapter.notifyDataSetChanged();
     }
 
@@ -123,9 +147,47 @@ public class Waiter extends Activity {
         listOrders.clear();
         btnNot.setTextColor(Color.RED);
         btnNot.setBackgroundColor(Color.LTGRAY);
-        Order.findNotificationOrders();
-        listOrders.addAll(Order.notificationOrders);
+        checkNots();
+        listOrders.addAll(Order.getNotificationOrders());
         adapter.notifyDataSetChanged();
+    }
+
+    public void checkNots(){
+        Order.findNotificationOrders(notifications);
+        for (Order o : Order.getNewNotificationOrders())
+            notifyWaiter(o);
+        btnNot.setText("Notifications ("+Order.getNotificationOrders().size()+")");
+    }
+
+    public void notifyWaiter(Order o){
+        notifications.add(o);
+        NotificationCompat.Builder notification=new NotificationCompat.Builder(this);
+        notification.setSmallIcon(R.drawable.broadwayrestarauntlogo);
+        notification.setTicker(o+" is ready.");
+        notification.setWhen(System.currentTimeMillis());
+        notification.setContentTitle(o+" is ready.");
+        notification.setAutoCancel(true);
+        notification.setGroup("BROADWAYAPP");
+        notification.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+
+        Intent intentAccept=new Intent(this,ActionReceiver.class);
+        intentAccept.setAction("Accept");
+        intentAccept.putExtra("order", o);
+        Intent intentIgnore=new Intent(this,ActionReceiver.class);
+        intentIgnore.setAction("Ignore");
+        intentIgnore.putExtra("order",o);
+
+        myWaiter=this;
+
+        PendingIntent piAccept=PendingIntent.getBroadcast(this,o.getId(),intentAccept,PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent piIgnore=PendingIntent.getBroadcast(this,o.getId(),intentIgnore,PendingIntent.FLAG_ONE_SHOT);
+
+        notification.addAction(R.drawable.ic_launcher_foreground,"Accept",piAccept);
+        notification.addAction(R.drawable.ic_launcher_foreground,"Ignore",piIgnore);
+        notification.setContentIntent(piIgnore);
+
+        NotificationManager nm=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        nm.notify(o.getId(),notification.build());
     }
 
     public void notificationsClick(View v){
@@ -163,6 +225,7 @@ public class Waiter extends Activity {
         Toast toast= Toast.makeText(getApplicationContext(),"OrderView Accepted",Toast.LENGTH_SHORT);
         toast.show();
         getNotifications();
-        dialogue.dismiss();
+        if(dialogue!=null)
+            dialogue.dismiss();
     }
 }

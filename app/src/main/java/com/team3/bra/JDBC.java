@@ -15,6 +15,10 @@ public class JDBC {
 
 	private static Connection conn = null;
 
+	public static boolean isConnected(){
+		return (conn!=null);
+	}
+
 	private static ResultSet getResultSetFromProcedure(String procedure, String[] arguments) {
 		try {
 			String erotimatika = "";
@@ -83,7 +87,7 @@ public class JDBC {
 		return resultSetToVector(getResultSetFromProcedure(database+"."+procedure,arguments));
 	}
 	
-	public static void establishConnection() {
+	public static boolean establishConnection() {
 		System.out.println("Connecting database...");
 		try {
 			StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -91,12 +95,15 @@ public class JDBC {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (Exception e) {
 			System.out.println("Class forname error: " +e.getMessage());
+			return false;
 		}
 		try {
 			conn = DriverManager.getConnection(url, username, password);
 			System.out.println("Database connected!");
+			return true;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage()+" "+e.getSQLState()+" "+e.getErrorCode());
+			return false;
 		}
 	}
 

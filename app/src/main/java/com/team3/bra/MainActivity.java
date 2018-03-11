@@ -1,6 +1,7 @@
 package com.team3.bra;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,7 +19,19 @@ public class MainActivity extends Activity {
         JDBC.establishConnection();
 
     }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        NotificationManager nm=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        nm.cancelAll();
+    }
     public void onLoginClick(View v){
+        if(JDBC.isConnected()!=true)
+            if(JDBC.establishConnection()!=true) {
+                Toast toast = Toast.makeText(getApplicationContext(), "No connection to Database.", Toast.LENGTH_SHORT);
+                toast.show();
+                return;
+            }
         EditText txtUser = (EditText) findViewById(R.id.txtUser);
         String username = txtUser.getText().toString();
         EditText txtPass = (EditText) findViewById(R.id.txtPass);

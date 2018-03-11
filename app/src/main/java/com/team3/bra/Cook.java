@@ -93,9 +93,9 @@ public class Cook extends AppCompatActivity {
     public void loadOrders(){
         Order.findCookOrders();
         final ArrayList<Order> orders = new ArrayList<>();
-        for (int i=0; i<Order.cookOrders.size();i++){
+        for (int i=0; i<Order.getCookOrders().size();i++){
 
-            orders.add(Order.cookOrders.get(i));
+            orders.add(Order.getCookOrders().get(i));
             orders.get(i).fillOrder();
         }
 

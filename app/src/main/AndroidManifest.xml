@@ -17,7 +17,6 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -43,8 +42,17 @@
             android:screenOrientation="landscape"
             android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity android:name=".ManagerShowUsers"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustResize|stateHidden"/>
+
+        <receiver
+            android:name=".ActionReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="Accept"/>
+                <action android:name="Ignore"/>
+            </intent-filter>
+        </receiver>
 
     </application>
 

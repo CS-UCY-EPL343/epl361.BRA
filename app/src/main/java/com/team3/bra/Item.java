@@ -3,7 +3,6 @@ package com.team3.bra;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Vector;
 
 /**
@@ -14,7 +13,7 @@ public class Item implements Comparable<Item> {
     private int id;
     private String name;
     private float price;
-    private String descreption;
+    private String description;
     private int categoryID;
     public static ArrayList<Item> items;
 
@@ -30,7 +29,7 @@ public class Item implements Comparable<Item> {
         this.id = (int) vec.get(0);
         this.name = (String) vec.get(1);
         this.price = Float.parseFloat(vec.get(2).toString());
-        this.descreption = (String)vec.get(3);
+        this.description = (String)vec.get(3);
         this.categoryID=(int) vec.get(4);
     }
 
@@ -46,8 +45,8 @@ public class Item implements Comparable<Item> {
         return price;
     }
 
-    public String getDescreption() {
-        return descreption;
+    public String getDescription() {
+        return description;
     }
 
     public int getCategoryID() {

@@ -2,7 +2,6 @@ package com.team3.bra;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -147,7 +146,7 @@ public class ManagerMenu extends Activity {
 
         etItemPrice.setText(item.getPrice()+"");
         etItemName.setText(item.getName());
-        etItemDesc.setText(item.getDescreption());
+        etItemDesc.setText(item.getDescription());
 
         btnItemDelete.setOnClickListener(new View.OnClickListener(){
             @Override
