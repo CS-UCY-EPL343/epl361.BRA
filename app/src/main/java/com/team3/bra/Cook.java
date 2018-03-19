@@ -15,11 +15,12 @@ import java.util.ArrayList;
 public class Cook extends AppCompatActivity {
     Dialogues dialogue;
 
-
+    ArrayList <Integer> visibilityOrder = new ArrayList<>();
+     ArrayList<TextView> tvOrdersList;
 
     public void backClicked(View v){
 
-        dialogue=Dialogues.dialogueFactory(this,Cook.this,R.layout.cook_go_back);
+       dialogue=Dialogues.dialogueFactory(this,Cook.this,R.layout.cook_go_back);
 
     }
 
@@ -38,6 +39,7 @@ public class Cook extends AppCompatActivity {
         setContentView(R.layout.cook_layout);
 
         loadOrders();
+            loadOrders();
 
     }
     View temp;
@@ -65,8 +67,9 @@ public class Cook extends AppCompatActivity {
 
         GradientDrawable gd = new GradientDrawable();
         gd.setColor(0xFF90dd00);
-        gd.setCornerRadius(5);
-        gd.setStroke(10, 0xFF000000);
+        gd.setCornerRadius(0);
+        gd.setStroke(5, 0xFFc5c7c4);
+
 
         dialogue.dismiss();
         temp.setBackgroundColor(Color.parseColor("#90dd00"));
@@ -85,6 +88,11 @@ public class Cook extends AppCompatActivity {
         ((LinearLayout)temp2.getParent()).removeView(temp2);
         temp3.setState(2);
 
+        visibilityOrder.remove(tvOrdersList.indexOf(temp));
+        tvOrdersList.remove(temp);
+
+
+
     }
     public void cancelCook(View v){
         dialogue.dismiss();
@@ -93,6 +101,10 @@ public class Cook extends AppCompatActivity {
     public void loadOrders(){
         Order.findCookOrders();
         final ArrayList<Order> orders = new ArrayList<>();
+
+        tvOrdersList = new ArrayList<>();
+
+
         for (int i=0; i<Order.getCookOrders().size();i++){
 
             orders.add(Order.getCookOrders().get(i));
@@ -133,6 +145,11 @@ public class Cook extends AppCompatActivity {
             }
             tvorder.setText('\n'+inport);
             tvorder.setTextSize(16);
+            tvOrdersList.add(tvorder);
+            if (tvOrdersList.size()> visibilityOrder.size()) {
+                visibilityOrder.add(0);
+            }
+
 
             GradientDrawable gd = new GradientDrawable();
              // Changes this drawbale to use a single color instead of a gradient
@@ -167,7 +184,12 @@ public class Cook extends AppCompatActivity {
 
             }
 
-            tvorder.setVisibility(View.GONE);
+            if (visibilityOrder.get(tvOrdersList.indexOf(tvorder))==1){
+                tvorder.setVisibility(View.VISIBLE);
+            }
+            else {
+                tvorder.setVisibility(View.GONE);
+            }
             final Order orderChangeState = orders.get(i);
 
 
@@ -177,9 +199,13 @@ public class Cook extends AppCompatActivity {
                 public void onClick(View v){
                    if( tvorder.getVisibility()==View.GONE){
                        tvorder.setVisibility(View.VISIBLE);
+                       visibilityOrder.add(tvOrdersList.indexOf(tvorder),1);
+                       visibilityOrder.remove(tvOrdersList.indexOf(tvorder)+1);
                    }
                    else{
                        tvorder.setVisibility(View.GONE);
+                       visibilityOrder.add(tvOrdersList.indexOf(tvorder),0);
+                       visibilityOrder.remove(tvOrdersList.indexOf(tvorder)+1);
                    }
                 }
             });
@@ -187,10 +213,10 @@ public class Cook extends AppCompatActivity {
                 boolean flag=false;
                 @Override
                 public void onClick(View v){
-                    if(v.getTag()!="clicked")
-                        markOrderDialogue(v,tv,orderChangeState);
+                    if(tvorder.getTag()!="clicked")
+                        markOrderDialogue(tvorder,tv,orderChangeState);
                     else{
-                        sendOrderDialogue(v,tv,orderChangeState);
+                        sendOrderDialogue(tvorder,tv,orderChangeState);
                     }
                     flag=true;
                 }
