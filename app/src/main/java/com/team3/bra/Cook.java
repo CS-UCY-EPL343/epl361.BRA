@@ -1,7 +1,9 @@
 package com.team3.bra;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -10,26 +12,35 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Cook extends AppCompatActivity {
+public class Cook extends AppCompatActivity  {
+    static Intent mServiceIntent=null;
+    static Cook cookClass=null;
+    static Cook oldCookClass=null;
+
     Dialogues dialogue;
 
     ArrayList <Integer> visibilityOrder = new ArrayList<>();
      ArrayList<TextView> tvOrdersList;
 
     public void backClicked(View v){
+        oldCookClass=cookClass;
+        cookClass=null;
 
-       dialogue=Dialogues.dialogueFactory(this,Cook.this,R.layout.cook_go_back);
+        dialogue=Dialogues.dialogueFactory(this,Cook.this,R.layout.cook_go_back);
 
     }
 
     public void goBack(View v){
+        cookClass=null;
         dialogue.dismiss();
         finish();
     }
 
     public void noBack(View v){
+        cookClass=oldCookClass;
         dialogue.dismiss();
     }
 
@@ -37,15 +48,21 @@ public class Cook extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cook_layout);
-
         loadOrders();
-            loadOrders();
-
+        cookClass=this;
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        cookClass=null;
+        oldCookClass=null;
     }
     View temp;
     View temp2;
     Order temp3;
     public void markOrderDialogue(View v,View v2,Order v3) {
+        oldCookClass=cookClass;
+        cookClass=null;
         temp=v;
         temp2=v2;
         temp3=v3;
@@ -54,6 +71,8 @@ public class Cook extends AppCompatActivity {
     }
 
     public void sendOrderDialogue(View v,View v2,Order v3) {
+        oldCookClass=cookClass;
+        cookClass=null;
         temp=v;
         temp2=v2;
         temp3=v3;
@@ -78,7 +97,7 @@ public class Cook extends AppCompatActivity {
         temp2.setBackground(gd);
         temp.setTag("clicked");
         temp3.setState(1);
-
+        cookClass=oldCookClass;
     }
     public void sendOrder(View v){
         Toast toast= Toast.makeText(getApplicationContext(),"OrderView sent.",Toast.LENGTH_SHORT);
@@ -90,15 +109,17 @@ public class Cook extends AppCompatActivity {
 
         visibilityOrder.remove(tvOrdersList.indexOf(temp));
         tvOrdersList.remove(temp);
-
-
-
+        cookClass=oldCookClass;
     }
     public void cancelCook(View v){
         dialogue.dismiss();
+        cookClass=oldCookClass;
     }
 
     public void loadOrders(){
+        oldCookClass=cookClass;
+        cookClass=null;
+
         Order.findCookOrders();
         final ArrayList<Order> orders = new ArrayList<>();
 
@@ -241,8 +262,7 @@ public class Cook extends AppCompatActivity {
                 count=0;
             }
         }
-
-
+        cookClass=oldCookClass;
     }
 
 }

@@ -21,13 +21,15 @@ import java.util.Vector;
 
 public class Waiter extends Activity  {
     private static final long serialVersionUID = 1L;
+    static Waiter waiterClass=null;
+    static Waiter oldWaiterClass=null;
 
     public static Waiter myWaiter;
     private OrderArrayAdapter adapter;
     private ArrayList<Order> listOrders =new ArrayList<Order>();
     private ArrayList<Order> notifications =new ArrayList<Order>();
     private Button btnNot;
-    private boolean checkNotification;
+    boolean checkNotification;
     private Dialogues dialogue;
     private Order selectedOrder;
     private Waiter that=this;
@@ -62,12 +64,16 @@ public class Waiter extends Activity  {
                 }
             }
         });
+        waiterClass=this;
+        getNotificationsNum();
     }
 
     @Override
     public void onResume(){
         super.onResume();
         getOrders();
+        if (oldWaiterClass!=null)
+            waiterClass=oldWaiterClass;
     }
 
     @Override
@@ -76,6 +82,8 @@ public class Waiter extends Activity  {
         Order.clearNotifications();
         NotificationManager nm=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         nm.cancelAll();
+        waiterClass=null;
+        oldWaiterClass=null;
     }
 
     public void setSelectedOrder(Order o){
@@ -87,11 +95,14 @@ public class Waiter extends Activity  {
     }
 
     public static void cancelNotification(Order o){
-        NotificationManager nm=(NotificationManager)Waiter.myWaiter.getSystemService(NOTIFICATION_SERVICE);
+        waiterClass=oldWaiterClass;
+        NotificationManager nm=(NotificationManager)Waiter.oldWaiterClass.getSystemService(NOTIFICATION_SERVICE);
         nm.cancel(o.getId());
     }
 
     public void showNewTableDialogue() {
+        oldWaiterClass=waiterClass;
+        waiterClass=null;
         dialogue=Dialogues.dialogueFactory(this,Waiter.this,R.layout.waiter_table_dialogue);
         Spinner sp=((Spinner)  dialogue.getView().findViewById(R.id.quantity));
         ArrayList<Integer> tables=new ArrayList<Integer>();
@@ -106,12 +117,19 @@ public class Waiter extends Activity  {
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp.setAdapter(dataAdapter);
     }
+
     public void showOrderDialogue() {
+        oldWaiterClass=waiterClass;
+        waiterClass=null;
         dialogue=Dialogues.dialogueFactory(this,Waiter.this,R.layout.waiter_order_dialogue);
     }
+
     public void showNotificationDialogue() {
+        oldWaiterClass=waiterClass;
+        waiterClass=null;
         dialogue=Dialogues.dialogueFactory(this,Waiter.this,R.layout.waiter_accept_dialogue);
     }
+
     public void addTable(View v){
         Spinner s=((Spinner)  dialogue.getView().findViewById(R.id.quantity));
         int table= (int) s.getSelectedItem();
@@ -126,7 +144,11 @@ public class Waiter extends Activity  {
 
         editOrder(v);
     }
-    public void cancelItem(View v){dialogue.dismiss();}
+
+    public void cancelItem(View v){
+        dialogue.dismiss();
+        waiterClass=oldWaiterClass;
+    }
 
     private void getOrders(){
         listOrders.clear();
@@ -136,6 +158,11 @@ public class Waiter extends Activity  {
         listOrders.add(new Order(-1));
         listOrders.addAll(Order.getOrders());
         adapter.notifyDataSetChanged();
+    }
+
+    private void getNotificationsNum(){
+        Order.findNotificationOrders(notifications);
+        btnNot.setText("Notifications ("+Order.getNotificationOrders().size()+")");
     }
 
     private void getNotifications(){
@@ -187,16 +214,21 @@ public class Waiter extends Activity  {
 
     public void notificationsClick(View v){
         checkNotification=!checkNotification;
-        if(checkNotification==true)
+        if(checkNotification==true){
             getNotifications();
-        else
+        }
+        else{
             getOrders();
+        }
     }
 
     public void cancelOrderClick(View v){
         dialogue.dismiss();
+        waiterClass=oldWaiterClass;
     }
+
     public void calcResta(View v){
+
         dialogue.dismiss();
     }
 
@@ -211,16 +243,29 @@ public class Waiter extends Activity  {
     }
 
     public void printReceipt(View v){
+        waiterClass=oldWaiterClass;
         Toast toast= Toast.makeText(getApplicationContext(),"Printing Receipt",Toast.LENGTH_SHORT);
         toast.show();
         dialogue.dismiss();
     }
+
     public void acceptNot(View v){
+        waiterClass=null;
         selectedOrder.setState(3);
         Toast toast= Toast.makeText(getApplicationContext(),"OrderView Accepted",Toast.LENGTH_SHORT);
         toast.show();
         getNotifications();
         if(dialogue!=null)
             dialogue.dismiss();
+        waiterClass = oldWaiterClass;
+    }
+    public void refresh(){
+        if(checkNotification==true){
+            getNotifications();
+        }
+        else{
+            getOrders();
+            getNotificationsNum();
+       }
     }
 }

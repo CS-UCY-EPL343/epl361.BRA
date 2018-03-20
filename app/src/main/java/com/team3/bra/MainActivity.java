@@ -11,13 +11,40 @@ import android.widget.Toast;
 import java.util.Vector;
 
 public class MainActivity extends Activity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
         JDBC.establishConnection();
+        Thread thread = new Thread(){
+            @Override
+            public void run() {
+                while(true) {
+                    try {
+                        synchronized (this) {
+                            wait(1000);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (Cook.cookClass != null){
+                                        Cook.cookClass.loadOrders();
+                                    }
 
+                                    if (Waiter.waiterClass != null){
+                                        Waiter.waiterClass.refresh();
+                                    }
+                                }
+                            });
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            };
+        };
+        thread.start();
     }
     @Override
     protected void onDestroy() {
