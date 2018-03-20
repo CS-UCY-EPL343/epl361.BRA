@@ -57,6 +57,7 @@ public class OrderArrayAdapter extends ArrayAdapter<Order> {
                 shape.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.stateSix));
                 break;
             default:
+                 shape.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.transparent));
                 break;
         }
         return convertView;

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 public class ManagerShowUsers extends Activity {
     UserArrayAdapter adapter;
-    ArrayList<String> listUsers =new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,28 +20,19 @@ public class ManagerShowUsers extends Activity {
     }
 
     public void loadUsers(){
-        listUsers.clear();
         User.findUsers();
-        ArrayList<User> users = User.getUsers();
-        adapter=new UserArrayAdapter(this, users);
+        adapter=new UserArrayAdapter(this, User.getUsers());
 
         ListView lv=(ListView) findViewById(R.id.listUsers);
         lv.setAdapter(adapter);
-
-
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
-                String arr[] = getResources().getStringArray(R.array.users_array);
                 Intent intent = new Intent(ManagerShowUsers.this, ManagerEditUser.class);
                 Bundle b = new Bundle();
                 b.putInt("key", (int)id);
-                int i = (int)id;
-                if(i>0){
-                    i--;
-                }
-                b.putString("info", User.getUserById((int)i));
+                b.putString("info", User.getUserById((int)id));
                 intent.putExtras(b);
                 startActivity(intent);
             }

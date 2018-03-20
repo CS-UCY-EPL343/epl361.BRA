@@ -65,7 +65,9 @@ public class Waiter extends Activity  {
             }
         });
         waiterClass=this;
-        getNotificationsNum();
+
+        Order.findNotificationOrders(notifications);
+        btnNot.setText("Notifications ("+Order.getNotificationOrders().size()+")");
     }
 
     @Override
@@ -96,7 +98,7 @@ public class Waiter extends Activity  {
 
     public static void cancelNotification(Order o){
         waiterClass=oldWaiterClass;
-        NotificationManager nm=(NotificationManager)Waiter.oldWaiterClass.getSystemService(NOTIFICATION_SERVICE);
+        NotificationManager nm=(NotificationManager)Waiter.myWaiter.getSystemService(NOTIFICATION_SERVICE);
         nm.cancel(o.getId());
     }
 
@@ -160,10 +162,6 @@ public class Waiter extends Activity  {
         adapter.notifyDataSetChanged();
     }
 
-    private void getNotificationsNum(){
-        Order.findNotificationOrders(notifications);
-        btnNot.setText("Notifications ("+Order.getNotificationOrders().size()+")");
-    }
 
     private void getNotifications(){
         listOrders.clear();
@@ -262,10 +260,9 @@ public class Waiter extends Activity  {
     public void refresh(){
         if(checkNotification==true){
             getNotifications();
-        }
-        else{
+        }else{
             getOrders();
-            getNotificationsNum();
+            checkNots();
        }
     }
 }

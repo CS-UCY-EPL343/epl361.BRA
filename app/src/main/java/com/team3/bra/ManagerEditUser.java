@@ -48,7 +48,7 @@ public class ManagerEditUser extends Activity {
         spinner.setAdapter(dataAdapter);
 
         if(b != null && b.getInt("key")!=0){
-            idInArray = b.getInt("key")-1;
+            idInArray = b.getInt("key");
             String temp = b.getString("info");
             String username=temp.split(" ")[0];
             String category=temp.split(" ")[1];

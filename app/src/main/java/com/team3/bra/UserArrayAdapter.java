@@ -32,13 +32,14 @@ public class UserArrayAdapter extends ArrayAdapter<User> {
         User u = super.getItem(position);
         userName.setText(u.getUsername());
         String pos =u.getPosition();
+        userType.setVisibility(View.VISIBLE);
         if(pos.compareTo("1")==0)
             pos="Manager";
         else  if(pos.compareTo("2")==0)
             pos="Waiter";
         else  if(pos.compareTo("3")==0)
             pos="Chef";
-        else {
+        else if(pos.compareTo("-1")==0){
             pos = "";
             userType.setVisibility(View.GONE);
         }
