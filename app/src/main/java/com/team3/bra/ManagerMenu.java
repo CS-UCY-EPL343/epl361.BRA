@@ -26,7 +26,7 @@ public class ManagerMenu extends Activity {
     TextView txtItemTitle,txtCatTitle;
     Button btnItemDelete,btnCatDelete,btnCatSave,btnItemSave;
     EditText etItemName,etItemDesc,etItemPrice,etCatName,etCatDesc,etCatVat;
-    Spinner spnItemCat;
+    Spinner spnItemCat,spnrFoodDrink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +57,7 @@ public class ManagerMenu extends Activity {
         etCatName= (EditText) findViewById(R.id.etCatName);
         etCatDesc= (EditText) findViewById(R.id.etCatDesc);
         etCatVat= (EditText) findViewById(R.id.etCatVat);
+        spnrFoodDrink= (Spinner) findViewById(R.id.spnr_foodDrink);
 
         showCategories();
 
@@ -82,6 +83,7 @@ public class ManagerMenu extends Activity {
         etCatName.setText(cat.getName());
         etCatDesc.setText(cat.getDescription());
         etCatVat.setText(cat.getVat()+"");
+        spnrFoodDrink.setSelection(cat.isFood());
 
         btnCatDelete.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -109,6 +111,7 @@ public class ManagerMenu extends Activity {
         etCatName.setText("");
         etCatDesc.setText("");
         etCatVat.setText("");
+        spnrFoodDrink.setSelection(1);
 
         addCateg.setVisibility(View.VISIBLE);
         btnCatDelete.setVisibility(View.GONE);
@@ -173,7 +176,8 @@ public class ManagerMenu extends Activity {
     }
 
     public void catSaveClicked(View v,int selectedID){
-        String a[] = { selectedID+"",etCatName.getText().toString(),etCatVat.getText().toString(), etCatDesc.getText().toString() };
+        int pos=((Spinner)findViewById(R.id.spnr_foodDrink)).getSelectedItemPosition();
+        String a[] = { selectedID+"",etCatName.getText().toString(),etCatVat.getText().toString(), etCatDesc.getText().toString(),pos+"" };
         JDBC.callProcedure("AddCategory", a);
         showCategories();
 
@@ -275,6 +279,7 @@ public class ManagerMenu extends Activity {
                 continue;
             }
             else if (i==-1) {
+                b.getBackground().setColorFilter(ContextCompat.getColor(this,R.color.orange), PorterDuff.Mode.MULTIPLY);
                 b.setText("ADD CATEGORY");
                 newLayout.addView(b,lp);
                 i++;
@@ -282,20 +287,18 @@ public class ManagerMenu extends Activity {
                 b.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v){
-
                         addCategory(v);
                     }
                 });
                 continue;
-            }else {
-
+            }else {//NEW category.
+                if(categories.get(i).isFood()==0)
+                    b.getBackground().setColorFilter(ContextCompat.getColor(this,R.color.yellow), PorterDuff.Mode.MULTIPLY);
                 b.setText(categories.get(i).getName());
-
                 final int t = i;
                 b.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         showItems(categories.get(t));
                     }
                 });
@@ -376,10 +379,10 @@ public class ManagerMenu extends Activity {
                 newLayout.addView(b, lp);
                 i++;
                 count++;
+                b.getBackground().setColorFilter(ContextCompat.getColor(this,R.color.orange), PorterDuff.Mode.MULTIPLY);
                 b.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v){
-
                         addItem(v,cat);
                     }
                 });

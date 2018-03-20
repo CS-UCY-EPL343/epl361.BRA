@@ -9,7 +9,6 @@ import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -17,7 +16,6 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -25,14 +23,14 @@ public class Waiter extends Activity  {
     private static final long serialVersionUID = 1L;
 
     public static Waiter myWaiter;
-    private ArrayAdapter<Order> adapter;
+    private OrderArrayAdapter adapter;
     private ArrayList<Order> listOrders =new ArrayList<Order>();
     private ArrayList<Order> notifications =new ArrayList<Order>();
     private Button btnNot;
     private boolean checkNotification;
     private Dialogues dialogue;
     private Order selectedOrder;
-
+    private Waiter that=this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,10 +39,7 @@ public class Waiter extends Activity  {
 
         checkNotification=false;
 
-        adapter=new ArrayAdapter<Order>(this,
-                R.layout.custom_listview_layout,
-                listOrders);
-
+        adapter=new OrderArrayAdapter(this,listOrders);
         getOrders();
 
         ListView lv=(ListView) findViewById(R.id.listOrders);

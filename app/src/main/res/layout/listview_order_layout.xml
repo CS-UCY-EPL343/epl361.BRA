@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/orderName"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/listPreferredItemHeight"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:paddingLeft="2dip"
+            android:paddingRight="2dip"
+            android:text="hello"
+            android:textColor="#000000"
+            android:textSize="15sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:clipToPadding="false"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/orderCircle"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="right"
+                android:background="@drawable/circle"
+                android:baselineAligned="false"
+                android:orientation="vertical" />
+        </LinearLayout>
+
+    </FrameLayout>
+
+</LinearLayout>

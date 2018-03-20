@@ -305,6 +305,8 @@ public class OrderView extends Activity {
             b.getBackground().setColorFilter(ContextCompat.getColor(this,R.color.transparent), PorterDuff.Mode.MULTIPLY);
             b.setText(categories.get(i).getName());
             final int t=i;
+            if(categories.get(i).isFood()==0)
+                b.getBackground().setColorFilter(ContextCompat.getColor(this,R.color.yellow), PorterDuff.Mode.MULTIPLY);
             b.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){

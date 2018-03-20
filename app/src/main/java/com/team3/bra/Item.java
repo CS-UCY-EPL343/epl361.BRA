@@ -53,6 +53,7 @@ public class Item implements Comparable<Item> {
         return categoryID;
     }
 
+
     @Override
     public int compareTo(@NonNull Item item) {
         return this.name.compareTo(item.name);

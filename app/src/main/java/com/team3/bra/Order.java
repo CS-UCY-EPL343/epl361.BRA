@@ -32,6 +32,8 @@ public class Order implements Serializable {
         this.dateTime = formatter.format(now);
         this.id=-1;
         this.state = 0;
+        if(tableID==-1)//For new order option
+            this.state=-1;
         this.table =tableID;
         this.userID =User.currentUser.getId();
         this.items=new ArrayList<ItemOrder>();

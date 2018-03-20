@@ -5,13 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
 public class ManagerShowUsers extends Activity {
-    ArrayAdapter<String> adapter;
+    UserArrayAdapter adapter;
     ArrayList<String> listUsers =new ArrayList<String>();
 
     @Override
@@ -25,29 +24,7 @@ public class ManagerShowUsers extends Activity {
         listUsers.clear();
         User.findUsers();
         ArrayList<User> users = User.getUsers();
-
-
-        listUsers.add("--New User--");
-
-        for(int i=0;i<users.size();i++){
-
-            String pos = users.get(i).getPosition();
-            if(pos.compareTo("1")==0){
-                pos="Manager";
-            }
-            if(pos.compareTo("2")==0){
-                pos="Waiter";
-            }
-            if(pos.compareTo("3")==0){
-                pos="Chef";
-            }
-            listUsers.add(users.get(i).getUsername()+" "+pos);
-
-        }
-
-        adapter=new ArrayAdapter<String>(this,
-                R.layout.custom_listview_layout,
-                listUsers);
+        adapter=new UserArrayAdapter(this, users);
 
         ListView lv=(ListView) findViewById(R.id.listUsers);
         lv.setAdapter(adapter);

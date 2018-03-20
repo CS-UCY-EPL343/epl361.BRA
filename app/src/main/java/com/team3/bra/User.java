@@ -24,7 +24,13 @@ public class User implements Comparable<User> {
     private User(){//TODO remove this
     this.id=3;
     this.username="test";
-    this.position="manager";
+    this.position="1";
+    }
+
+    private User(int id){
+        this.id=-1;
+        this.username="--New User--";
+        this.position="-1";
     }
 
     public User(Vector<Object> vec) {
@@ -66,13 +72,13 @@ public class User implements Comparable<User> {
 
     public static void findUsers(){
             users=new ArrayList<User>();
+            users.add(new User(-1));
             String a[] = {"0"};
             Vector<Vector<Object>> vec = JDBC.callProcedure("FindUser", a);
             for (int i = 0; i < vec.size(); i++) {
                 User c = new User(vec.get(i));
                 users.add(c);
             }
-            Collections.sort(users);
     }
 
     public static String getUserById(int id){

@@ -11,6 +11,10 @@
         <item>mefty Chef Marios Eftychiou youknowwho</item>
         <item>magirou Chef Andreas Magirou whoyoumean?</item>
     </string-array>
+    <string-array name="Food_Drink">
+        <item>Drink</item>
+        <item>Food</item>
+    </string-array>
     <string-array name="Quantities">
         <item>1</item>
         <item>2</item>

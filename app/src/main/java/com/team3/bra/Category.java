@@ -4,8 +4,6 @@ import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
 import java.util.Vector;
 
 /**
@@ -19,6 +17,7 @@ public class Category implements Comparable<Category> {
     private String name;
     private float vat;
     private String description;
+    private boolean food;
     private ArrayList<Item> items = new ArrayList<Item>();
 
     public Category(Vector<Object> vec) {
@@ -26,6 +25,7 @@ public class Category implements Comparable<Category> {
         this.name = (String) vec.get(1);
         this.vat = Float.parseFloat(vec.get(2).toString());
         this.description = (String) vec.get(3);
+        this.food =(boolean) vec.get(4);
     }
 
     public int getId() {
@@ -56,7 +56,6 @@ public class Category implements Comparable<Category> {
                 Category c = new Category(vec.get(i));
                 categories.add(c);
             }
-            Collections.sort(categories);
     }
 
     public void fillCategory(){
@@ -66,9 +65,13 @@ public class Category implements Comparable<Category> {
             for (int i = 0; i < vec.size(); i++) {
                 this.items.add(new Item(vec.get(i)));
             }
-            Collections.sort(this.items);
     }
 
+    public int isFood() {
+        if(food ==true)
+            return 1;
+        return 0;
+    }
 
     @Override
     public String toString(){
