@@ -70,6 +70,13 @@ public class OrderView extends Activity {
             String a[] = {io.getItemOrderID()+""};
             Vector<Vector<Object>> vec= JDBC.callProcedure("RemoveItem_Order", a);
         }
+        if(currentOrder.getItems().size()==0){
+            String a[] = {currentOrder.getId()+""};
+            JDBC.callProcedure("RemoveOrder", a);
+            Toast toast= Toast.makeText(getApplicationContext(),"Order deleted because it is empty.",Toast.LENGTH_SHORT);
+            toast.show();
+            finish();
+        }
         finish();
     }
 
@@ -262,7 +269,7 @@ public class OrderView extends Activity {
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
                         if(addItemOrders.remove(io)!=true)
-                                    removeItemOrders.add(io);
+                            removeItemOrders.add(io);
                         currentOrder.getItems().remove(io);
                         showItems();
 
