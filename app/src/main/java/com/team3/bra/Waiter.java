@@ -41,6 +41,8 @@ public class Waiter extends Activity  {
 
         checkNotification=false;
 
+        myWaiter=this;
+
         adapter=new OrderArrayAdapter(this,listOrders);
         getOrders();
 
@@ -196,8 +198,6 @@ public class Waiter extends Activity  {
         Intent intentIgnore=new Intent(this,ActionReceiver.class);
         intentIgnore.setAction("Ignore");
         intentIgnore.putExtra("order",o);
-
-        myWaiter=this;
 
         PendingIntent piAccept=PendingIntent.getBroadcast(this,o.getId(),intentAccept,PendingIntent.FLAG_ONE_SHOT);
         PendingIntent piIgnore=PendingIntent.getBroadcast(this,o.getId(),intentIgnore,PendingIntent.FLAG_ONE_SHOT);
