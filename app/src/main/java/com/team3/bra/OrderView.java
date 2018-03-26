@@ -60,6 +60,12 @@ public class OrderView extends Activity {
 
     public void orderSave(View v){
         ItemOrder io;
+        if(currentOrder.getState()==-1 && currentOrder.getItems().size()!=0){
+            String a[] = {currentOrder.getDateTime(),currentOrder.getState()+"",currentOrder.getTable()+"",currentOrder.getUserID()+"" };
+            Vector<Vector<Object>> vec= JDBC.callProcedure("AddOrder", a);
+            currentOrder.setId(Integer.parseInt(vec.get(0).get(0).toString()));
+            currentOrder.setState(0);
+        }
         while(addItemOrders.isEmpty()!=true){
             io=addItemOrders.remove(0);
             String a[] = {io.getItemOrderID()+"",currentOrder.getId()+"",io.getItemID()+"",io.getQuantity()+"",io.isDone()+"",io.getNotes() };

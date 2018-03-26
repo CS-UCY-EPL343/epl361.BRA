@@ -76,8 +76,7 @@ public class Waiter extends Activity  {
     public void onResume(){
         super.onResume();
         getOrders();
-        if (oldWaiterClass!=null)
-            waiterClass=oldWaiterClass;
+        waiterClass=this;
     }
 
     @Override
@@ -141,10 +140,7 @@ public class Waiter extends Activity  {
 
 
         Order o=new Order(table);
-        String a[] = {o.getDateTime(),o.getState()+"",o.getTable()+"",o.getUserID()+"" };
-        Vector<Vector<Object>> vec= JDBC.callProcedure("AddOrder", a);
-        o.setId(Integer.parseInt(vec.get(0).get(0).toString()));
-        selectedOrder=o;
+            selectedOrder=o;
 
         editOrder(v);
     }
@@ -244,6 +240,7 @@ public class Waiter extends Activity  {
         waiterClass=oldWaiterClass;
         Toast toast= Toast.makeText(getApplicationContext(),"Printing Receipt",Toast.LENGTH_SHORT);
         toast.show();
+        selectedOrder.setState(6);//TODO
         dialogue.dismiss();
     }
 
