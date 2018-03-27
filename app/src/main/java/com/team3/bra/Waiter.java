@@ -19,138 +19,191 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Vector;
 
-public class Waiter extends Activity  {
-    private static final long serialVersionUID = 1L;
-    static Waiter waiterClass=null;
-    static Waiter oldWaiterClass=null;
-
+/**
+ * This is the Waiter class. It is responsible for displaying the Waiter layout
+ * which lists all the Orders that the waiter can interact with. The Waiter can
+ * add a new order, edit or delete the order,calling the OrderView class. This
+ * view is also responsible for displaying the Orders that are ready from the
+ * kitchen.
+ */
+public class Waiter extends Activity {
     public static Waiter myWaiter;
-    private OrderArrayAdapter adapter;
-    private ArrayList<Order> listOrders =new ArrayList<Order>();
-    private ArrayList<Order> notifications =new ArrayList<Order>();
-    private Button btnNot;
+    static Waiter waiterClass = null;
+    static Waiter oldWaiterClass = null;
+    private Waiter that = this;
+
     boolean checkNotification;
+
+    private static final long serialVersionUID = 1L;
+
+    private ArrayList<Order> listOrders = new ArrayList<Order>();
+    private ArrayList<Order> notifications = new ArrayList<Order>();
+
+    private OrderArrayAdapter adapter;
+    private Button btnNot;
     private Dialogues dialogue;
     private Order selectedOrder;
-    private Waiter that=this;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.waiter_layout);
-        btnNot=findViewById(R.id.btnNot);
+        btnNot = findViewById(R.id.btnNot);
 
-        checkNotification=false;
+        checkNotification = false;
 
-        myWaiter=this;
+        myWaiter = this;
 
-        adapter=new OrderArrayAdapter(this,listOrders);
+        adapter = new OrderArrayAdapter(this, listOrders);
         getOrders();
 
-        ListView lv=(ListView) findViewById(R.id.listOrders);
+        ListView lv = (ListView) findViewById(R.id.listOrders);
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,
-                                    long id) {
-                if(checkNotification!=true) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (checkNotification != true) {
                     if (position == 0) {
                         showNewTableDialogue();
                     } else {
-                        selectedOrder=listOrders.get(position);
+                        selectedOrder = listOrders.get(position);
                         selectedOrder.fillOrder();
                         showOrderDialogue();
                     }
-                }else{
-                    selectedOrder=listOrders.get(position);
+                } else {
+                    selectedOrder = listOrders.get(position);
                     showNotificationDialogue();
                 }
             }
         });
-        waiterClass=this;
+        waiterClass = this;
 
         Order.findNotificationOrders(notifications);
-        btnNot.setText("Notifications ("+Order.getNotificationOrders().size()+")");
+        btnNot.setText("Notifications (" + Order.getNotificationOrders().size() + ")");
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         getOrders();
-        waiterClass=this;
+        waiterClass = this;
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Order.clearNotifications();
-        NotificationManager nm=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         nm.cancelAll();
-        waiterClass=null;
-        oldWaiterClass=null;
+        waiterClass = null;
+        oldWaiterClass = null;
     }
 
-    public void setSelectedOrder(Order o){
-        this.selectedOrder=o;
+    /**
+     * Sets the current selected order of the Waiter to the given Order.
+     *
+     * @param o
+     *            The given order.
+     */
+    public void setSelectedOrder(Order o) {
+        this.selectedOrder = o;
     }
 
-    public void backClicked(View v){
+    /**
+     * This function is called by a button to close the Waiter layout.
+     *
+     * @param v
+     */
+    public void backClicked(View v) {
         finish();
     }
 
-    public static void cancelNotification(Order o){
-        waiterClass=oldWaiterClass;
-        NotificationManager nm=(NotificationManager)Waiter.myWaiter.getSystemService(NOTIFICATION_SERVICE);
+    /**
+     * This function is responsible for cancelling the specified order
+     * Notification.
+     *
+     * @param o
+     *            the order to cancel its notification.
+     */
+    public static void cancelNotification(Order o) {
+        waiterClass = oldWaiterClass;
+        NotificationManager nm = (NotificationManager) Waiter.myWaiter.getSystemService(NOTIFICATION_SERVICE);
         nm.cancel(o.getId());
     }
 
+    /**
+     * Shows a picker of available tables in order to choose one.
+     */
     public void showNewTableDialogue() {
-        oldWaiterClass=waiterClass;
-        waiterClass=null;
-        dialogue=Dialogues.dialogueFactory(this,Waiter.this,R.layout.waiter_table_dialogue);
-        Spinner sp=((Spinner)  dialogue.getView().findViewById(R.id.quantity));
-        ArrayList<Integer> tables=new ArrayList<Integer>();
+        oldWaiterClass = waiterClass;
+        waiterClass = null;
+        dialogue = Dialogues.dialogueFactory(this, Waiter.this, R.layout.waiter_table_dialogue);
+        Spinner sp = ((Spinner) dialogue.getView().findViewById(R.id.quantity));
+        ArrayList<Integer> tables = new ArrayList<Integer>();
         String a[] = {};
-        Vector<Vector<Object>> occupied=JDBC.callProcedure("ACTIVETABLES", a);
-        for(int i=1;i<=50;i++)
+        Vector<Vector<Object>> occupied = JDBC.callProcedure("ACTIVETABLES", a);
+        for (int i = 1; i <= 50; i++)
             tables.add(i);
-        for(Vector<Object> ob : occupied)
-            tables.remove((Integer)ob.get(0));
+        for (Vector<Object> ob : occupied)
+            tables.remove((Integer) ob.get(0));
 
-        ArrayAdapter<Integer> dataAdapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, tables );
+        ArrayAdapter<Integer> dataAdapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item,
+                tables);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp.setAdapter(dataAdapter);
     }
 
+    /**
+     * This is responsible for the menu when an Order is being clicked.
+     */
     public void showOrderDialogue() {
-        oldWaiterClass=waiterClass;
-        waiterClass=null;
-        dialogue=Dialogues.dialogueFactory(this,Waiter.this,R.layout.waiter_order_dialogue);
+        oldWaiterClass = waiterClass;
+        waiterClass = null;
+        dialogue = Dialogues.dialogueFactory(this, Waiter.this, R.layout.waiter_order_dialogue);
     }
 
+    /**
+     * This is responsible for the menu when an Order is being clicked at the
+     * Notification Tab.
+     */
     public void showNotificationDialogue() {
-        oldWaiterClass=waiterClass;
-        waiterClass=null;
-        dialogue=Dialogues.dialogueFactory(this,Waiter.this,R.layout.waiter_accept_dialogue);
+        oldWaiterClass = waiterClass;
+        waiterClass = null;
+        dialogue = Dialogues.dialogueFactory(this, Waiter.this, R.layout.waiter_accept_dialogue);
     }
 
-    public void addTable(View v){
-        Spinner s=((Spinner)  dialogue.getView().findViewById(R.id.quantity));
-        int table= (int) s.getSelectedItem();
+    /**
+     * This function is used by a button. It gets the value of the table
+     * spinner.
+     *
+     * @param v
+     */
+    public void addTable(View v) {
+        Spinner s = ((Spinner) dialogue.getView().findViewById(R.id.quantity));
+        int table = (int) s.getSelectedItem();
         dialogue.dismiss();
 
-
-        Order o=new Order(table);
-            selectedOrder=o;
+        Order o = new Order(table);
+        selectedOrder = o;
 
         editOrder(v);
     }
 
-    public void cancelItem(View v){
+    /**
+     * This function is used by a button. It dismisses the dialogue that called
+     * this function.
+     *
+     * @param v
+     */
+    public void cancelItem(View v) {
         dialogue.dismiss();
-        waiterClass=oldWaiterClass;
+        waiterClass = oldWaiterClass;
     }
 
-    private void getOrders(){
+    /**
+     * This function refreshes the arrayAdapter that displays the orders.
+     */
+    private void getOrders() {
         listOrders.clear();
         btnNot.setTextColor(Color.BLACK);
         btnNot.setBackgroundColor(Color.TRANSPARENT);
@@ -160,8 +213,11 @@ public class Waiter extends Activity  {
         adapter.notifyDataSetChanged();
     }
 
-
-    private void getNotifications(){
+    /**
+     * This function refreshes the arrayAdapter that displays the orders that
+     * have just been finished in the kitchen.
+     */
+    private void getNotifications() {
         listOrders.clear();
         btnNot.setTextColor(Color.RED);
         btnNot.setBackgroundColor(Color.LTGRAY);
@@ -170,65 +226,97 @@ public class Waiter extends Activity  {
         adapter.notifyDataSetChanged();
     }
 
-    public void checkNots(){
+    /**
+     * Checks for new notification orders and notifies the waiter.
+     */
+    public void checkNots() {
         Order.findNotificationOrders(notifications);
         for (Order o : Order.getNewNotificationOrders())
             notifyWaiter(o);
-        btnNot.setText("Notifications ("+Order.getNotificationOrders().size()+")");
+        btnNot.setText("Notifications (" + Order.getNotificationOrders().size() + ")");
     }
 
-    public void notifyWaiter(Order o){
+    /**
+     * This function is responsible to create an Android notification to let the
+     * Waiter know that the specified order is ready from the kitchen.
+     *
+     * @param o
+     *            The order that is ready from the kitchen.
+     */
+    public void notifyWaiter(Order o) {
         notifications.add(o);
-        NotificationCompat.Builder notification=new NotificationCompat.Builder(this);
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(this);
         notification.setSmallIcon(R.drawable.broadwayrestarauntlogo);
-        notification.setTicker(o+" is ready.");
+        notification.setTicker(o + " is ready.");
         notification.setWhen(System.currentTimeMillis());
-        notification.setContentTitle(o+" is ready.");
+        notification.setContentTitle(o + " is ready.");
         notification.setAutoCancel(true);
         notification.setGroup("BROADWAYAPP");
         notification.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
 
-        Intent intentAccept=new Intent(this,ActionReceiver.class);
+        Intent intentAccept = new Intent(this, ActionReceiver.class);
         intentAccept.setAction("Accept");
         intentAccept.putExtra("order", o);
-        Intent intentIgnore=new Intent(this,ActionReceiver.class);
+        Intent intentIgnore = new Intent(this, ActionReceiver.class);
         intentIgnore.setAction("Ignore");
-        intentIgnore.putExtra("order",o);
+        intentIgnore.putExtra("order", o);
 
-        PendingIntent piAccept=PendingIntent.getBroadcast(this,o.getId(),intentAccept,PendingIntent.FLAG_ONE_SHOT);
-        PendingIntent piIgnore=PendingIntent.getBroadcast(this,o.getId(),intentIgnore,PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent piAccept = PendingIntent.getBroadcast(this, o.getId(), intentAccept, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent piIgnore = PendingIntent.getBroadcast(this, o.getId(), intentIgnore, PendingIntent.FLAG_ONE_SHOT);
 
-        notification.addAction(R.drawable.ic_launcher_foreground,"Accept",piAccept);
-        notification.addAction(R.drawable.ic_launcher_foreground,"Ignore",piIgnore);
+        notification.addAction(R.drawable.ic_launcher_foreground, "Accept", piAccept);
+        notification.addAction(R.drawable.ic_launcher_foreground, "Ignore", piIgnore);
         notification.setContentIntent(piIgnore);
 
-        NotificationManager nm=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-        nm.notify(o.getId(),notification.build());
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        nm.notify(o.getId(), notification.build());
     }
 
-    public void notificationsClick(View v){
-        checkNotification=!checkNotification;
-        if(checkNotification==true){
+    /**
+     * This function is called by a button. It triggers between the notification
+     * orders tab and normal orders tab.
+     *
+     * @param v
+     */
+    public void notificationsClick(View v) {
+        checkNotification = !checkNotification;
+        if (checkNotification == true) {
             getNotifications();
-        }
-        else{
+        } else {
             getOrders();
         }
     }
 
-    public void cancelOrderClick(View v){
+    /**
+     * This function is called by a button. It cancels the current dialogue.
+     *
+     * @param v
+     */
+    public void cancelOrderClick(View v) {
         dialogue.dismiss();
-        waiterClass=oldWaiterClass;
+        waiterClass = oldWaiterClass;
     }
 
-    public void calcResta(View v){
+    /**
+     * This function is called by a button. It calculates the amount of change
+     * that need to be given to the user.
+     *
+     * @param v
+     */
+    public void calcResta(View v) {// TODO
 
         dialogue.dismiss();
     }
 
-    public void editOrder(View v){
-        Bundle b=new Bundle();
-        b.putSerializable("Order",selectedOrder);
+    /**
+     * This function is called by a button. It is responsible for editing an
+     * order.
+     *
+     * @param v
+     */
+    public void editOrder(View v) {
+        Bundle b = new Bundle();
+        b.putSerializable("Order", selectedOrder);
         Intent intent = new Intent(Waiter.this, OrderView.class);
         intent.putExtras(b);
         startActivity(intent);
@@ -236,30 +324,47 @@ public class Waiter extends Activity  {
         getOrders();
     }
 
-    public void printReceipt(View v){
-        waiterClass=oldWaiterClass;
-        Toast toast= Toast.makeText(getApplicationContext(),"Printing Receipt",Toast.LENGTH_SHORT);
+    /**
+     * This function is called by a button. It is responsible for printing a
+     * receipt of the specified order.
+     *
+     * @param v
+     */
+    public void printReceipt(View v) {
+        waiterClass = oldWaiterClass;
+        Toast toast = Toast.makeText(getApplicationContext(), "Printing Receipt", Toast.LENGTH_SHORT);
         toast.show();
-        selectedOrder.setState(6);//TODO
+        selectedOrder.setState(6);// TODO
         dialogue.dismiss();
     }
 
-    public void acceptNot(View v){
-        waiterClass=null;
+    /**
+     * This function is called by a button. This function is to accept a
+     * notification of an order that is ready by the kitchen.
+     *
+     * @param v
+     */
+    public void acceptNot(View v) {
+        waiterClass = null;
         selectedOrder.setState(3);
-        Toast toast= Toast.makeText(getApplicationContext(),"OrderView Accepted",Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(getApplicationContext(), "OrderView Accepted", Toast.LENGTH_SHORT);
         toast.show();
         getNotifications();
-        if(dialogue!=null)
+        if (dialogue != null)
             dialogue.dismiss();
         waiterClass = oldWaiterClass;
     }
-    public void refresh(){
-        if(checkNotification==true){
+
+    /**
+     * This function is responsible for refreshing all the tabs of the screen
+     * getting all new information from the DB.
+     */
+    public void refresh() {
+        if (checkNotification == true) {
             getNotifications();
-        }else{
+        } else {
             getOrders();
             checkNots();
-       }
+        }
     }
 }

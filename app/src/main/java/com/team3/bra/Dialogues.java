@@ -8,21 +8,48 @@ import android.view.View;
 
 import java.io.Serializable;
 
-public class Dialogues extends AlertDialog.Builder{
+/**
+ * Alternation of the AlertDialog.Builder. It is responsible to create a normal
+ * AlertDialog with some extra getters and a dialogue Factory.
+ *
+ */
+public class Dialogues extends AlertDialog.Builder {
     private Dialogues(@NonNull Context context) {
         super(context);
     }
+
     private View myView;
     private AlertDialog alertDialog;
 
-    public View getView(){
+    /**
+     * Getter for the Dialogue view.
+     *
+     * @return the Dialogue view.
+     */
+    public View getView() {
         return myView;
     }
-    public void dismiss(){
+
+    /**
+     * Function that dismisses the current dialogue.
+     */
+    public void dismiss() {
         alertDialog.dismiss();
     }
 
-    public static Dialogues dialogueFactory(Activity a, Context c, int id){
+    /**
+     * Dialogue Factory for creating a dialogue box from a specific activity and
+     * context
+     *
+     * @param a
+     *            the activity which the dialogue will be created from.
+     * @param c
+     *            the context which the dialogue will be created from.
+     * @param id
+     *            The id of the inflating dialogue.
+     * @return
+     */
+    public static Dialogues dialogueFactory(Activity a, Context c, int id) {
         Dialogues builder = new Dialogues(c);
         builder.myView = a.getLayoutInflater().inflate(id, null);
         builder.setView(builder.myView);
