@@ -9,7 +9,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.Vector;
-
+/**
+ * Login screen of the application and main thread of reloading waiter,chef and printing receipts
+ *
+ */
 public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,13 @@ public class MainActivity extends Activity {
         NotificationManager nm=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         nm.cancelAll();
     }
+    /**
+     * Checks if the user with the password exists and log in them to the correct screen
+     * 1. Manager
+     * 2. Waiter
+     * 3. Chef
+     * @param v the view that clicked the button
+     */
     public void onLoginClick(View v){
         if(JDBC.isConnected()!=true)
             if(JDBC.establishConnection()!=true) {
@@ -88,7 +98,7 @@ public class MainActivity extends Activity {
             startActivity(intent);
             return;
         }
-       // User c = new User(vec.get(3));
+        // User c = new User(vec.get(3));
 
         //System.out.println(password);
         if (vec.size()==0){
@@ -101,6 +111,10 @@ public class MainActivity extends Activity {
 
 
     }
+    /**
+     * Exit from the program
+     * @param v the view that clicked the button
+     */
     public void exitClicked(View v){
         finish();
     }

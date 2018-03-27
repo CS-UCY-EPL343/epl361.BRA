@@ -20,7 +20,11 @@ import android.widget.LinearLayout.LayoutParams;
 
 import java.util.ArrayList;
 import java.util.Vector;
-
+/**
+ *
+ * The screen of the order view to edit, add or delete an order
+ *
+ */
 public class OrderView extends Activity {
     private ScrollView side;
     private ScrollView categ;
@@ -50,14 +54,24 @@ public class OrderView extends Activity {
         showItems();
 
     }
-
+    /**
+     * Cancel the adding/editing of an item
+     * @param v the view that clicked the button
+     */
     public void backClicked(View v){
         finish();
     }
+    /**
+     * Cancel the changes to an order and return to the previus screen
+     * @param v the view that clicked the button
+     */
     public void orderCancel(View v){
         finish();
     }
-
+    /**
+     * Save the changed order to the database
+     * @param v the view that clicked the button
+     */
     public void orderSave(View v){
         ItemOrder io;
         if(currentOrder.getState()==-1 && currentOrder.getItems().size()!=0){
@@ -85,7 +99,10 @@ public class OrderView extends Activity {
         }
         finish();
     }
-
+    /**
+     * Delete from the database the order
+     * @param v the view that clicked the button
+     */
     public void orderDelete(View v){
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
@@ -110,11 +127,18 @@ public class OrderView extends Activity {
                 .setNegativeButton("No", dialogClickListener).show();
 
     }
+    /**
+     * Legacy function
+     * @param v the view that clicked the button
+     */
     public void sideClick(View v){
         side.setVisibility(View.VISIBLE);
         categ.setVisibility(View.GONE);
     }
-
+    /**
+     * Show the selected category items to the screen
+     * @param cat the selected category
+     */
     public void fromCategoriesToItems(Category cat){
 
         cat.fillCategory();
@@ -183,12 +207,19 @@ public class OrderView extends Activity {
         side.setVisibility(View.VISIBLE);
         categ.setVisibility(View.GONE);
     }
-
+    /**
+     * Show all the categorys
+     * @param v the view that clicked the button
+     */
     public void orderBackToCateg(View v){
         side.setVisibility(View.GONE);
         categ.setVisibility(View.VISIBLE);
     }
-
+    /**
+     * Shoe the item dialog to add items to the order
+     * @param view the view that clicked it
+     * @param item the item to be added
+     */
     public void showItemDialogue(View view, final Item item) {
         dialogue=Dialogues.dialogueFactory(this,OrderView.this,R.layout.order_item_add_dialogue);
         ((TextView)dialogue.getView().findViewById(R.id.txtItem)).setText(item.getName());
@@ -201,6 +232,11 @@ public class OrderView extends Activity {
             }
         });
     }
+    /**
+     * Add the item after the confirmation from the user
+     * @param v the view that clicked the button
+     * @param item the item to be added to the order
+     */
     public void addItem(View v,Item item){
         View dialogueView=dialogue.getView();
         EditText e= (EditText)dialogueView.findViewById(R.id.txtComments);
@@ -218,7 +254,11 @@ public class OrderView extends Activity {
         toast.show();
         dialogue.dismiss();
     }
-
+    /**
+     * Edit the contents of the selected item
+     * @param v the view that clicked the button
+     * @param io the item to be edited
+     */
     public void editItem(View v,ItemOrder io){
         View myView=dialogue.getView();
         EditText e= (EditText)myView.findViewById(R.id.txtComments);
@@ -241,10 +281,16 @@ public class OrderView extends Activity {
         toast.show();
         dialogue.dismiss();
     }
-
+    /**
+     * Cancel the adding/editing of an item
+     * @param v the view that clicked the button
+     */
     public void cancelItem(View v){dialogue.dismiss();}
 
-
+    /**
+     * Shoe the item form to add notes and quantity
+     * @param io the item clicked
+     */
     public void itemClicked(final ItemOrder io){
         dialogue=Dialogues.dialogueFactory(this,OrderView.this,R.layout.order_item_edit_dialogue);
         View myView=dialogue.getView();
@@ -267,7 +313,11 @@ public class OrderView extends Activity {
         ((EditText)dialogue.getView().findViewById(R.id.txtQuantity)).setText(io.getQuantity()+"");
         ((EditText)dialogue.getView().findViewById(R.id.txtComments)).setText(io.getNotes());
     }
-
+    /**
+     * Delete the item from the order
+     * @param v the view that clicked the button
+     * @param io the selected item
+     */
     public void deleteItem(View v,final ItemOrder io){
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
@@ -294,7 +344,9 @@ public class OrderView extends Activity {
         builder.setMessage("Are you sure you want to delete this item?").setPositiveButton("Yes", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener).show();
     }
-
+    /**
+     * Load all the categories to the screen
+     */
     public void insertCategories(){
         side.setVisibility(View.GONE);
         categ.setVisibility(View.VISIBLE);
@@ -348,6 +400,9 @@ public class OrderView extends Activity {
         }
 
     }
+    /**
+     * Show all the items that exist's to the database for the particular order
+     */
     public void showItems(){
         ArrayList<ItemOrder> itemOrders = currentOrder.getItems();
         LinearLayout ll = (LinearLayout)findViewById(R.id.llContents);

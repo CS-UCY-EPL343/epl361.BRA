@@ -23,8 +23,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
-
+/**
+ * The screen that is responsible to generate reports
+ *
+ */
 public class ReportView extends Activity {
+
+    /**
+     * Private auxiliary class
+     *
+     */
     private class reportOrder implements Comparable<reportOrder>{
         String name;
         String quantity;
@@ -45,6 +53,10 @@ public class ReportView extends Activity {
         }
     }
 
+    /**
+     * Private auxiliary class
+     *
+     */
     private class reportTax implements Comparable<reportTax>{
         Double sales;
         float vat;
@@ -65,15 +77,23 @@ public class ReportView extends Activity {
     String fromStr = "";
     String toStr = "";
     Vector<Vector<Object>> result;
+    /**
+     * Return to the main menu of the manager
+     * @param v the view that clicked the button
+     */
     public void backClicked(View v){
         finish();
     }
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.reports_layout);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.reports_layout);
     }
 
+    /**
+     * Create the report about the statistic's of the orders
+     * @param v the view that clicked the button
+     */
     public void ordersReport(View v){
         checkInput();
         if(!getOrdes()) {
@@ -210,7 +230,10 @@ public class ReportView extends Activity {
 
     }
 
-
+    /**
+     * Create the report about the tax of the orders
+     * @param v the view that clicked the button
+     */
     public void taxReport(View v){
         checkInput();
         if(!getOrdes()) {
@@ -374,7 +397,9 @@ public class ReportView extends Activity {
             }
         }.start();
     }
-
+    /**
+     * check the input date from the user
+     */
     public void checkInput(){
         fromStr="";
         toStr="";
@@ -421,6 +446,10 @@ public class ReportView extends Activity {
         }
 
     }
+    /**
+     * Get all the orders from the database
+     * @return true if it was successful false if it was unsuccessful
+     */
     public boolean getOrdes(){
         result=null;
         if(!fromStr.isEmpty()&&!toStr.isEmpty()){

@@ -19,7 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-
+/**
+ * The manager screen to be able to edit , add and delete items and categories
+ *
+ */
 public class ManagerMenu extends Activity {
     ScrollView scrollItems, scrollCategories;
     LinearLayout addCateg,addItem;
@@ -62,17 +65,29 @@ public class ManagerMenu extends Activity {
         showCategories();
 
     }
+    /**
+     *
+     * @param sp the spinner to add the category
+     * @param cat the category to be added
+     */
     private void fillSpinner(Spinner sp,Category cat){
         ArrayAdapter<Category> dataAdapter = new ArrayAdapter<Category>(this, android.R.layout.simple_spinner_item, Category.categories);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp.setAdapter(dataAdapter);
         sp.setSelection(Category.categories.indexOf(cat));
     }
-
+    /**
+     * return to the main menu of the manager
+     * @param v the view that clicked the button
+     */
     public void orderBackManager(View v){
         finish();
     }
-
+    /**
+     * Show the selected category items
+     * @param v the view that clicked the button
+     * @param cat the category to be shown
+     */
     public void editCategory(View v,final Category cat){
         scrollItems.setVisibility(View.VISIBLE);
         scrollCategories.setVisibility(View.GONE);
@@ -99,13 +114,20 @@ public class ManagerMenu extends Activity {
         });
 
     }
+    /**
+     * Go back the the category menu
+     * @param v the view that clicked the button
+     */
     public void orderBackToCategManager(View v){
         scrollItems.setVisibility(View.GONE);
         scrollCategories.setVisibility(View.VISIBLE);
         addCateg.setVisibility(View.GONE);
         addItem.setVisibility(View.GONE);
     }
-
+    /**
+     * Open the form to add a new category
+     * @param v the view that clicked the button
+     */
     public void addCategory(View v){
         txtCatTitle.setText("New Category");
         etCatName.setText("");
@@ -123,6 +145,11 @@ public class ManagerMenu extends Activity {
             }
         });
     }
+    /**
+     * Add a new item to the category
+     * @param v the view that clicked the button
+     * @param cat the category to add the item
+     */
     public void addItem(View v,final Category cat){
         txtItemTitle.setText("New Item");
         addItem.setVisibility(View.VISIBLE);
@@ -140,7 +167,12 @@ public class ManagerMenu extends Activity {
             }
         });
     }
-
+    /**
+     * Open the form to edit an Item
+     * @param v the view that clicked the button
+     * @param item the item to load the data of it
+     * @param cat the category of the item
+     */
     public void editItem(View v,final Item item,final Category cat){
         txtItemTitle.setText("Edit Item");
         addItem.setVisibility(View.VISIBLE);
@@ -164,7 +196,12 @@ public class ManagerMenu extends Activity {
             }
         });
     }
-
+    /**
+     * Save the changes of the item to the database
+     * @param v the view that clicked the button
+     * @param itemID the item id
+     * @param cat the category to save the item to
+     */
     public void itemSaveClicked(View v,int itemID,Category cat){
         String a[] = { itemID+"",etItemName.getText().toString(),etItemPrice.getText().toString(), etItemDesc.getText().toString(),((Category)spnItemCat.getSelectedItem()).getId()+"" };
         JDBC.callProcedure("AddItem", a);
@@ -174,7 +211,11 @@ public class ManagerMenu extends Activity {
         toast.show();
         addItem.setVisibility(View.GONE);
     }
-
+    /**
+     * Save the category changes to the database
+     * @param v the view that clicked the button
+     * @param selectedID the selected category id
+     */
     public void catSaveClicked(View v,int selectedID){
         int pos=((Spinner)findViewById(R.id.spnr_foodDrink)).getSelectedItemPosition();
         String a[] = { selectedID+"",etCatName.getText().toString(),etCatVat.getText().toString(), etCatDesc.getText().toString(),pos+"" };
@@ -185,12 +226,20 @@ public class ManagerMenu extends Activity {
         toast.show();
         addCateg.setVisibility(View.GONE);
     }
-
+    /**
+     * Cancel the change of an item or category
+     * @param v the view that clicked the button
+     */
     public void cancelClicked(View v){
         addCateg.setVisibility(View.GONE);
         addItem.setVisibility(View.GONE);
     }
-
+    /**
+     * Delete the item after confirmation of the user
+     * @param v the view that clicked the button
+     * @param itemID the item's id to be deleted
+     * @param cat the category of the item
+     */
     public void itemDeleteClicked(View v,final int itemID,final Category cat){
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
@@ -215,6 +264,11 @@ public class ManagerMenu extends Activity {
         builder.setMessage("Are you sure you want to delete "+etItemName.getText().toString()+"?").setPositiveButton("Yes", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener).show();
     }
+    /**
+     * Delete category after confirmation
+     * @param v the view that clicked the button
+     * @param selectedID the category's to be deleted id
+     */
     public void catDeleteClicked(View v,final int selectedID){
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
@@ -240,7 +294,9 @@ public class ManagerMenu extends Activity {
                 .setNegativeButton("No", dialogClickListener).show();
     }
 
-
+    /**
+     * Show all the categories to the screen of the manager
+     */
     public void showCategories(){
         scrollItems.setVisibility(View.GONE);
         scrollCategories.setVisibility(View.VISIBLE);
@@ -324,7 +380,10 @@ public class ManagerMenu extends Activity {
         }
 
     }
-
+    /**
+     * Show all the items of a selected category
+     * @param cat the selected category
+     */
     public void showItems(final Category cat){
         cat.fillCategory();
         final ArrayList<Item> items=cat.getItems();

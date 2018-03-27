@@ -16,6 +16,10 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+/**
+ *
+ * The manager edit user screen
+ */
 
 public class ManagerEditUser extends Activity {
 
@@ -73,10 +77,17 @@ public class ManagerEditUser extends Activity {
         }
 
     }
-
+    /**
+     * Return to the show all users screen
+     * @param v the view that clicked the button
+     */
     public void backClicked(View v){
         finish();
     }
+    /**
+     * Delete the selected user after confirmation
+     * @param v the view that clicked the button
+     */
     public void deleteClicked(View v){
 
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -100,6 +111,10 @@ public class ManagerEditUser extends Activity {
         builder.setMessage("Are you sure you want to delete this user?").setPositiveButton("Yes", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener).show();
     }
+    /**
+     * Save the changes to the selected user after checking for all input correctness
+     * @param v the view that clicked the button
+     */
     public void saveClicked(View v){
         int id = idInArray;
         if(idInArray!=-1){

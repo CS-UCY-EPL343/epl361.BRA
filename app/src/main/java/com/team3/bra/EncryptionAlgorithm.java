@@ -5,10 +5,15 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Created by elena on 2/13/2018.
+ * Convert string to encrypted message using the SHA1 algorithm
  */
 public class EncryptionAlgorithm
 {
+    /**
+     * Convert a byte array to its Hex representation
+     * @param data the byte array
+     * @return the string with the hex value
+     */
     private static String convertToHex(byte[] data) {
         StringBuilder buf = new StringBuilder();
         for (byte b : data) {
@@ -21,7 +26,11 @@ public class EncryptionAlgorithm
         }
         return buf.toString();
     }
-
+    /**
+     * Convert a string to encrypted message using SHA1 algorithm
+     * @param text the string to be encoded
+     * @return the encoded string
+     */
     public static String SHA1(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest md = MessageDigest.getInstance("SHA-1");
         byte[] textBytes = text.getBytes("iso-8859-1");
@@ -29,14 +38,5 @@ public class EncryptionAlgorithm
         byte[] sha1hash = md.digest();
         return convertToHex(sha1hash);
     }
-    /*
-    public static void main(){
-        try {
-            System.out.print(SHA1("kotopoullo"));
-        }catch(Exception E){
 
-        }
-    }
-    */
 }
-

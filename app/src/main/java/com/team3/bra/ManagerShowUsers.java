@@ -8,7 +8,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-
+/**
+ * Show all the users to the manager screen
+ *
+ */
 public class ManagerShowUsers extends Activity {
     UserArrayAdapter adapter;
 
@@ -16,9 +19,11 @@ public class ManagerShowUsers extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.manager_users_show_layout);
-       loadUsers();
+        loadUsers();
     }
-
+    /**
+     * Load all the users from the database to the screen of the manager
+     */
     public void loadUsers(){
         User.findUsers();
         adapter=new UserArrayAdapter(this, User.getUsers());
@@ -44,7 +49,10 @@ public class ManagerShowUsers extends Activity {
         loadUsers();
 
     }
-
+    /**
+     * Return to the main menu of the manager
+     * @param v the view that clicked the button
+     */
     public void backClicked(View v){
         finish();
     }

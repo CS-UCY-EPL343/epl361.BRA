@@ -14,7 +14,11 @@ import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
+/**
+ *
+ * The Cook interface
+ *
+ */
 public class Cook extends AppCompatActivity  {
     static Intent mServiceIntent=null;
     static Cook cookClass=null;
@@ -23,8 +27,11 @@ public class Cook extends AppCompatActivity  {
     Dialogues dialogue;
 
     ArrayList <Integer> visibilityOrder = new ArrayList<>();
-     ArrayList<TextView> tvOrdersList;
-
+    ArrayList<TextView> tvOrdersList;
+    /**
+     * When the user wants to go to the main menu
+     * @param v the view that clicked the button
+     */
     public void backClicked(View v){
         oldCookClass=cookClass;
         cookClass=null;
@@ -32,13 +39,19 @@ public class Cook extends AppCompatActivity  {
         dialogue=Dialogues.dialogueFactory(this,Cook.this,R.layout.cook_go_back);
 
     }
-
+    /**
+     * When the user confirms that he wants to go to the main menu
+     * @param v the view that clicked the button
+     */
     public void goBack(View v){
         cookClass=null;
         dialogue.dismiss();
         finish();
     }
-
+    /**
+     * When the user declines that he wants to go to the main menu
+     * @param v the view that clicked the button
+     */
     public void noBack(View v){
         cookClass=oldCookClass;
         dialogue.dismiss();
@@ -60,6 +73,12 @@ public class Cook extends AppCompatActivity  {
     View temp;
     View temp2;
     Order temp3;
+    /**
+     * Mark order as processed from the cook
+     * @param v the order name view
+     * @param v2 the order details view
+     * @param v3 the order object
+     */
     public void markOrderDialogue(View v,View v2,Order v3) {
         oldCookClass=cookClass;
         cookClass=null;
@@ -69,7 +88,12 @@ public class Cook extends AppCompatActivity  {
         dialogue=Dialogues.dialogueFactory(this,Cook.this,R.layout.cook_mark_order_dialogue);
 
     }
-
+    /**
+     * Mark order as processed from the cook the cook after confirmed
+     * @param v the order name view
+     * @param v2 the order details view
+     * @param v3 the order object
+     */
     public void sendOrderDialogue(View v,View v2,Order v3) {
         oldCookClass=cookClass;
         cookClass=null;
@@ -79,7 +103,10 @@ public class Cook extends AppCompatActivity  {
         dialogue=Dialogues.dialogueFactory(this,Cook.this,R.layout.cook_send_order_dialogue);
     }
 
-
+    /**
+     * Mark order as processed from the cook after confirmed
+     * @param v the view that clicked the button
+     */
     public void markOrder(View v){
         Toast toast= Toast.makeText(getApplicationContext(),"OrderView marked.",Toast.LENGTH_SHORT);
         toast.show();
@@ -99,6 +126,10 @@ public class Cook extends AppCompatActivity  {
         temp3.setState(1);
         cookClass=oldCookClass;
     }
+    /**
+     * Mark order as ready to served from the cook after confirmed
+     * @param v the view that clicked the button
+     */
     public void sendOrder(View v){
         Toast toast= Toast.makeText(getApplicationContext(),"OrderView sent.",Toast.LENGTH_SHORT);
         toast.show();
@@ -111,11 +142,17 @@ public class Cook extends AppCompatActivity  {
         tvOrdersList.remove(temp);
         cookClass=oldCookClass;
     }
+    /**
+     * Cancel the change of the state of the order
+     * @param v the view that clicked the button
+     */
     public void cancelCook(View v){
         dialogue.dismiss();
         cookClass=oldCookClass;
     }
-
+    /**
+     * Reload screen of cook after fetching data from sql server
+     */
     public void loadOrders(){
         oldCookClass=cookClass;
         cookClass=null;
@@ -173,7 +210,7 @@ public class Cook extends AppCompatActivity  {
 
 
             GradientDrawable gd = new GradientDrawable();
-             // Changes this drawbale to use a single color instead of a gradient
+            // Changes this drawbale to use a single color instead of a gradient
             gd.setCornerRadius(0);
             gd.setStroke(5, 0xFFc5c7c4);
 
@@ -218,16 +255,16 @@ public class Cook extends AppCompatActivity  {
             tv.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
-                   if( tvorder.getVisibility()==View.GONE){
-                       tvorder.setVisibility(View.VISIBLE);
-                       visibilityOrder.add(tvOrdersList.indexOf(tvorder),1);
-                       visibilityOrder.remove(tvOrdersList.indexOf(tvorder)+1);
-                   }
-                   else{
-                       tvorder.setVisibility(View.GONE);
-                       visibilityOrder.add(tvOrdersList.indexOf(tvorder),0);
-                       visibilityOrder.remove(tvOrdersList.indexOf(tvorder)+1);
-                   }
+                    if( tvorder.getVisibility()==View.GONE){
+                        tvorder.setVisibility(View.VISIBLE);
+                        visibilityOrder.add(tvOrdersList.indexOf(tvorder),1);
+                        visibilityOrder.remove(tvOrdersList.indexOf(tvorder)+1);
+                    }
+                    else{
+                        tvorder.setVisibility(View.GONE);
+                        visibilityOrder.add(tvOrdersList.indexOf(tvorder),0);
+                        visibilityOrder.remove(tvOrdersList.indexOf(tvorder)+1);
+                    }
                 }
             });
             tvorder.setOnClickListener(new View.OnClickListener(){
@@ -266,4 +303,3 @@ public class Cook extends AppCompatActivity  {
     }
 
 }
-
