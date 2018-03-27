@@ -47,7 +47,7 @@ public class Dialogues extends AlertDialog.Builder {
      *            the context which the dialogue will be created from.
      * @param id
      *            The id of the inflating dialogue.
-     * @return
+     * @return a dialogue box from a specific activity and context.
      */
     public static Dialogues dialogueFactory(Activity a, Context c, int id) {
         Dialogues builder = new Dialogues(c);

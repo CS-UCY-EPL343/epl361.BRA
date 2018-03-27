@@ -121,10 +121,10 @@ public class JDBC {
 	}
 
 	/**
-	 * The function that estavblishes the connection to the Broadway Restaurant
+	 * The function that establishes the connection to the Broadway Restaurant
 	 * DB.
 	 *
-	 * @return
+	 * @return if the connection has been established correctly.
 	 */
 	public static boolean establishConnection() {
 		System.out.println("Connecting database...");
