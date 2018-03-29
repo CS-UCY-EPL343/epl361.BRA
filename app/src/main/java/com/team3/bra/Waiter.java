@@ -8,14 +8,20 @@ import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -134,7 +140,7 @@ public class Waiter extends Activity {
     /**
      * Shows a picker of available tables in order to choose one.
      */
-    public void showNewTableDialogue() {
+    private void showNewTableDialogue() {
         oldWaiterClass = waiterClass;
         waiterClass = null;
         dialogue = Dialogues.dialogueFactory(this, Waiter.this, R.layout.waiter_table_dialogue);
@@ -156,17 +162,32 @@ public class Waiter extends Activity {
     /**
      * This is responsible for the menu when an Order is being clicked.
      */
-    public void showOrderDialogue() {
+    private void showOrderDialogue() {
         oldWaiterClass = waiterClass;
         waiterClass = null;
         dialogue = Dialogues.dialogueFactory(this, Waiter.this, R.layout.waiter_order_dialogue);
+        Button apodixi=((Button)dialogue.getView().findViewById(R.id.btnReceipt));
+        Button resta=((Button)dialogue.getView().findViewById(R.id.btnResta));
+        if(selectedOrder.getState()==3) {
+            apodixi.setVisibility(View.VISIBLE);
+            resta.setVisibility(View.GONE);
+        }else if(selectedOrder.getState()==5) {
+            apodixi.setVisibility(View.GONE);
+            if(MainActivity.TAMIAKI==true)
+                resta.setVisibility(View.VISIBLE);
+            else
+                resta.setVisibility(View.GONE);
+        }else{
+            apodixi.setVisibility(View.GONE);
+            resta.setVisibility(View.GONE);
+        }
     }
 
     /**
      * This is responsible for the menu when an Order is being clicked at the
      * Notification Tab.
      */
-    public void showNotificationDialogue() {
+    private void showNotificationDialogue() {
         oldWaiterClass = waiterClass;
         waiterClass = null;
         dialogue = Dialogues.dialogueFactory(this, Waiter.this, R.layout.waiter_accept_dialogue);
@@ -229,7 +250,7 @@ public class Waiter extends Activity {
     /**
      * Checks for new notification orders and notifies the waiter.
      */
-    public void checkNots() {
+    private void checkNots() {
         Order.findNotificationOrders(notifications);
         for (Order o : Order.getNewNotificationOrders())
             notifyWaiter(o);
@@ -243,7 +264,7 @@ public class Waiter extends Activity {
      * @param o
      *            The order that is ready from the kitchen.
      */
-    public void notifyWaiter(Order o) {
+    private void notifyWaiter(Order o) {
         notifications.add(o);
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this);
         notification.setSmallIcon(R.drawable.broadwayrestarauntlogo);
@@ -303,11 +324,40 @@ public class Waiter extends Activity {
      *
      * @param v
      */
-    public void calcResta(View v) {// TODO
+    public void calcResta(View v) {
+        dialogue.dismiss();
+        dialogue = Dialogues.dialogueFactory(this, Waiter.this, R.layout.waiter_find_resta);
+        TextView table=((TextView)dialogue.getView().findViewById(R.id.txtTable));
+        TextView sum=((TextView)dialogue.getView().findViewById(R.id.txtSum));
+        final EditText paid=((EditText)dialogue.getView().findViewById(R.id.txtPaid));
+        final TextView change=((TextView)dialogue.getView().findViewById(R.id.txtChange));
+        table.setText(selectedOrder.toString());
+        final double total=20.00;
+        sum.setText(""+total);
+        change.setText("");
 
+        paid.addTextChangedListener(new TextWatcher()
+        {   @Override
+            public void afterTextChanged(Editable mEdit) {
+                try {
+                    double x = Double.parseDouble(mEdit.toString());
+                    double calculation=((x * 1.0) - total);
+                    DecimalFormat df= new DecimalFormat("0.00");
+                    change.setText(df.format(calculation));
+                }catch(Exception e){}
+            }
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+        });
+    }
+    public void doneResta(View v){
+        selectedOrder.setState(6);
+        Toast toast = Toast.makeText(getApplicationContext(), "Transaction completed", Toast.LENGTH_SHORT);
+        toast.show();
         dialogue.dismiss();
     }
-
     /**
      * This function is called by a button. It is responsible for editing an
      * order.
@@ -334,7 +384,7 @@ public class Waiter extends Activity {
         waiterClass = oldWaiterClass;
         Toast toast = Toast.makeText(getApplicationContext(), "Printing Receipt", Toast.LENGTH_SHORT);
         toast.show();
-        selectedOrder.setState(6);// TODO
+        selectedOrder.setState(4);
         dialogue.dismiss();
     }
 

@@ -14,6 +14,8 @@ import java.util.Vector;
  *
  */
 public class MainActivity extends Activity {
+    public final static boolean TAMIAKI=true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
