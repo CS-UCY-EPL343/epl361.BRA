@@ -21,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -332,8 +333,14 @@ public class Waiter extends Activity {
         final EditText paid=((EditText)dialogue.getView().findViewById(R.id.txtPaid));
         final TextView change=((TextView)dialogue.getView().findViewById(R.id.txtChange));
         table.setText(selectedOrder.toString());
-        final double total=20.00;
-        sum.setText(""+total);
+
+        String a[] = {selectedOrder.getId()+""};
+        Vector<Vector<Object>> resta = JDBC.callProcedure("SumOrder", a);
+        BigDecimal bd= (BigDecimal) resta.get(0).get(0);
+        final double total= bd.doubleValue();
+
+        DecimalFormat df= new DecimalFormat("0.00");
+        sum.setText(df.format(total));
         change.setText("");
 
         paid.addTextChangedListener(new TextWatcher()
