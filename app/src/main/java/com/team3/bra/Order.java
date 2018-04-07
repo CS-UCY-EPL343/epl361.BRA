@@ -139,6 +139,15 @@ public class Order implements Serializable {
         }
     }
 
+    public void fillOrderAlreadyExist() {
+        this.items = new ArrayList<ItemOrder>();
+        String a[] = { this.getId() + "" };
+        Vector<Vector<Object>> vec = JDBC.callProcedure("COOKVIEWDONE", a);
+        for (int i = 0; i < vec.size(); i++) {
+            this.items.add(new ItemOrder(vec.get(i)));
+        }
+    }
+
     /**
      * Sets the state of an order. It is responsible for updating the database
      * using a JDBC call.

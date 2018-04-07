@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
                 while(true) {
                     try {
                         synchronized (this) {
-                            wait(1000);
+                            wait(5000);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {

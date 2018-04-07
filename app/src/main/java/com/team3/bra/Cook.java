@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Vector;
+
 /**
  *
  * The Cook interface
@@ -137,7 +139,8 @@ public class Cook extends AppCompatActivity  {
         ((LinearLayout)temp.getParent()).removeView(temp);
         ((LinearLayout)temp2.getParent()).removeView(temp2);
         temp3.setState(2);
-
+        String a[]={temp3.getId()+""};
+        Vector<Vector<Object>> vec= JDBC.callProcedure("MAKEDONE", a);
         visibilityOrder.remove(tvOrdersList.indexOf(temp));
         tvOrdersList.remove(temp);
         cookClass=oldCookClass;
@@ -166,7 +169,8 @@ public class Cook extends AppCompatActivity  {
         for (int i=0; i<Order.getCookOrders().size();i++){
 
             orders.add(Order.getCookOrders().get(i));
-            orders.get(i).fillOrder();
+            orders.get(i).fillOrderAlreadyExist();
+
         }
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
