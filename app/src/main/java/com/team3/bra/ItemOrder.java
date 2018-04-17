@@ -60,28 +60,10 @@ public class ItemOrder implements Serializable {
         this.notes = vec.get(5).toString();
         this.itemOrderID = (int) vec.get(6);
         this.currentPrice = Double.parseDouble(vec.get(7).toString());
-    }
-
-    /**
-     * A constructor of the ItemOrder object. It reads a vector that was
-     * returned from JDBC in order to construct the object as it is on the
-     * database.
-     *
-     * @param vec
-     *            a vector that is returned from JDBC
-     */
-    public ItemOrder(Vector<Object> vec, boolean alter) {
-        this.itemID = (int) vec.get(0);
-        this.name = vec.get(1).toString();
-        this.description = vec.get(2).toString();
-        this.quantity = (int) vec.get(3);
-        this.done = (boolean) vec.get(4);
-        this.notes = vec.get(5).toString();
-        this.itemOrderID = (int) vec.get(6);
-        this.currentPrice = Double.parseDouble(vec.get(7).toString());
         this.vat = Float.parseFloat(vec.get(8).toString());
         this.category = vec.get(9).toString();
     }
+
 
     public int getItemOrderID() {
         return itemOrderID;

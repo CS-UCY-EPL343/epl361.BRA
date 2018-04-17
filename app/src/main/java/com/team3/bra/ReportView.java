@@ -105,7 +105,7 @@ public class ReportView extends Activity {
         final ArrayList<reportOrder> reports = new ArrayList<>();
 
         for(Vector<Object> vector:result){
-            ItemOrder i = new ItemOrder(vector,true);
+            ItemOrder i = new ItemOrder(vector);
 
             if (!hashMap.containsKey(i.getItemID())) {
                 List<ItemOrder> list = new ArrayList<ItemOrder>();
@@ -245,7 +245,7 @@ public class ReportView extends Activity {
         final ArrayList<reportTax> reports = new ArrayList<>();
 
         for(Vector<Object> vector:result){
-            ItemOrder i = new ItemOrder(vector,true);
+            ItemOrder i = new ItemOrder(vector);
 
             if (!hashMap.containsKey(i.getItemID())) {
                 List<ItemOrder> list = new ArrayList<ItemOrder>();
