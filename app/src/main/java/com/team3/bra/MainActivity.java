@@ -23,7 +23,7 @@ import java.util.Vector;
 public class MainActivity extends Activity {
     public final static boolean TAMIAKI=true;
 
-    public static int REFRESH_TIME=5000;
+    public static int REFRESH_TIME=30000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
