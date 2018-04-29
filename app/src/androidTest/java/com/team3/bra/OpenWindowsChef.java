@@ -78,21 +78,14 @@ public class OpenWindowsChef {
                         isDisplayed()));
         button.perform(click());
 
-        ViewInteraction textView = onView(
-                allOf(withText("Table 5"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.column1),
-                                        0),
-                                0)));
-        textView.perform(scrollTo(), click());
+
 
         ViewInteraction textView2 = onView(
                 allOf(withText("Table 14"),
                         childAtPosition(
                                 childAtPosition(
-                                        withId(R.id.column2),
-                                        2),
+                                        withId(R.id.column1),
+                                        0),
                                 0)));
         textView2.perform(scrollTo(), click());
 
@@ -100,8 +93,8 @@ public class OpenWindowsChef {
                 allOf(withText("Table 15"),
                         childAtPosition(
                                 childAtPosition(
-                                        withId(R.id.column3),
-                                        2),
+                                        withId(R.id.column2),
+                                        0),
                                 0)));
         textView3.perform(scrollTo(), click());
 
@@ -110,7 +103,7 @@ public class OpenWindowsChef {
                         childAtPosition(
                                 childAtPosition(
                                         withId(R.id.column3),
-                                        1),
+                                        0),
                                 0)));
         textView4.perform(scrollTo(), click());
 
@@ -126,11 +119,10 @@ public class OpenWindowsChef {
         button2.check(matches(isDisplayed()));
 
         ViewInteraction textView5 = onView(
-                allOf(withText("\n\t1 MEZE  PER PERSON\n"),
-                        childAtPosition(
+                allOf(childAtPosition(
                                 childAtPosition(
                                         withId(R.id.column2),
-                                        2),
+                                        0),
                                 1)));
         textView5.perform(scrollTo(), click());
 
@@ -156,22 +148,12 @@ public class OpenWindowsChef {
         button3.check(matches(isDisplayed()));
 
         ViewInteraction textView6 = onView(
-                allOf(withText("Table 14"),
-                        childAtPosition(
+                allOf(childAtPosition(
                                 childAtPosition(
-                                        withId(R.id.column2),
-                                        2),
-                                0)));
-        textView6.perform(scrollTo(), click());
-
-        ViewInteraction textView7 = onView(
-                allOf(withText("\n\t1 MEZE  PER PERSON\n"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.column3),
-                                        1),
+                                        withId(R.id.column1),
+                                        0),
                                 1)));
-        textView7.perform(scrollTo(), click());
+        textView6.perform(scrollTo(), click());
 
         ViewInteraction appCompatButton2 = onView(
                 allOf(withId(R.id.btnReceipt), withText("Cancel"),
@@ -182,44 +164,6 @@ public class OpenWindowsChef {
                                 1),
                         isDisplayed()));
         appCompatButton2.perform(click());
-
-        ViewInteraction textView8 = onView(
-                allOf(withText("Table 12"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.column3),
-                                        1),
-                                0)));
-        textView8.perform(scrollTo(), click());
-
-        ViewInteraction button4 = onView(
-                allOf(withId(R.id.imageButton),
-                        childAtPosition(
-                                allOf(withId(R.id.backlogo),
-                                        childAtPosition(
-                                                withId(R.id.first),
-                                                0)),
-                                0),
-                        isDisplayed()));
-        button4.check(matches(isDisplayed()));
-
-        ViewInteraction textView9 = onView(
-                allOf(withText("Table 14"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.column2),
-                                        2),
-                                0)));
-        textView9.perform(scrollTo(), click());
-
-        ViewInteraction textView10 = onView(
-                allOf(withText("Table 14"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.column2),
-                                        2),
-                                0)));
-        textView10.perform(scrollTo(), click());
 
         ViewInteraction button5 = onView(
                 allOf(withId(R.id.imageButton),

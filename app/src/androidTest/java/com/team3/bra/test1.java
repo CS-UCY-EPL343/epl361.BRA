@@ -31,14 +31,13 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class ManagerLoginTest {
+public class test1 {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void managerLoginTest() {
-        /*
+    public void test1() {
         ViewInteraction editText = onView(
                 allOf(withId(R.id.txtUser),
                         childAtPosition(
@@ -47,38 +46,7 @@ public class ManagerLoginTest {
                                         2),
                                 0),
                         isDisplayed()));
-        editText.perform(click());
-
-        ViewInteraction editText2 = onView(
-                allOf(withId(R.id.txtUser),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        2),
-                                0),
-                        isDisplayed()));
-        editText2.perform(click());
-        */
-
-        ViewInteraction editText3 = onView(
-                allOf(withId(R.id.txtUser),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        2),
-                                0),
-                        isDisplayed()));
-        editText3.perform(replaceText("manager"), closeSoftKeyboard());
-
-        ViewInteraction editText4 = onView(
-                allOf(withId(R.id.txtPass),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        3),
-                                0),
-                        isDisplayed()));
-        editText4.perform(replaceText("manager"), closeSoftKeyboard());
+        editText.perform(replaceText("1"), closeSoftKeyboard());
 
         ViewInteraction button = onView(
                 allOf(withId(R.id.button2), withText("LOGIN"),
@@ -99,26 +67,6 @@ public class ManagerLoginTest {
                                 0),
                         isDisplayed()));
         textView.check(matches(isDisplayed()));
-
-        ViewInteraction button2 = onView(
-                allOf(withId(R.id.button6), withText("Log Out"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        0),
-                                0),
-                        isDisplayed()));
-        button2.perform(click());
-
-        ViewInteraction imageView = onView(
-                allOf(withId(R.id.imglogo),
-                        childAtPosition(
-                                childAtPosition(
-                                        IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
-                                        0),
-                                1),
-                        isDisplayed()));
-        imageView.check(matches(isDisplayed()));
 
     }
 

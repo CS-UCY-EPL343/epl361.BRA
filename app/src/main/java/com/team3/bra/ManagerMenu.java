@@ -221,7 +221,6 @@ public class ManagerMenu extends Activity {
         String a[] = { selectedID+"",etCatName.getText().toString(),etCatVat.getText().toString(), etCatDesc.getText().toString(),pos+"" };
         JDBC.callProcedure("AddCategory", a);
         showCategories();
-
         Toast toast = Toast.makeText(getApplicationContext(), "Category saved", Toast.LENGTH_SHORT);
         toast.show();
         addCateg.setVisibility(View.GONE);

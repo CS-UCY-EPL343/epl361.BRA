@@ -22,8 +22,9 @@ import java.util.Vector;
  */
 public class MainActivity extends Activity {
     public final static boolean TAMIAKI=true;
+    public static boolean REFRESH=true;
 
-    public static int REFRESH_TIME=30000;
+    public static int REFRESH_TIME=5000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +33,7 @@ public class MainActivity extends Activity {
         Thread thread = new Thread(){
             @Override
             public void run() {
-                while(true) {
+                while(REFRESH) {
                     try {
                         synchronized (this) {
                             wait(REFRESH_TIME);
