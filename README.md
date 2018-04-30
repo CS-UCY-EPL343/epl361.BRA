@@ -13,9 +13,9 @@ Specifically, when creating or editing an order, only the first category (Side) 
 Moreover, for the same purposes , there are only 3 users, each given a different role to the system. The users have no passwords and their username is stated as follow:
 
 Role: Username
-- Waiter: 1 
-- Cook: 2
-- Manager: 3
+- Manager: 1 
+- Waiter: 2
+- Cook: 3
 
 Contributors
 ------------
